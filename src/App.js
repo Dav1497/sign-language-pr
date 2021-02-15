@@ -1,199 +1,117 @@
-import logo from './logo.svg';
-import './App.css';
-import React from "react";
-import ReactDOM from "react-dom";
-import * as tf from '@tensorflow/tfjs';
-import { loadGraphModel } from '@tensorflow/tfjs-converter';
-tf.setBackend('webgl');
+// Import dependencies
+import React, { useRef, useState, useEffect } from "react";
+import * as tf from "@tensorflow/tfjs";
+import Webcam from "react-webcam";
+import "./App.css";
+import { nextFrame } from "@tensorflow/tfjs";
+// 2. TODO - Import drawing utility here
+// e.g. import { drawRect } from "./utilities";
+import {drawRect} from "./utilities"; 
 
+function App() {
+  const webcamRef = useRef(null);
+  const canvasRef = useRef(null);
 
-const threshold = 0.75;
+  // Main function
+  const runCoco = async () => {
+    // 3. TODO - Load network 
+    // e.g. const net = await cocossd.load();
+    // https://tensorflowjsrealtimemodel.s3.au-syd.cloud-object-storage.appdomain.cloud/model.json
+    const net = await tf.loadGraphModel('https://tensorflowjsrealtimemodel.s3.au-syd.cloud-object-storage.appdomain.cloud/model.json')
+    
+    //  Loop and detect hands
+    setInterval(() => {
+      detect(net);
+    }, 16.7);
+  };
 
-async function load_model() {
-  // It's possible to load the model locally or from a repo
-  // You can choose whatever IP and PORT you want in the "http://127.0.0.1:8080/model.json" just set it before in your https server
-  //const model = await loadGraphModel("http://127.0.0.1:8080/model.json");
-  const model = await loadGraphModel("https://raw.githubusercontent.com/Dav1497/sign-language-pr/tensorflowjs/web_model/model.json");
-  return model;
-}
+  const detect = async (net) => {
+    // Check data is available
+    if (
+      typeof webcamRef.current !== "undefined" &&
+      webcamRef.current !== null &&
+      webcamRef.current.video.readyState === 4
+    ) {
+      // Get Video Properties
+      const video = webcamRef.current.video;
+      const videoWidth = webcamRef.current.video.videoWidth;
+      const videoHeight = webcamRef.current.video.videoHeight;
 
-let classesDir = {
-  1: {
-    name: 'A',
-    id: 1,
-  },
-  2: {
-    name: 'Other',
-    id: 2,
-  }
-}
+      // Set video width
+      webcamRef.current.video.width = videoWidth;
+      webcamRef.current.video.height = videoHeight;
 
-class App extends React.Component {
-  videoRef = React.createRef();
-  canvasRef = React.createRef();
+      // Set canvas height and width
+      canvasRef.current.width = videoWidth;
+      canvasRef.current.height = videoHeight;
 
+      // 4. TODO - Make Detections
+      const img = tf.browser.fromPixels(video)
+      const resized = tf.image.resizeBilinear(img, [640,480])
+      const casted = resized.cast('int32')
+      const expanded = casted.expandDims(0)
+      const obj = await net.executeAsync(expanded)
+      console.log(obj)
 
-  componentDidMount() {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      const webCamPromise = navigator.mediaDevices
-        .getUserMedia({
-          audio: false,
-          video: {
-            facingMode: "user"
-          }
-        })
-        .then(stream => {
-          window.stream = stream;
-          this.videoRef.current.srcObject = stream;
-          return new Promise((resolve, reject) => {
-            this.videoRef.current.onloadedmetadata = () => {
-              resolve();
-            };
-          });
-        });
+      const boxes = await obj[1].array()
+      const classes = await obj[2].array()
+      const scores = await obj[4].array()
+      
+      // Draw mesh
+      const ctx = canvasRef.current.getContext("2d");
 
-      const modelPromise = load_model();
+      // 5. TODO - Update drawing utility
+      // drawSomething(obj, ctx)  
+      requestAnimationFrame(()=>{drawRect(boxes[0], classes[0], scores[0], 0.8, videoWidth, videoHeight, ctx)}); 
 
-      Promise.all([modelPromise, webCamPromise])
-        .then(values => {
-          this.detectFrame(this.videoRef.current, values[0]);
-        })
-        .catch(error => {
-          console.error(error);
-        });
+      tf.dispose(img)
+      tf.dispose(resized)
+      tf.dispose(casted)
+      tf.dispose(expanded)
+      tf.dispose(obj)
+
     }
-  }
-
-  detectFrame = (video, model) => {
-    tf.engine().startScope();
-    model.executeAsync(this.process_input(video)).then(predictions => {
-      this.renderPredictions(predictions, video);
-      requestAnimationFrame(() => {
-        this.detectFrame(video, model);
-      });
-      tf.engine().endScope();
-    });
   };
 
-  process_input(video_frame) {
-    const tfimg = tf.browser.fromPixels(video_frame).toInt();
-    const expandedimg = tfimg.transpose([0, 1, 2]).expandDims();
-    return expandedimg;
-  };
+  useEffect(()=>{runCoco()},[]);
 
-  buildDetectedObjects(scores, threshold, boxes, classes, classesDir) {
-    const detectionObjects = []
-    var video_frame = document.getElementById('frame');
-
-    scores[0].forEach((score, i) => {
-      if (score > threshold) {
-        const bbox = [];
-        const minY = boxes[0][i][0] * video_frame.offsetHeight;
-        const minX = boxes[0][i][1] * video_frame.offsetWidth;
-        const maxY = boxes[0][i][2] * video_frame.offsetHeight;
-        const maxX = boxes[0][i][3] * video_frame.offsetWidth;
-        bbox[0] = minX;
-        bbox[1] = minY;
-        bbox[2] = maxX - minX;
-        bbox[3] = maxY - minY;
-        detectionObjects.push({
-          class: classes[i],
-          label: classesDir[classes[i]].name,
-          score: score.toFixed(4),
-          bbox: bbox
-        })
-      }
-    })
-    return detectionObjects
-  }
-
-  renderPredictions = predictions => {
-    const ctx = this.canvasRef.current.getContext("2d");
-    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-    // Font options.
-    const font = "16px sans-serif";
-    ctx.font = font;
-    ctx.textBaseline = "top";
-
-    //Getting predictions
-    const boxes = predictions[4].arraySync();
-    const scores = predictions[5].arraySync();
-    const classes = predictions[6].dataSync();
-    const detections = this.buildDetectedObjects(scores, threshold,
-      boxes, classes, classesDir);
-
-    detections.forEach(item => {
-      const x = item['bbox'][0];
-      const y = item['bbox'][1];
-      const width = item['bbox'][2];
-      const height = item['bbox'][3];
-
-      // Draw the bounding box.
-      ctx.strokeStyle = "#00FFFF";
-      ctx.lineWidth = 4;
-      ctx.strokeRect(x, y, width, height);
-
-      // Draw the label background.
-      ctx.fillStyle = "#00FFFF";
-      const textWidth = ctx.measureText(item["label"] + " " + (100 * item["score"]).toFixed(2) + "%").width;
-      const textHeight = parseInt(font, 10); // base 10
-      ctx.fillRect(x, y, textWidth + 4, textHeight + 4);
-    });
-
-    detections.forEach(item => {
-      const x = item['bbox'][0];
-      const y = item['bbox'][1];
-
-      // Draw the text last to ensure it's on top.
-      ctx.fillStyle = "#000000";
-      ctx.fillText(item["label"] + " " + (100 * item["score"]).toFixed(2) + "%", x, y);
-    });
-  };
-
-
-
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          {/* <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a> */}
-
-        <video
-          style={{ height: '600px', width: "500px" }}
-          className="size"
-          autoPlay
-          playsInline
-          muted
-          ref={this.videoRef}
-          width="600"
-          height="500"
-          id="frame"
+  return (
+    <div className="App">
+      <header className="App-header">
+        <Webcam
+          ref={webcamRef}
+          muted={true} 
+          style={{
+            position: "absolute",
+            marginLeft: "auto",
+            marginRight: "auto",
+            left: 0,
+            right: 0,
+            textAlign: "center",
+            zindex: 9,
+            width: 640,
+            height: 480,
+          }}
         />
+
         <canvas
-          className="size"
-          ref={this.canvasRef}
-          width="600"
-          height="500"
+          ref={canvasRef}
+          style={{
+            position: "absolute",
+            marginLeft: "auto",
+            marginRight: "auto",
+            left: 0,
+            right: 0,
+            textAlign: "center",
+            zindex: 8,
+            width: 640,
+            height: 480,
+          }}
         />
-        </header>
-        
-        
-
-      </div>
-    );
-  }
-
+      </header>
+    </div>
+  );
 }
+
 export default App;
+

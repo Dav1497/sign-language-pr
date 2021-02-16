@@ -17,8 +17,13 @@ function App() {
     // 3. TODO - Load network 
     // e.g. const net = await cocossd.load();
     // https://tensorflowjsrealtimemodel.s3.au-syd.cloud-object-storage.appdomain.cloud/model.json
-    const net = await tf.loadGraphModel('https://tensorflowjsrealtimemodel.s3.au-syd.cloud-object-storage.appdomain.cloud/model.json')
+    // tf.loadGraphModel('https://raw.githubusercontent.com/Dav1497/sign-language-pr/tfjs2/modelv2/model.json')
+    // const mobilenet = require('@tensorflow-models/mobilenet');
+
+    const net = tf.loadGraphModel('https://raw.githubusercontent.com/Dav1497/sign-language-pr/tfjs2/modelv2/model.json')
+  
     
+    console.log(net);
     //  Loop and detect hands
     setInterval(() => {
       detect(net);

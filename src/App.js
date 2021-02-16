@@ -18,9 +18,8 @@ function App() {
     // e.g. const net = await cocossd.load();
     // https://tensorflowjsrealtimemodel.s3.au-syd.cloud-object-storage.appdomain.cloud/model.json
     // tf.loadGraphModel('https://raw.githubusercontent.com/Dav1497/sign-language-pr/tfjs2/modelv2/model.json')
-    // const mobilenet = require('@tensorflow-models/mobilenet');
 
-    const net = tf.loadGraphModel('https://raw.githubusercontent.com/Dav1497/sign-language-pr/tfjs2/modelv2/model.json')
+    const net = tf.loadGraphModel('https://raw.githubusercontent.com/Dav1497/sign-language-pr/tfjs2/modelv3/model.json');
   
     
     console.log(net);

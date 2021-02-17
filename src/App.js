@@ -10,7 +10,8 @@ async function load_model() {
     // It's possible to load the model locally or from a repo
     // You can choose whatever IP and PORT you want in the "http://127.0.0.1:8080/model.json" just set it before in your https server
     //const model = await loadGraphModel("http://127.0.0.1:8080/model.json");
-    const model = await tf.loadGraphModel("https://raw.githubusercontent.com/Dav1497/sign-language-pr/tfjs2/mywebmodel/model.json");
+    const model = await tf.loadGraphModel('https://raw.githubusercontent.com/Dav1497/sign-language-pr/tfjs2/tfjs/herewegoagain/model.json'); 
+    console.log(model);
     return model;
   }
 

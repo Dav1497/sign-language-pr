@@ -3,31 +3,31 @@ from api.dao.users import Users
 from api.util.utilities import Utilities
 
 
-class LevelsHandler:
+class LessonsHandler:
 
     @staticmethod
-    def getAllLevels():
+    def getAllLessons():
         try:
-            level = Levels.getLevels()
+            lessons = Lessons.getLevels()
             result_list = []
-            for level in levels:
-                result_list.append(Utilities.to_dict(level))
+            for lesson in lessons:
+                result_list.append(Utilities.to_dict(lesson))
             result = {
                 "message": "Success!",
-                "levels": result_list
+                "lesson": result_list
             }
             return jsonify(result), 200
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), 500
 
     @staticmethod
-    def getLevelById(level_id):
+    def getLessonById(lesson_id):
         try:
-            level = level.getLevelById(level_id)
-            level_dict = Utilities.to_dict(level)
+            lesson = Lessons.getLessonById(lesson_id)
+            lesson_dict = Utilities.to_dict(lesson)
             result = {
                 "message": "Success!",
-                "level": level_dict
+                "lesson": lesson_dict
             }
             return jsonify(result), 200
         except Exception as e:

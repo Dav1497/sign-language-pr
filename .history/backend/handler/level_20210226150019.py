@@ -23,11 +23,11 @@ class LevelsHandler:
     @staticmethod
     def getLevelById(level_id):
         try:
-            level = level.getLevelById(level_id)
-            level_dict = Utilities.to_dict(level)
+            lesson = Lessons.getLessonById(level_id)
+            lesson_dict = Utilities.to_dict(level)
             result = {
                 "message": "Success!",
-                "level": level_dict
+                "level": lesson_dict
             }
             return jsonify(result), 200
         except Exception as e:

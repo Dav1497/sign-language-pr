@@ -13,6 +13,7 @@ class Levels(db.Model):
     def pk(self):
         return self.level_id
 
+
     @staticmethod
     def getLevels():
         return Levels().query.all()

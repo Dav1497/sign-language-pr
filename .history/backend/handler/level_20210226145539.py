@@ -21,13 +21,13 @@ class LevelsHandler:
             return jsonify(reason="Server error", error=e.__str__()), 500
 
     @staticmethod
-    def getLevelById(level_id):
+    def getLessonById(lessom_id):
         try:
-            level = level.getLevelById(level_id)
-            level_dict = Utilities.to_dict(level)
+            lesson = Lessons.getLessonById(lesson_id)
+            lesson_dict = Utilities.to_dict(lesson)
             result = {
                 "message": "Success!",
-                "level": level_dict
+                "lesson": lesson_dict
             }
             return jsonify(result), 200
         except Exception as e:

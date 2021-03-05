@@ -1,14 +1,14 @@
 // Define our labelmap
 const labelMap = {
-    1:{name:'A', color:'red'},
+    1:{name:'A', color:'lime'},
+    2:{name:'B', color:'yellow'},
+    3:{name:'C', color:'red'}
 }
 
 // Define a drawing function
 export const drawRect = (boxes, classes, scores, threshold, imgWidth, imgHeight, ctx)=>{
     for(let i=0; i<=boxes.length; i++){
-        console.log(boxes[i], classes[i], scores[i]);
-        if(scores[i]>threshold){
-            console.log('here');
+        if(boxes[i] && classes[i] && scores[i]>threshold){
             // Extract variables
             const [y,x,height,width] = boxes[i]
             const text = classes[i]

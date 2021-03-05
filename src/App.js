@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import * as tf from '@tensorflow/tfjs';
+import Webcam from 'react-webcam';
 import {loadGraphModel} from '@tensorflow/tfjs-converter';
 tf.setBackend('webgl');
 
@@ -10,7 +11,7 @@ async function load_model() {
     // It's possible to load the model locally or from a repo
     // You can choose whatever IP and PORT you want in the "http://127.0.0.1:8080/model.json" just set it before in your https server
     //const model = await loadGraphModel("http://127.0.0.1:8080/model.json");
-    const model = await tf.loadGraphModel('https://raw.githubusercontent.com/Dav1497/sign-language-pr/tfjs2/tfjs/herewegoagain/model.json'); 
+    const model = await tf.loadGraphModel('https://raw.githubusercontent.com/Dav1497/sign-language-pr/tfjs2/tfjs/model007/model.json'); 
     console.log(model);
     return model;
   }
@@ -61,6 +62,7 @@ class App extends React.Component {
     detectFrame = (video, model) => {
         tf.engine().startScope();
         model.executeAsync(this.process_input(video)).then(predictions => {
+        console.log(predictions);
         this.renderPredictions(predictions, video);
         requestAnimationFrame(() => {
           this.detectFrame(video, model);
@@ -78,6 +80,7 @@ class App extends React.Component {
   buildDetectedObjects(scores, threshold, boxes, classes, classesDir) {
     const detectionObjects = []
     var video_frame = document.getElementById('frame');
+    console.log(scores, boxes, classes);
 
     scores[0].forEach((score, i) => {
       if (score > threshold) {
@@ -111,9 +114,9 @@ class App extends React.Component {
     ctx.textBaseline = "top";
 
     //Getting predictions
-    const boxes = predictions[4].arraySync();
-    const scores = predictions[5].arraySync();
-    const classes = predictions[6].dataSync();
+    const boxes = predictions[6].arraySync();
+    const scores = predictions[4].arraySync();
+    const classes = predictions[7].dataSync();
     const detections = this.buildDetectedObjects(scores, threshold,
                                     boxes, classes, classesDir);
 
@@ -149,7 +152,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <header className="App-header">
-          <video
+          <Webcam
             ref={this.videoRef}
             muted={true} 
             style={{
@@ -163,6 +166,7 @@ class App extends React.Component {
               width: 640,
               height: 480,
             }}
+            id="frame"
           />
   
           <canvas

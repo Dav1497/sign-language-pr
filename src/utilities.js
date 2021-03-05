@@ -1,13 +1,14 @@
 // Define our labelmap
 const labelMap = {
-    1:{name:'A', color:'yellow'}
+    1:{name:'A', color:'red'},
 }
-
 
 // Define a drawing function
 export const drawRect = (boxes, classes, scores, threshold, imgWidth, imgHeight, ctx)=>{
     for(let i=0; i<=boxes.length; i++){
-        if(boxes[i] && classes[i] && scores[i]>threshold){
+        console.log(boxes[i], classes[i], scores[i]);
+        if(scores[i]>threshold){
+            console.log('here');
             // Extract variables
             const [y,x,height,width] = boxes[i]
             const text = classes[i]
@@ -26,3 +27,36 @@ export const drawRect = (boxes, classes, scores, threshold, imgWidth, imgHeight,
         }
     }
 }
+
+export const showDetections = (predictions, ctx) => {
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    const font = "24px helvetica";
+    ctx.font = font;
+    ctx.textBaseline = "top";
+
+    console.log(predictions);
+
+    // predictions.forEach(prediction => {
+    //   const x = prediction.boxes[0]
+    //   const y = prediction.boxes[1];
+    //   const width = prediction.boxes[2];
+    //   const height = prediction.boxes[3];
+    //   // Draw the bounding box.
+    //   ctx.strokeStyle = "#2fff00";
+    //   ctx.lineWidth = 1;
+    //   ctx.strokeRect(x, y, width, height);
+    //   // Draw the label background.
+    //   ctx.fillStyle = "#2fff00";
+    //   const textWidth = ctx.measureText(prediction.class).width;
+    //   const textHeight = parseInt(font, 10);
+    //   // draw top left rectangle
+    //   ctx.fillRect(x, y, textWidth + 10, textHeight + 10);
+    //   // draw bottom left rectangle
+    //   ctx.fillRect(x, y + height - textHeight, textWidth + 15, textHeight + 10);
+
+    //   // Draw the text last to ensure it's on top.
+    //   ctx.fillStyle = "#000000";
+    //   ctx.fillText(prediction.class, x, y);
+    //   ctx.fillText(prediction.score.toFixed(2), x, y + height - textHeight);
+    // });
+  };

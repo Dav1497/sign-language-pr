@@ -11,7 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 ReactDOM.render(
   <React.StrictMode>
     <Nav/>
-    <Welcome/>
+    <Welcome />
     {/* <App/> */}
   </React.StrictMode>,
   document.getElementById('root')

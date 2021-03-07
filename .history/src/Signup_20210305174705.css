@@ -1,0 +1,30 @@
+.caja{
+    background-color: rgba(255, 255, 255, 1);
+    border-radius: 10px;
+    width:25%;
+    float: right;
+}
+
+
+.naranja{
+    color: white;
+    background-color: rgba(224, 111, 63, 1);
+    font-family: "Varela Round";
+}
+
+.naranja:hover {
+    color: white;
+    background-color:  rgb(197, 97, 54);
+}
+
+.verde{
+    font-family: "Varela Round";
+    width: 75%;
+}
+
+@media (min-width: 1200px) {
+    .container{
+        max-width: 400px;
+    
+    }
+}

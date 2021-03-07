@@ -1,0 +1,30 @@
+@import url('//fonts.googleapis.com/css?family=Varela+Round');
+
+.bg{
+    background-color: rgba(40, 44, 52, 1);
+    background-image: url("./images/bg.png");
+    background-repeat: no-repeat;
+  background-size: cover;
+
+   height: 1000px;
+  /* width: 1000px;  */
+}
+
+
+
+.linea{
+    size: 500px;
+    color: white;
+    background-color: white;
+    height: 5px;
+    width: 75%;
+    float: left;
+}
+
+.nombre{
+    color: white;
+    font-family: "Varela Round";
+    /* padding: 25px; */
+    padding-bottom: 0px;
+    font-size: 3em;
+}

@@ -1,0 +1,51 @@
+@import url('//fonts.googleapis.com/css?family=Varela+Round');
+
+.loguito {
+    width:17em;
+    height: 14em;
+    /* padding: 10%; */
+    /* background-color: red; */
+    padding-bottom: 15%;
+    padding-left: 15%;
+
+  }
+
+  .backg{
+    width:100%;
+    height: 100%;
+   background-color: rgba(40, 44, 52, 1);
+  }
+
+  .letras{
+    font-family: "Varela Round";
+    font-style: normal;
+    font-weight: normal;
+    font-size: 35px;
+    line-height: 42px;
+    color:white;
+    padding-left: 2em;
+  }
+
+  .nav{
+    display:block;
+     padding-left:3px;
+     padding-right:3px;
+  }
+
+  .listItem{
+    float: left; 
+    padding: .5em;
+  }
+
+  .cajita{
+ 
+    text-align: right;
+    /* vertical-align:middle; */
+    height: auto;
+    background-color: red;
+   
+  }
+
+  .barra{
+      width: 100%;
+  }

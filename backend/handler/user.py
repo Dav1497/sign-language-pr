@@ -34,11 +34,24 @@ class UsersHandler:
             return jsonify(reason="Server error", error=e.__str__()), 500
 
     @staticmethod
+    def getUserByEmail(uemail):
+        try:
+            user = Users.getUserByEmail(uemail)
+            user_dict = Utilities.to_dict(user)
+            result = {
+                "message": "Success!",
+                "user": user_dict
+            }
+            return jsonify(result), 200
+        except Exception as e:
+            return jsonify(reason="Server error", error=e.__str__()), 500
+
+    @staticmethod
     def updateUser(uid, json):
-        valid_params = UserHandler.verify_params(json, User.USER_REQUIRED_PARAMETERS)
+        valid_params = Utilities.verify_parameters(json, ["user_id"])
         if uid and valid_params:
             try:
-                user_to_update = User.getUserById(uid)
+                user_to_update = Users.getUserById(uid)
                 if user_to_update:
                     for key, value in valid_params.items():
                         if key == "password":
@@ -92,7 +105,7 @@ class UsersHandler:
     def deleteUser(uid):
         if uid:
             try:
-                user_to_delete = User.getUserById(uid)
+                user_to_delete = Users.getUserById(uid)
                 if user_to_delete:
                     user_to_delete.delete()
                     return jsonify(message="Success!"), 200
@@ -105,18 +118,18 @@ class UsersHandler:
     
     @staticmethod
     def createUser(json):
-        valid_params = UserHandler.verify_params(json, User.USER_REQUIRED_PARAMETERS)
+        valid_params = Utilities.verify_parameters(json, ["name", "email", "password"])
         if valid_params:
             try:
                 print(valid_params)
-                emailExists = User.verifyEmail(valid_params.get('email'))
-                if emailExists:
+                emailExists = Users.getUserByEmail(json['email'])
+                if (emailExists):
                     return jsonify(message="email already taken."), 400
-                new_user = User(**valid_params)
+                new_user = Users(**valid_params)
                 created_user = new_user.create()
                 result = {
                     "message": "Success!",
-                    "user": created_user.to_dict(),
+                    "user": Utilities.to_dict(created_user),
                 }
                 return jsonify(result), 201
             except Exception as err:

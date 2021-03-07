@@ -12,7 +12,7 @@ ReactDOM.render(
   <React.StrictMode>
     {/* <Nav/>
     <Welcome /> */}
-    <App/>
+    
   </React.StrictMode>,
   document.getElementById('root')
 );

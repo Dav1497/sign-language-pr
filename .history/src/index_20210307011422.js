@@ -1,18 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-
+// import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Nav from './Nav';
 import Welcome from './Welcome';
-import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 ReactDOM.render(
   <React.StrictMode>
-    {/* <Nav/>
-    <Welcome /> */}
-    <App/>
+    <Nav></Nav>
+    <Welcome />
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-
+// import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Nav from './Nav';
 import Welcome from './Welcome';
@@ -12,7 +12,7 @@ ReactDOM.render(
   <React.StrictMode>
     {/* <Nav/>
     <Welcome /> */}
-    <App/>
+    
   </React.StrictMode>,
   document.getElementById('root')
 );

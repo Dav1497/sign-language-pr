@@ -1,0 +1,109 @@
+
+.back{
+    width:100%;
+    height: 100%;
+   background-color: rgba(44, 98, 177, 1)
+  }
+
+  .title{
+    font-family: "Varela Round";
+    font-style: normal;
+    font-weight: normal;
+    font-size: 2.5em;
+    line-height: 42px;
+    color: #FFE607;
+    padding-left: 2em;
+  }
+
+  .subtitle{
+    font-family: "Varela Round";
+    font-style: normal;
+    font-weight: normal;
+    font-size: 3em;
+    line-height: 52px;
+    text-align: left;
+    color: #F18B2D;
+    padding-left: 6%;
+  }
+
+  .parrafo{
+    font-family: "Varela Round";
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.5em;
+    line-height: 32px;
+    padding-left: 8%;
+    padding-right: 8%;
+    color: #000000; 
+    text-align: justify;
+  text-justify: inter-word;
+    
+  }
+
+  .textoDerecha{
+   
+  }
+
+  .cuadroBlanco{
+      background-color: white;
+      text-align: center;
+      border-radius: 2.5%;
+      height: 100%;
+  }
+
+  .video{
+      width: 90%;
+  }
+
+  .tableau{
+    table-layout: fixed;
+    width: 100%;
+  }
+
+  .cajaTrans{
+    vertical-align: text-top;
+/* background-color: red; */
+    text-align: center;
+    border-radius: 2.5%;
+    height: 100%; 
+}
+
+.derecha{
+    vertical-align: top;
+}
+
+.proxbtn{
+    width: 80%;
+    height: 5em;
+    
+    font-family: Varela Round;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 400px;
+   
+    
+    color: #FFFFFF;
+}
+
+.cajaAzul{
+    background: rgba(34, 75, 136, 1);
+    font-family: "Varela Round";
+    font-style: normal;
+    font-weight: normal;
+    font-size: 36px;
+    line-height: 47px;
+    
+    color: #FFFFFF;
+}
+
+.orangebtn{
+    
+        color: white;
+        background-color: rgba(224, 111, 63, 1);
+        font-family: "Varela Round";  
+}
+
+.orangebtn:hover {
+    color: white;
+    background-color:  rgb(197, 97, 54);
+}

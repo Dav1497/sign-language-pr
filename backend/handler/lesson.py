@@ -36,11 +36,13 @@ class LessonsHandler:
     @staticmethod
     def getLessonsByLevelId(level_id):
         try:
-            lesson = Lessons.getLessonByLevelId(level_id)
-            lesson_dict = Utilities.to_dict(lesson)
+            lessons = Lessons.getLessonsByLevelId(level_id)
+            result_list = []
+            for lesson in lessons:
+                result_list.append(Utilities.to_dict(lesson))
             result = {
                 "message": "Success!",
-                "lesson": lesson_dict
+                "lessons": result_list
             }
             return jsonify(result), 200
         except Exception as e:
@@ -48,10 +50,10 @@ class LessonsHandler:
 
     @staticmethod
     def createLessons(json):
-        valid_params = LessonsHandler.verify_params(json, Lesson.LESSON_REQUIRED_PARAMS)
+        valid_params = LessonsHandler.verify_params(json, ['lesson_id'])
         if valid_params:
             try:
-                new_lesson = Lesson(**valid_params)
+                new_lesson = Lessons(**valid_params)
                 created_lesson = new_lesson.create()
                 result = {
                     "message": "Success!",
@@ -66,10 +68,10 @@ class LessonsHandler:
 
     @staticmethod
     def updateLesson(lid, json):
-        valid_params = LessonsHandler.verify_params(json, LessonsHandler.LESSON_REQUIRED_PARAMS)
+        valid_params = LessonsHandler.verify_params(json, ['lesson_id'])
         if lid and valid_params:
             try:
-                lesson_to_update = Lesson.getLessonById(lid)
+                lesson_to_update = Lessons.getLessonById(lid)
                 if lesson_to_update:
                     for key, value in valid_params.items():
                         setattr(lesson_to_update, key, value)
@@ -91,7 +93,7 @@ class LessonsHandler:
     def deleteLesson(lid, json):
         if lid:
             try:
-                lesson_to_delete = Lesson.getLessonById(lid)
+                lesson_to_delete = Lessons.getLessonById(lid)
                 if lesson_to_delete:
                     lesson_to_delete.delete()
                     return jsonify(message="Success!"), 200

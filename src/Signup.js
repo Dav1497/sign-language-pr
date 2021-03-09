@@ -3,7 +3,10 @@ import './Signup.css';
 import { Input, FormGroup, Label, Form, Container, Button, Col, Row } from 'reactstrap';
 import axios from "axios";
 
-const SERVER_URL = "http://localhost:5000/"
+export const SERVER_URL = "http://localhost:5000/"
+export const headers = { 
+  'Access-Control-Allow-Origin' : '*'
+}
 
 function Signup() {
 
@@ -34,10 +37,6 @@ function Signup() {
       name : firstName + " " + lastName,
       email : email,
       password : password
-    }
-    const headers = { 
-      'Content-Type': 'application/json', 
-      'Access-Control-Allow-Origin' : '*'
     }
 
     axios.post(SERVER_URL + "users", newUser, headers)

@@ -54,7 +54,7 @@ def getAllLessons():
         return jsonify(message="Method not allowed."), 405
 
 
-@app.route('/lessons/<int:did>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/lessons/<int:lid>', methods=['GET', 'PUT', 'DELETE'])
 def getLessonById(lid):
     if request.method == 'GET':
         return LessonsHandler.getLessonById(lid)
@@ -66,7 +66,7 @@ def getLessonById(lid):
         return jsonify(message="Method not allowed."), 405
 
 
-@app.route('/lessons/level/<int:uid>', methods=['GET'])
+@app.route('/lessons/level/<int:lid>', methods=['GET'])
 def getLessonsByLevelId(lid):
     if request.method == 'GET':
         return LessonsHandler().getLessonsByLevelId(lid)

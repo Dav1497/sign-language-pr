@@ -40,8 +40,8 @@ function Welcome() {
       <br></br>
 
       <div className="contenedor">
-       {/* <Login></Login> */}
-      <Signup></Signup>
+        {/* <Login></Login> */}
+        <Signup></Signup>
       </div>
     </div>
 

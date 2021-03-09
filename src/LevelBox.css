@@ -1,0 +1,54 @@
+.square {
+    position: relative;
+    width: 100%;
+    right: 0;
+    /* top: 20%; */
+    background: #2C62B1;
+    overflow-x: scroll !important;
+    overflow-x: hidden;
+}
+
+.left {
+    position: relative;
+    width: 113px;
+    height: 40px;
+    left: 0px;
+    top: 40px !important;
+
+    background: #438CFB;
+}
+
+.nav1{
+    display:block;
+}
+
+.listItem1{
+    float: left; 
+}
+
+
+.right {
+    position: relative;
+    width: 100%;
+    margin-right: 0;
+    height: 40px;
+    top: 40px;
+    right: 0;
+
+    background: #438CFB;
+}
+
+.levelText {
+    position: relative;
+    width: 243px;
+    height: 80px;
+    top: 40px;
+
+    font-family: Varela Round;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 40px;
+    line-height: 40px;
+
+    color: #FFE607;
+}

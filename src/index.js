@@ -3,16 +3,18 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 import reportWebVitals from './reportWebVitals';
-import Nav from './Nav';
 import Welcome from './Welcome';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import HomePage from './HomePage';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Nav/>
-    <Welcome/>
-    {/* <App/> */}
+    <body>
+      <HomePage></HomePage>
+      {/* <Welcome/> */}
+      {/* <App/> */}
+    </body>
   </React.StrictMode>,
   document.getElementById('root')
 );

@@ -3,6 +3,7 @@ import LessonBox from "./LessonBox";
 import "./LevelBox.css";
 import axios from "axios";
 import { headers, SERVER_URL } from "./Signup";
+import { withRouter } from "react-router-dom";
 
 class LevelBox extends React.Component {
 
@@ -16,7 +17,6 @@ class LevelBox extends React.Component {
 
     getLessons(){
         let ltr = []
-        console.log("HERE");
         axios.get(SERVER_URL + "lessons/level/" + this.props.levelId, headers).then(res => {
             console.log(res);
             res.data.lessons.map(l=>{
@@ -27,8 +27,10 @@ class LevelBox extends React.Component {
     
     }
 
-    onLessonClick(clickedLesson){
-        console.log(clickedLesson);
+    onLessonClick(cLesson){
+        console.log(cLesson);
+        console.log(this.props);
+        this.props.history.push('/lesson/'+cLesson);  
     }
 
     render(){
@@ -39,7 +41,7 @@ class LevelBox extends React.Component {
                     <p className="levelText">{this.props.levelName}</p>
                     <div className="right"></div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row", textAlign: "center" }}>
+                <div style={{ display: "flex", flexDirection: "row", textAlign: "center",  overflowX: "scroll"  }}>
                     {/* <ul className="nav1"> */}
                         {this.state.lessons.map(lesson => (
                             <div className="listItem1">
@@ -64,4 +66,4 @@ class LevelBox extends React.Component {
     
 }
 
-export default LevelBox;
+export default withRouter(LevelBox);

@@ -3,15 +3,28 @@ import LevelBox from './LevelBox';
 import Nav from './Nav';
 import axios from "axios";
 import { SERVER_URL, headers } from "./Signup";
+import { Redirect, withRouter } from "react-router-dom";
 
 class HomePage extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            levels: []
+            levels: [],
+            loggedInUser: null
         }
+        this.getLoggedInUser();
         this.getLevels();
+    }
+
+    getLoggedInUser() {
+        let uid = localStorage.getItem('loggedInUserID');
+        axios.get(SERVER_URL+"users/"+uid, headers).then(res=> {
+            console.log(res);
+            this.setState({
+                loggedInUser: res.data.user
+            });
+        })
     }
 
     getLevels() {
@@ -28,14 +41,15 @@ class HomePage extends React.Component {
     }
 
     render() {
-        // console.log(this.state.levels);
-        this.state.levels?.forEach(level => {
-            console.log(level);
-        })
+        if(!localStorage.getItem('loggedInUserID')){
+            return <Redirect to="/"></Redirect>
+        }
         return (
             <body>
                 <div className="homeMenu">
-                    <Nav />
+                    {this.state.loggedInUser && <Nav 
+                    loggedInUserId={this.state.loggedInUser.user_id}
+                    loggedInUserName={this.state.loggedInUser.name} />}
                 </div>
                 {this.state.levels && this.state.levels.length>0 && this.state.levels.map(level => (
                     <div>
@@ -47,4 +61,4 @@ class HomePage extends React.Component {
     }
 }
 
-export default HomePage;
+export default withRouter(HomePage);

@@ -7,7 +7,7 @@ function LessonBox(props) {
 
 
     return(
-        <div className="box" onClick={() => {props.onLessonClick(props.lessonName)}}>
+        <div className="box" onClick={() => {props.onLessonClick(props.lid)}}>
             <p className="lessonName">{props.lessonName}</p>
             <div className="pict">
                 <img src={props.lessonImg} alt=""></img>

@@ -4,8 +4,6 @@
     right: 0;
     /* top: 20%; */
     background: #2C62B1;
-    overflow-x: scroll !important;
-    overflow-x: hidden;
 }
 
 .left {
@@ -13,7 +11,7 @@
     width: 113px;
     height: 40px;
     left: 0px;
-    top: 40px !important;
+    top: 30px !important;
 
     background: #438CFB;
 }
@@ -32,7 +30,7 @@
     width: 100%;
     margin-right: 0;
     height: 40px;
-    top: 40px;
+    top: 30px;
     right: 0;
 
     background: #438CFB;
@@ -42,7 +40,7 @@
     position: relative;
     width: 243px;
     height: 80px;
-    top: 40px;
+    top: 30px;
 
     font-family: Varela Round;
     font-style: normal;

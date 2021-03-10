@@ -1,5 +1,5 @@
 .homeMenu {
-    position: fixed;
+    position: fixed !important;
     overflow: hidden;
     width: 100%; /* Full width */
 }

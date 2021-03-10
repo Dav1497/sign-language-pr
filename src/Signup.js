@@ -2,13 +2,14 @@ import React, { useReducer, useState } from "react";
 import './Signup.css';
 import { Input, FormGroup, Label, Form, Container, Button, Col, Row } from 'reactstrap';
 import axios from "axios";
+import { propTypes } from "react-bootstrap/esm/Image";
 
 export const SERVER_URL = "http://localhost:5000/"
 export const headers = { 
   'Access-Control-Allow-Origin' : '*'
 }
 
-function Signup() {
+function Signup(props) {
 
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
@@ -40,7 +41,9 @@ function Signup() {
     }
 
     axios.post(SERVER_URL + "users", newUser, headers)
-    .then(response => console.log(response))
+    .then(response => 
+      console.log(response)
+      )
     .catch(error => console.log('Form submit error', error))
   };
 
@@ -118,12 +121,13 @@ function Signup() {
 
 
                 <Row>
-                  <Button className="verde" color="success"   >Iniciar Sesión</Button>
+                  <Button className="verde naranja" >Crear Cuenta</Button>
                 </Row>
                 <br>
                 </br>
                 <Row>
-                  <Button className="naranja" type="submit" >Crear Cuenta</Button>
+                  ¿Ya tienes cuenta? <a href="#" onClick={()=>{props.goToLogin()}}>Iniciar Sesión</a>
+                  {/* <Button className="naranja" type="submit" >Crear Cuenta</Button> */}
                 </Row>
 
               </div>

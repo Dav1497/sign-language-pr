@@ -5,14 +5,29 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import Welcome from './Welcome';
 import App from './App';
+import Lesson from './Lesson';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import HomePage from './HomePage';
+import { Route, BrowserRouter, Switch } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
     <body>
-      <HomePage></HomePage>
-      {/* <Welcome/> */}
+      <BrowserRouter>
+        <Switch>
+          
+          <Route path="/home">
+            <HomePage></HomePage>
+          </Route>
+          <Route path="/lesson/:lid">
+            <Lesson></Lesson>
+          </Route>
+          <Route path="/">
+            <Welcome/>
+          </Route>
+          
+        </Switch>
+      </BrowserRouter>
       {/* <App/> */}
     </body>
   </React.StrictMode>,

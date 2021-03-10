@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import logo from "./images/logo.PNG";
 import UserBox from './UserBox';
 
-function Nav() {
+function Nav(props) {
     return (
         <navbar>
             <div className="backg">
@@ -30,7 +30,9 @@ function Nav() {
 
                         </td>
                         <td className="cajita" style={{textAlign: "right"}}>
-                            <UserBox />
+                            <UserBox 
+                            loggedInUserId={props.loggedInUserId}
+                            loggedInUserName={props.loggedInUserName} />
                         </td>
                     </tr>
                 </table>

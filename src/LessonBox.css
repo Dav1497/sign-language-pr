@@ -1,7 +1,7 @@
 .box {
     position: relative;
-    width: 400px;
-    height: 400px;
+    width: 300px;
+    height: 300px;
     margin-top: 15px;
     margin-left: 50px;
     margin-bottom: 40px;
@@ -31,26 +31,26 @@
     font-family: Varela Round;
     font-style: normal;
     font-weight: normal;
-    font-size: 35px;
+    font-size: 25px;
     line-height: 48px;
 
     color: #FFFFFF;
 }
 
 .pict {
-    width: 50%;
-    height: 50%;
-    margin-top: 30px;
-    margin-left: 23%;
+    width: 170x;
+    height: 170px;
+    /* margin-top: 3px; */
+    /* margin-left: 15px; */
     text-align: center !important;
-    border-radius: 108px;
+    border-radius: 100%;
 }
 
 .progressBar {
     width: 80%;
     height: 21px;
     margin-left: 10%;
-    margin-top: 50px;
+    margin-top: 20px;
     background: #EFEEEE;
     border-radius: 100px;
 }

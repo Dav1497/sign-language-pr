@@ -9,8 +9,8 @@ function LessonBox(props) {
     return(
         <div className="box" onClick={() => {props.onLessonClick(props.lid)}}>
             <p className="lessonName">{props.lessonName}</p>
-            <div className="pict">
-                <img src={props.lessonImg} alt=""></img>
+            <div>
+                <img className="pict" src={props.lessonImg} alt=""></img>
             </div>
             <div className="progressBar">
                 <div className="progress"></div>

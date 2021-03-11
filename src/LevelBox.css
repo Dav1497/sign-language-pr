@@ -1,14 +1,17 @@
 .square {
     position: relative;
-    width: 100%;
+    /* margin-left: 30%; */
+    margin-left: 3%;
+    margin-right: 3%;
     right: 0;
     /* top: 20%; */
+    border-radius: 20px;
     background: #2C62B1;
 }
 
 .left {
     position: relative;
-    width: 113px;
+    width: 95px;
     height: 40px;
     left: 0px;
     top: 30px !important;

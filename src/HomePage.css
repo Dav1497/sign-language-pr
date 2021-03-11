@@ -3,3 +3,8 @@
     overflow: hidden;
     width: 100%; /* Full width */
 }
+
+.funInfo {
+    width: 100% !important;
+    /* margin-left: 50%; */
+}

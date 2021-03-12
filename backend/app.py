@@ -8,6 +8,7 @@ from handler.user import UsersHandler
 from handler.level import LevelsHandler
 from handler.quiz import QuizzesHandler
 from handler.score import ScoresHandler
+from handler.choice import ChoicesHandler
 
 @app.route('/')
 def index():
@@ -54,14 +55,10 @@ def getAllLessons():
         return jsonify(message="Method not allowed."), 405
 
 
-@app.route('/lessons/<int:lid>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/lessons/<int:lid>', methods=['GET'])
 def getLessonById(lid):
     if request.method == 'GET':
         return LessonsHandler.getLessonById(lid)
-    elif request.method == 'PUT':
-        return LessonsHandler.updateLesson(lid, request.json)
-    elif request.method == 'DELETE':
-        return LessonsHandler.deleteLesson(lid)
     else:
         return jsonify(message="Method not allowed."), 405
 
@@ -74,51 +71,39 @@ def getLessonsByLevelId(lid):
         return jsonify(message="Method not allowed."), 405
 
 # LEVEL ENDPOINTS
-@app.route('/levels', methods=['GET', 'POST'])
+@app.route('/levels', methods=['GET'])
 def getAllLevels():
     if request.method == 'GET':
         return LevelsHandler.getAllLevels()
-    elif request.method == 'POST':
-        return LevelsHandler.createLevel(request.json) 
     else:
         return jsonify(message="Method not allowed."), 405
 
 
-@app.route('/levels/<int:did>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/levels/<int:lid>', methods=['GET'])
 def getLevelById(lid):
     if request.method == 'GET':
         return LevelsHandler.getLevelById(lid)
-    elif request.method == 'PUT':
-        return LevelsHandler.updateLevel(lid, request.json)
-    elif request.method == 'DELETE':
-        return LevelsHandler.deleteLevel(lid)
     else:
         return jsonify(message="Method not allowed."), 405
 
 
 # QUIZZES ENDPOINTS
-@app.route('/quizzes', methods=['GET', 'POST'])
+@app.route('/quizzes', methods=['GET'])
 def getAllQuizzes():
     if request.method == 'GET':
         return QuizzesHandler.getAllQuizzes()
-    elif request.method == 'POST':
-        return QuizzesHandler.createQuiz(request.json) 
     else:
         return jsonify(message="Method not allowed."), 405
 
 
-@app.route('/quizzes/<int:did>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/quizzes/<int:qid>', methods=['GET'])
 def getQuizById(qid):
     if request.method == 'GET':
         return QuizzesHandler.getQuizById(qid)
-    elif request.method == 'PUT':
-        return QuizzesHandler.updateQuiz(qid, request.json)
-    elif request.method == 'DELETE':
-        return QuizzesHandler.deleteQuiz(qid)
     else:
         return jsonify(message="Method not allowed."), 405
 
-@app.route('/quizzes/lessons/<int:did>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/quizzes/lessons/<int:lid>', methods=['GET'])
 def getQuizzesByLessonId(qid):
     if request.method == 'GET':
         return QuizzesHandler().getQuizByLessonID(qid)
@@ -135,31 +120,66 @@ def getAllScores():
     else:
         return jsonify(message="Method not allowed."), 405
 
-@app.route('/scores/<int:did>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/scores/<int:sid>', methods=['GET', 'PUT', 'DELETE'])
 def getScoreById(sid):
     if request.method == 'GET':
         return ScoresHandler().getScoreById(sid)
     elif request.method == 'PUT':
-        return ScoresHandler().updateQuiz(sid, request.json)
+        return ScoresHandler().updateScore(sid, request.json)
     elif request.method == 'DELETE':
         return ScoresHandler().deleteScore(sid)
     else:
         return jsonify(message="Method not allowed."), 405
 
-@app.route('/scores/user/<int:did>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/scores/user/<int:did>', methods=['GET'])
 def getScoresByUserId(uid):
     if request.method == 'GET':
         return ScoresHandler().getScoresByUserId(uid)
     else:
         return jsonify(message="Method not allowed."), 405
 
-@app.route('/scores/quiz/<int:did>', methods=['GET', 'PUT', 'DELETE'])
+@app.route('/scores/quiz/<int:did>', methods=['GET'])
 def getScoresByQuizId(qid):
     if request.method == 'GET':
         return ScoresHandler().getScoresByQuizId(qid)
     else:
         return jsonify(message="Method not allowed."), 405
 
+@app.route('/scores/quiz/<int:qid>/<int:uid>', methods=['GET'])
+def getScoresByQuizId(qid, uid):
+    if request.method == 'GET':
+        return ScoresHandler().getScoresByQuizIdAndUserId(qid, uid)
+    else:
+        return jsonify(message="Method not allowed."), 405
+
+@app.route('/scores/lesson/<int:lid>/<int:uid>', methods=['GET'])
+def getScoresByQuizId(lid, uid):
+    if request.method == 'GET':
+        return ScoresHandler().getScoresByLessonIdAndUserId(lid, uid)
+    else:
+        return jsonify(message="Method not allowed."), 405
+
+#CHOICES ENDPOINTS
+@app.route('/choices', methods=['GET'])
+def getAllChoices():
+    if request.method == 'GET':
+        return ChoicesHandler().getAllChoices()
+    else:
+        return jsonify(message="Method not allowed."), 405
+
+@app.route('/choices/<int:cid>', methods=['GET'])
+def getChoicesById(cid):
+    if request.method == 'GET':
+        return ChoicesHandler().getChoicesById(cid)
+    else:
+        return jsonify(message="Method not allowed."), 405
+
+@app.route('/choices/quiz/<int:qid>', methods=['GET'])
+def getChoicesByQuizId(qid):
+    if request.method == 'GET':
+        return ChoicesHandler().getChoicesByQuizId(qid)
+    else:
+        return jsonify(message="Method not allowed."), 405
 
 
 

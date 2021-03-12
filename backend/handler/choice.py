@@ -1,45 +1,57 @@
 from flask import jsonify, session
-from dao.quizzes import Quizzes
+from dao.choices import Choices
 from util.utilities import Utilities
-class QuizzesHandler:
+
+
+class ChoicesHandler:
 
     @staticmethod
-    def getAllQuizzes():
+    def getAllChoices():
         try:
-            quizzes = Quizzes.getQuizzes()
+            choices = Choices.getChoices()
             result_list = []
-            for quiz in quizzes:
-                result_list.append(Utilities.to_dict(quiz))
+            for choice in choices:
+                result_list.append(Utilities.to_dict(choice))
             result = {
                 "message": "Success!",
-                "quizzes": result_list
+                "choices": result_list
             }
             return jsonify(result), 200
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), 500
 
     @staticmethod
-    def getQuizById(quiz_id):
+    def getChoicesById(cid):
         try:
-            quiz = Quizzes.getQuizById(quiz_id)
-            quiz_dict = Utilities.to_dict(quiz)
+            choice = Choices.getChoicesById(cid)
+            choice_dict = Utilities.to_dict(choice)
             result = {
                 "message": "Success!",
-                "quiz": quiz_dict
+                "choice": choice_dict
             }
             return jsonify(result), 200
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), 500
 
     @staticmethod
-    def getQuizzesByLessonId(lesson_id):
+    def getChoicesByQuizId(qid):
         try:
-            quiz = Quizzes.getQuizByLessonID(lesson_id)
-            quiz_dict = Utilities.to_dict(quiz)
+            choices = Choices.getChoicesByQuizId(qid)
+            result_list = []
+            for choice in choices:
+                result_list.append(Utilities.to_dict(choice))
             result = {
                 "message": "Success!",
-                "quiz": quiz_dict
+                "choices": result_list
             }
             return jsonify(result), 200
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), 500
+   
+   
+
+
+
+    
+
+  

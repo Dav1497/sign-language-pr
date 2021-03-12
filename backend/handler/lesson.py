@@ -48,65 +48,6 @@ class LessonsHandler:
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), 500
 
-    @staticmethod
-    def createLessons(json):
-        valid_params = LessonsHandler.verify_params(json, ['lesson_id'])
-        if valid_params:
-            try:
-                new_lesson = Lessons(**valid_params)
-                created_lesson = new_lesson.create()
-                result = {
-                    "message": "Success!",
-                    "lesson": created_lesson.to_dict(),
-                }
-                return jsonify(result), 201
-            except Exception as err:
-                return jsonify(message="Server error!", error=err.__str__()), 500
-        else:
-            return jsonify(message="Bad Request!"), 400
-
-
-    @staticmethod
-    def updateLesson(lid, json):
-        valid_params = LessonsHandler.verify_params(json, ['lesson_id'])
-        if lid and valid_params:
-            try:
-                lesson_to_update = Lessons.getLessonById(lid)
-                if lesson_to_update:
-                    for key, value in valid_params.items():
-                        setattr(lesson_to_update, key, value)
-                    lesson_to_update.update()
-                    result = {
-                        "message": "Success!",
-                        "lesson": lesson_to_update.to_dict(),
-                    }
-                    return jsonify(result), 200
-                else:
-                    return jsonify(message="Not Found!"), 404
-            except Exception as err:
-                return jsonify(message="Server Error!", error=err.__str__()), 500
-        else:
-            return jsonify(message="Bad Request!"), 400
-
-
-    @staticmethod
-    def deleteLesson(lid, json):
-        if lid:
-            try:
-                lesson_to_delete = Lessons.getLessonById(lid)
-                if lesson_to_delete:
-                    lesson_to_delete.delete()
-                    return jsonify(message="Success!"), 200
-                else:
-                    return jsonify(message="Not Found!"), 404
-            except Exception as err:
-                return jsonify(message="Server Error!", error=err.__str__()), 500
-        else:
-            return jsonify(message="Bad Request!"), 400
-
-   
-
-
 
     
 

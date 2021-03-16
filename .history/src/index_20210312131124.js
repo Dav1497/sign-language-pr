@@ -1,13 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 import reportWebVitals from './reportWebVitals';
 import Welcome from './Welcome';
 import App from './App';
 import Lesson from './Lesson';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import HomePage from './HomePage';
 import Quiz from './Quiz'
 import { Route, BrowserRouter, Switch } from 'react-router-dom';

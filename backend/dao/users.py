@@ -22,6 +22,15 @@ class Users(db.Model):
         db.session.commit()
         return self
 
+    def update(self):
+        db.session.add(self)
+        db.session.commit()
+        return self
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
     @staticmethod
     def getUsers():
         return Users().query.all()

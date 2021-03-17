@@ -2,77 +2,161 @@ import React, { useReducer, useState } from "react";
 import './Lesson.css';
 import { Input, FormGroup, Label, Form, Container, Button, Col, Row } from 'reactstrap';
 import video from "./images/video.png";
+import { withRouter } from "react-router-dom";
+import axios from "axios";
+import { headers, SERVER_URL } from "./Signup";
+import Nav from "./Nav";
+import Quiz from "./Quiz";
 
-function Lesson() {
+class Lesson extends React.Component {
 
-  return (
+  constructor(props) {
+    super(props);
+    this.state = {
+      lesson: "",
+      quizzes: [],
+      currIndex: -1,
+      quizVisible: false,
+      loggedInUser: null
+    }
+    this.getLoggedInUser();
+  }
 
-    <div className="back">
-      <h1 className="title">Lección: {this.props.title}</h1>
+  componentDidMount() {
+    const lid = this.props.match.params.lid;
+    console.log(lid);
+    this.getLessonData(lid);
+    this.getLessonQuizzes(lid);
+  }
 
-      <table className="tableau">
-        <tr>
-          <td>
-            <div className="cuadroBlanco">
-              <br></br>
-              <div>
+  getLessonData(lid) {
+    axios.get(SERVER_URL + "lessons/" + lid, headers).then(res => {
+      console.log(res);
+      this.setState({
+        lesson: res.data.lesson
+      });
+    })
+  }
 
-                <iframe src={this.props.video} width="90%" height="400px"></iframe>
+  getLessonQuizzes(lid) {
+    axios.get(SERVER_URL + 'quizzes/lessons/' + lid, headers).then(res => {
+      console.log(res);
+      res.data.quizzes.map(q => this.state.quizzes.push(q));
+      console.log(this.state.quizzes);
+      this.setState({
+        currIndex: -1
+      });
+    });
+  }
 
-              </div>
+  getNextQuiz() {
+    if (this.state.currIndex + 1 < this.state.quizzes.length) {
+      this.setState({
+        currIndex: this.state.currIndex + 1,
+        quizVisible: true
+      });
+    }
+  }
 
-             <br></br>
+  quitQuiz() {
+    this.setState({
+      quizVisible: false
+    })
+  }
 
-              <h1 className="subtitle">
-                {this.props.title}
-              </h1>
+  getLoggedInUser() {
+    let uid = localStorage.getItem('loggedInUserID');
+    axios.get(SERVER_URL + "users/" + uid, headers).then(res => {
+      console.log(res);
+      this.setState({
+        loggedInUser: res.data.user
+      });
+    })
+  }
 
-              <p className="parrafo">
-                {this.props.description}
-              </p>
+  render() {
+    if (this.state.quizVisible) {
+      const idx = this.state.currIndex;
+      console.log(idx);
+      return (<div>
+        {this.state.loggedInUser && <Nav
+          loggedInUserId={this.state.loggedInUser.user_id}
+          loggedInUserName={this.state.loggedInUser.name} />}
+        <Quiz
+          quizName={this.state.quizzes[idx].quiz_name}
+          xp={this.state.quizzes[idx].xp}
+          question={this.state.quizzes[idx].question}
+          modelUrl={this.state.quizzes[idx].model_url}
+          imgUrl={this.state.quizzes[idx].image_url}
+          getNextQuiz={this.getNextQuiz.bind(this)}
+          lessonId={this.state.lesson.lesson_id}
+          quitQuiz={this.quitQuiz.bind(this)}
+        ></Quiz>
+      </div>
 
-            </div>
-          </td>
-          <td className="derecha">
-            <div className="cajaTrans">
-              <button className="proxbtn"> Próximo > </button>
-            </div>
-            <br></br>
+      );
+    }
+    return (
+      <body>
+        {this.state.loggedInUser && <Nav
+          loggedInUserId={this.state.loggedInUser.user_id}
+          loggedInUserName={this.state.loggedInUser.name} />}
+        <div className="back">
+          {/* <div className="divAzul"/> */}
+          <div style={{ height: "20px" }}><br /></div>
+          <h1 className="title">Lección: {this.state.lesson.lname}</h1>
+          <br />
+          <table className="tableau">
+            <tr>
+              <td>
+                <div className="cuadroBlanco">
+                  <br></br>
+                  <div>
+                    <iframe src={this.state.lesson.video_url} width="90%" height="500px"></iframe>
+                  </div>
+                  <br></br>
+                  <h1 className="subtitle">
+                    {this.state.lesson.lname}
+                  </h1>
+                  <p className="parrafo">
+                    {this.state.lesson.description}
+                  </p>
+                  <br />
+                </div>
+              </td>
+              <td className="derecha">
+                <div className="cajaTrans">
+                  <button className="proxbtn" onClick={() => {
+                    this.getNextQuiz();
+                  }
+                  }> Próximo </button>
+                </div>
+                <br></br>
+                <div className="cajaAzul">
+                  <h1>Max XP: {this.state.lesson.max_xp}</h1>
+                  <br>
+                  </br>
+                  <h2 className="textoAzul">Video</h2>
+                  {this.state.quizzes.map(q => (<div className="quizName" onClick={() => {
+                      this.setState({
+                        currIndex: this.state.quizzes.indexOf(q),
+                        quizVisible: true
+                      })
+                    }}>Prueba : {q.quiz_name}</div>))}
+                </div>
+                <br>
+                </br>
+                <div className="cajaTrans">
+                  <button className="orangebtn" onClick={() => { this.props.history.push('/home') }}> Abandonar Lección  </button>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </body>
 
-            <div className="cajaAzul">
-              <h1>
-                Max XP: 100
-</h1>
-              <br>
-              </br>
-              <h2 className="textoAzul">
-                Video
-</h2>
-              <h2>
-                Prueba 1
-</h2>
-              <h2>
-                Prueba 2
-</h2>
-              <h2>
-                Prueba 3
-</h2>
-
-            </div>
-            <br>
-            </br>
-            <div className="cajaTrans">
-              <button className="orangebtn"> Abandonar Lección  </button>
-            </div>
-          </td>
-        </tr>
-      </table>
-
-
-    </div>
-
-
-  );
+    );
+  }
 }
 
-export default Lesson;
+export default withRouter(Lesson);

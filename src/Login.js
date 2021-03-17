@@ -1,17 +1,48 @@
 import React, { useReducer, useState } from "react";
 import './Login.css';
 import { Input, FormGroup, Label, Form, Container, Button, Col, Row } from 'reactstrap';
+import { useHistory } from "react-router";
+import axios from "axios";
+import { SERVER_URL, headers } from "./Signup";
 
 
 
-function Login() {
+function Login(props) {
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  let history = useHistory();
+
+  const handleEmailChange = event => {
+    setEmail(event.target.value)
+  };
+
+  const handlePasswordChange = event => {
+    setPassword(event.target.value)
+  };
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    const lgUser = {
+      email : email,
+      password : password
+    }
+
+    axios.post(SERVER_URL + "login", lgUser, headers)
+    .then(response => {
+      console.log(response);
+      localStorage.setItem('loggedInUserID', response.data.user.user_id);
+      history.push('/home');
+    })
+    .catch(error => console.log('Form submit error', error))
+  };
 
   return (
 <div>
 
         <Container className="caja" >
 
-          <Form className="form" >
+          <Form className="form" onSubmit={ handleSubmit} >
             <br>
             </br>
             <Col>
@@ -20,10 +51,10 @@ function Login() {
                 <Input
                   type="email"
                   name="email"
-
                   id="exampleEmail"
                   placeholder="email"
-
+                  onChange={handleEmailChange}
+                  value={email}
                 />
               </FormGroup>
             </Col>
@@ -33,10 +64,10 @@ function Login() {
                 <Input
                   type="password"
                   name="password"
-
                   id="examplePassword"
                   placeholder="contraseña"
-
+                  onChange={handlePasswordChange}
+                  value={password}
                 />
               </FormGroup>
             </Col>
@@ -50,7 +81,7 @@ function Login() {
                 <br>
                 </br>
                 <Row>
-                  <Button className="naranja"  >Crear Cuenta</Button>
+                  <Button className="naranja"  onClick={()=>{props.goToRegister()}}>Crear Cuenta</Button>
                 </Row>
 
               </div>

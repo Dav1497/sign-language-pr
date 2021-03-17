@@ -2,19 +2,20 @@ import React, { useReducer, useState } from "react";
 import './Signup.css';
 import { Input, FormGroup, Label, Form, Container, Button, Col, Row } from 'reactstrap';
 import axios from "axios";
+import { propTypes } from "react-bootstrap/esm/Image";
 
 export const SERVER_URL = "http://localhost:5000/"
-export const headers = { 
-  'Access-Control-Allow-Origin' : '*'
+export const headers = {
+  'Access-Control-Allow-Origin': '*'
 }
 
-function Signup() {
+function Signup(props) {
 
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  
+
   const handleFirstNameChange = event => {
     setFirstName(event.target.value)
   };
@@ -34,106 +35,109 @@ function Signup() {
   const handleSubmit = event => {
     event.preventDefault();
     const newUser = {
-      name : firstName + " " + lastName,
-      email : email,
-      password : password
+      name: firstName + " " + lastName,
+      email: email,
+      password: password
     }
 
     axios.post(SERVER_URL + "users", newUser, headers)
-    .then(response => console.log(response))
-    .catch(error => console.log('Form submit error', error))
+      .then(response =>
+        console.log(response)
+      )
+      .catch(error => console.log('Form submit error', error))
   };
 
   return (
-<div>
+    <div>
 
-        <Container className="caja" >
+      <Container className="caja" >
 
-          <Form className="form" onSubmit={ handleSubmit}>
-            <br>
-            </br>
-            <Col>
-              <FormGroup inline>
-                <Label>Nombre</Label>
-                <Input
-                  type="firstName"
-                  name="text"
-                  id="firstName"
-                  placeholder="Nombre"
-                  onChange={handleFirstNameChange}
-                  value={firstName}
-                />
-              </FormGroup>
-            </Col>
-            <Col>
-              <FormGroup inline>
-              <Label>Apellido</Label>
-                <Input
-                  type="lastName"
-                  name="text"
-
-                  id="lastName"
-                  placeholder="Apellido"
-
-                  onChange={handleLastNameChange}
-                  value={lastName}
-
-                />
-              </FormGroup>
-            </Col>
-            <Col>
-              <FormGroup inline>
-                <Label>Correo Electrónico</Label>
-                <Input
-                  type="email"
-                  name="email"
-
-                  id="exampleEmail"
-                  placeholder="email"
-
-                  onChange={handleEmailChange}
-                  value={email}
-
-                />
-              </FormGroup>
-            </Col>
-            <Col>
-              <FormGroup inline>
-                <Label for="examplePassword">Contraseña</Label>
-                <Input
-                  type="password"
-                  name="password"
-
-                  id="examplePassword"
-                  placeholder="contraseña"
-
-                  onChange={handlePasswordChange}
-                  value={password}
-
-                />
-              </FormGroup>
-            </Col>
-            <Col>
-              <div className="text-center">
-
-
-                <Row>
-                  <Button className="verde" color="success"   >Iniciar Sesión</Button>
-                </Row>
-                <br>
-                </br>
-                <Row>
-                  <Button className="naranja" type="submit" >Crear Cuenta</Button>
-                </Row>
-
-              </div>
-            </Col>
-          </Form>
+        <Form className="form" onSubmit={handleSubmit}>
           <br>
           </br>
-        </Container>
+          <Col>
+            <FormGroup inline>
+              <Label>Nombre</Label>
+              <Input
+                type="firstName"
+                name="text"
+                id="firstName"
+                placeholder="Nombre"
+                onChange={handleFirstNameChange}
+                value={firstName}
+              />
+            </FormGroup>
+          </Col>
+          <Col>
+            <FormGroup inline>
+              <Label>Apellido</Label>
+              <Input
+                type="lastName"
+                name="text"
 
-      </div>
+                id="lastName"
+                placeholder="Apellido"
+
+                onChange={handleLastNameChange}
+                value={lastName}
+
+              />
+            </FormGroup>
+          </Col>
+          <Col>
+            <FormGroup inline>
+              <Label>Correo Electrónico</Label>
+              <Input
+                type="email"
+                name="email"
+
+                id="exampleEmail"
+                placeholder="email"
+
+                onChange={handleEmailChange}
+                value={email}
+
+              />
+            </FormGroup>
+          </Col>
+          <Col>
+            <FormGroup inline>
+              <Label for="examplePassword">Contraseña</Label>
+              <Input
+                type="password"
+                name="password"
+
+                id="examplePassword"
+                placeholder="contraseña"
+
+                onChange={handlePasswordChange}
+                value={password}
+
+              />
+            </FormGroup>
+          </Col>
+          <Col>
+            <div className="text-center">
+
+
+              <Row>
+                <Button className="verde naranja" >Crear Cuenta</Button>
+              </Row>
+              <br>
+              </br>
+              <Row>
+                ¿Ya tienes cuenta? <a href="#" onClick={() => { props.goToLogin() }}>Iniciar Sesión</a>
+                {/* <Button className="naranja" type="submit" >Crear Cuenta</Button> */}
+              </Row>
+
+            </div>
+          </Col>
+        </Form>
+        <br>
+        </br>
+      </Container>
+
+    </div>
 
 
 

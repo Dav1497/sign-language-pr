@@ -4,49 +4,68 @@ import { Input, FormGroup, Label, Form, Container, Button, Col, Row } from 'reac
 import Login from './Login';
 import Signup from './Signup';
 
-function Welcome() {
+class Welcome extends React.Component {
 
-  return (
+  constructor(props){
+    super(props);
+    this.state = {
+      isLoginVisible: true
+    }
+  }
 
-    <div className="bg">
+  goToRegister(){
+    this.setState({
+      isLoginVisible: false
+    })
+  }
 
-      <div className="behind">
+  goToLogin(){
+    this.setState({
+      isLoginVisible: true
+    })
+  }
 
-        <div className="ellipse4">
+  render() {
+    return (
+      <div className="bg">
+
+        <div className="behind">
+
+          <div className="ellipse4">
+          </div>
+
+          <div className="ellipse3">
+          </div>
+
+          <div className="ellipse2">
+          </div>
+
+          <div className="ellipse1">
+
+          </div>
+
+          <div className="logo">
+
+          </div>
+
         </div>
 
-        <div className="ellipse3">
+        <div className="front">
+          <h1 className="nombre" style={{ fontFamily: "Varela Round" }}>Sign Language Puerto Rico</h1>
+          <hr className="linea"></hr>
         </div>
 
-        <div className="ellipse2">
+        <br></br>
+        <br></br>
+
+        <div className="contenedor">
+          {this.state.isLoginVisible && (<Login goToRegister={this.goToRegister.bind(this)}></Login>)}
+          {!this.state.isLoginVisible && (<Signup goToLogin={this.goToLogin.bind(this)}></Signup>)}
         </div>
-
-        <div className="ellipse1">
-
-        </div>
-
-        <div className="logo">
-
-        </div>
-
       </div>
 
-      <div className="front">
-        <h1 className="nombre" style={{ fontFamily: "Varela Round" }}>Sign Language Puerto Rico</h1>
-        <hr className="linea"></hr>
-      </div>
-
-      <br></br>
-      <br></br>
-
-      <div className="contenedor">
-        {/* <Login></Login> */}
-        <Signup></Signup>
-      </div>
-    </div>
-
-
-  );
+    );
+  }
 }
 
 export default Welcome;

@@ -36,11 +36,13 @@ class ScoresHandler:
     @staticmethod
     def getScoresByUserId(uid):
         try:
-            score = Scores.getScoresByUserId(uid)
-            score_dict = Utilities.to_dict(score)
+            scores = Scores.getScoresByUserId(uid)
+            result_list = []
+            for score in scores:
+                result_list.append(Utilities.to_dict(score))
             result = {
                 "message": "Success!",
-                "score": score_dict
+                "scores": result_list
             }
             return jsonify(result), 200
         except Exception as e:
@@ -49,11 +51,44 @@ class ScoresHandler:
     @staticmethod
     def getScoresByQuizId(qid):
         try:
-            score = Scores.getScoresByQuizId(sid)
-            score_dict = Utilities.to_dict(score)
+            scores = Scores.getScoresByQuizId(qid)
+            result_list = []
+            for score in scores:
+                result_list.append(Utilities.to_dict(score))
             result = {
                 "message": "Success!",
-                "score": score_dict
+                "scores": result_list
+            }
+            return jsonify(result), 200
+        except Exception as e:
+            return jsonify(reason="Server error", error=e.__str__()), 500
+
+    @staticmethod
+    def getScoresByQuizIdAndUserId(qid, uid):
+        try:
+            scores = Scores.getScoresByQuizIdAndUserId(qid, uid)
+            result_list = []
+            for score in scores:
+                result_list.append(Utilities.to_dict(score))
+            result = {
+                "message": "Success!",
+                "scores": result_list
+            }
+            return jsonify(result), 200
+        except Exception as e:
+            return jsonify(reason="Server error", error=e.__str__()), 500
+
+    # getScoresByLessonIdAndUserId
+    @staticmethod
+    def getScoresByLessonIdAndUserId(lid, uid):
+        try:
+            scores = Scores.getScoresByLessonIdAndUserId(lid, uid)
+            result_list = []
+            for score in scores:
+                result_list.append(Utilities.to_dict(score))
+            result = {
+                "message": "Success!",
+                "scores": result_list
             }
             return jsonify(result), 200
         except Exception as e:
@@ -61,10 +96,10 @@ class ScoresHandler:
 
     @staticmethod
     def createScore(json):
-        valid_params = ScoresHandler.verify_params(json, Score.SCORE_REQUIRED_PARAMS)
+        valid_params = Utilities.verify_parameters(json, ['user_id', 'quiz_id', 'lesson_id'])
         if valid_params:
             try:
-                new_score = Score(**valid_params)
+                new_score = Scores(**valid_params)
                 created_score = new_score.create()
                 result = {
                     "message": "Success!",
@@ -78,10 +113,10 @@ class ScoresHandler:
 
     @staticmethod
     def updateScore(sid,json):
-        valid_params = ScoresHandler.verify_params(json, Score.SCORES_REQUIRED_PARAMS)
+        valid_params = Utilities.verify_parameters(json, ['score_id'])
         if sid and valid_params:
             try:
-                score_to_update = Score.getScoreById(sid)
+                score_to_update = Scores.getScoreById(sid)
                 if score_to_update:
                     for key, value in valid_params.items():
                         setattr(score_to_update, key, value)
@@ -102,7 +137,7 @@ class ScoresHandler:
     def deleteScore(sid):
         if sid:
             try:
-                score_to_delete = Score.getScoreById(sid)
+                score_to_delete = Scores.getScoreById(sid)
                 if score_to_delete:
                     score_to_delete.delete()
                     return jsonify(message="Success!"), 200

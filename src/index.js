@@ -24,9 +24,6 @@ ReactDOM.render(
           <Route path="/lesson/:lid">
             <Lesson></Lesson>
           </Route>
-          <Route path="/quiz">
-          <Quiz></Quiz>
-          </Route>
           <Route path="/">
             <Welcome/>
           </Route>

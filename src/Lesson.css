@@ -140,3 +140,7 @@
     color: #3FB0E0;
     z-index: 1;
 }
+
+.quizName:hover {
+    color: #FFE607;
+}

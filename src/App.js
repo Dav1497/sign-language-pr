@@ -7,11 +7,11 @@ tf.setBackend('webgl');
 
 const threshold = 0.75;
 
-async function load_model() {
+async function load_model(modelUrl) {
     // It's possible to load the model locally or from a repo
     // You can choose whatever IP and PORT you want in the "http://127.0.0.1:8080/model.json" just set it before in your https server
     //const model = await loadGraphModel("http://127.0.0.1:8080/model.json");
-    const model = await loadGraphModel("https://raw.githubusercontent.com/Dav1497/sign-language-pr/abcmodel/abc_model/model.json");
+    const model = await loadGraphModel(modelUrl);
     return model;
   }
 
@@ -34,6 +34,10 @@ class App extends React.Component {
   videoRef = React.createRef();
   canvasRef = React.createRef();
 
+  constructor(props) {
+    super(props);
+  }
+
 
   componentDidMount() {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -54,7 +58,7 @@ class App extends React.Component {
           });
         });
 
-      const modelPromise = load_model();
+      const modelPromise = load_model(this.props.modelUrl);
 
       Promise.all([modelPromise, webCamPromise])
         .then(values => {
@@ -95,9 +99,9 @@ class App extends React.Component {
         const maxY = boxes[0][i][2] * video_frame.offsetHeight;
         const maxX = boxes[0][i][3] * video_frame.offsetWidth;
         bbox[0] = minX;
-        bbox[1] = minY -30;
+        bbox[1] = minY;
         bbox[2] = maxX - minX;
-        bbox[3] = maxY - minY-60;
+        bbox[3] = maxY - minY;
         detectionObjects.push({
           class: classes[i],
           label: classesDir[classes[i]].name,
@@ -110,6 +114,7 @@ class App extends React.Component {
   }
 
   renderPredictions = predictions => {
+    if(!this.canvasRef.current) return
     const ctx = this.canvasRef.current.getContext("2d");
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
@@ -165,28 +170,26 @@ class App extends React.Component {
 
 render() {
   return (
-    <div className="App">
-      <header className="App-header">
+    <div>
+      {/* <header className="App-header"> */}
       
       <video
-          style={{height: '800px', width: "700px"}}
-          className="size"
+          style={{height: '500px', width: "700px"}}
           autoPlay
           playsInline
           muted
           ref={this.videoRef}
-          width="800"
-          height="700"
+          width="700"
+          height="500"
           id="frame"
         />
         <canvas
-          className="size"
           ref={this.canvasRef}
-          width="800"
-          height="700"
-          style={{position: 'fixed', top: 200}}
+          width="700"
+          height="500"
+          style={{position: 'relative', top: -500}}
         />
-      </header>
+      {/* </header> */}
     </div>
   );
 }

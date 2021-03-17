@@ -34,11 +34,13 @@ class QuizzesHandler:
     @staticmethod
     def getQuizzesByLessonId(lesson_id):
         try:
-            quiz = Quizzes.getQuizByLessonID(lesson_id)
-            quiz_dict = Utilities.to_dict(quiz)
+            quizzes = Quizzes.getQuizzesByLessonId(lesson_id)
+            result_list = []
+            for quiz in quizzes:
+                result_list.append(Utilities.to_dict(quiz))
             result = {
                 "message": "Success!",
-                "quiz": quiz_dict
+                "quizzes": result_list
             }
             return jsonify(result), 200
         except Exception as e:

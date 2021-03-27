@@ -4,6 +4,11 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+psycopg2-binary = "==2.8.6"
+gunicorn = "==20.1.0"
+Flask = "==1.1.2"
+Flask-SQLAlchemy = "==2.4.3"
+Flask-Cors = "*"
 
 [dev-packages]
 

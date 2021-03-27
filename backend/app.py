@@ -10,7 +10,7 @@ from handler.quiz import QuizzesHandler
 from handler.score import ScoresHandler
 from handler.choice import ChoicesHandler
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
     return 'Welcome to Sign Language Puerto Rico'
 

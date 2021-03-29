@@ -2,11 +2,12 @@
     position: relative;
     /* margin-left: 30%; */
     margin-left: 3%;
-    margin-right: 3%;
+    /* margin-right: 3%; */
     right: 0;
     /* top: 20%; */
-    border-radius: 20px;
+    border-radius: 10px;
     background: #2C62B1;
+    /* background-image: linear-gradient(to right ,rgb(0, 255, 234),white,rgb(0, 0, 83)); */
 }
 
 .left {
@@ -51,5 +52,5 @@
     font-size: 40px;
     line-height: 40px;
 
-    color: #FFE607;
+    color: rgba(255, 230, 7, 1);;
 }

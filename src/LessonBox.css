@@ -8,13 +8,14 @@
     /* left: 44px;
     top: 351px; */
 
-    background: #224B88;
-    box-shadow: 4px 4px 3px #282C34;
+    background: #194c99;
+    box-shadow: 4px 4px 3px #052b75;
     border-radius: 20px;
 }
 
 .box:hover {
     animation: pop 0.5s linear 1;
+    background-color: #133466;
 }
 @keyframes pop{
     50%  {transform: scale(1.1);}

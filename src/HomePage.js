@@ -1,6 +1,7 @@
 import React from "react";
 import LevelBox from './LevelBox';
 import Nav from './Nav';
+import Footer from './Footer';
 import axios from "axios";
 import { SERVER_URL, headers } from "./Signup";
 import { Redirect, withRouter } from "react-router-dom";
@@ -86,6 +87,9 @@ class HomePage extends React.Component {
                         </td>
                     </tr>
                 </table>
+                <br></br>
+
+                <Footer></Footer>
             </body>);
     }
 }

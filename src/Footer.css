@@ -1,0 +1,59 @@
+.fondo{
+    height: 100%;
+    width: 100%;
+    background-color: rgba(40, 44, 52, 1);
+    padding-left: 12px;
+}
+
+
+.pr{
+    width: 100%;
+ 
+}
+
+.celda{
+    vertical-align: top;
+}
+
+.bottomTable{
+    table-layout: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+
+.lettering{
+    font-family: "Varela Round";
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1em;
+    line-height: 35px;
+    /* vertical-align: top !important; */
+    list-style-type: none;
+    color:white;
+  }
+
+  .listado{
+    width: 45%;
+      text-align: left;
+      padding-left: 5%;
+  }
+
+  .fila{
+ 
+  }
+.slpr{
+    font-family: "Varela Round";
+    font-style:normal;
+    font-weight: bolder;
+    font-size: 1.5em;
+    line-height: 35px;
+    /* vertical-align: top !important; */
+   
+    color:white;
+}
+
+  .lh{
+      text-align: left;
+      width: 75%;
+  }

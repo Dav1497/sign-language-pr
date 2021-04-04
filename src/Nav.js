@@ -20,12 +20,12 @@ function Nav(props) {
                         <td className="letras">
                             <ul className="nav">
 
-                                {/* <Link to="/"> */}
+                                <Link to="/dictionary">
                                 <li className="listItem">Diccionario</li>
-                                {/* </Link> */}
-                                {/* <Link to="/"> */}
+                                </Link>
+                                <Link to="/about">
                                 <li className="listItem">Sobre Nosotros</li>
-                                {/* </Link> */}
+                                </Link>
                             </ul>
 
                         </td>

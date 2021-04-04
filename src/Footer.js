@@ -10,25 +10,36 @@ function Nav(props) {
 
 <table className="bottomTable">
     <tr className="fila">
-        <td className="celda">
-    {/* <img src={logo} alt="logo" className="pr" /> */}
-    </td>
+     
 
     <td className="listado">
         <div className="lh">
         <h1 className="slpr">Sign Language Puerto Rico</h1>
-        <hr className="">
+        <hr className="hl">
         </hr>
         </div>
-        <ul className="lettering">
+      
+    </td >
+    <td className=" lettering izq ">
+       <div className="">
+    <h3 className=""> Contacto</h3>
+    </div>
+    </td>
+</tr>
+<tr>
+    <td className="pad">
+    <ul className="lettering">
             <li>Diccionario</li>
             <li>Sobre Nosotros</li>
         </ul>
-    </td >
-    <td className="listado lettering" 
-    // style={{backgroundColor:"red", width:"25%"}}
-    >
-        Other Stuff
+    </td>
+  
+    <td className="contact">
+    <ul className="lettering contact">
+            <li>david.carrion@upr.edu</li>
+            <li>estefania.torres@upr.edu</li>
+        </ul>
+   
     </td>
 </tr>
 

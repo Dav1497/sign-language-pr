@@ -1,14 +1,14 @@
 .fondo{
     height: 100%;
     width: 100%;
-    background-color: rgba(40, 44, 52, 1);
+    background: rgb(15,14,33);
+    background: linear-gradient(90deg, rgba(24,24,24,1) 0%, rgba(41,41,41,1) 50%, rgba(73,73,73,1) 100%);
     padding-left: 12px;
 }
 
 
 .pr{
     width: 100%;
- 
 }
 
 .celda{
@@ -30,7 +30,7 @@
     line-height: 35px;
     /* vertical-align: top !important; */
     list-style-type: none;
-    color:white;
+    color: rgb(146, 146, 146);
   }
 
   .listado{
@@ -50,10 +50,33 @@
     line-height: 35px;
     /* vertical-align: top !important; */
    
-    color:white;
+    color: rgb(146, 146, 146);
 }
 
   .lh{
       text-align: left;
       width: 75%;
+    
+  }
+
+  .hl{
+    background-color: rgb(146, 146, 146);
+    
+    height: 2px;
+border-radius: 20px;
+  }
+
+  .pad{
+      padding-left: 2%;
+  }
+
+  .contact{
+    line-height:200%;
+    vertical-align: top;
+    text-align: left;
+  }
+
+  .izq{
+      text-align: left;
+     padding-left: 3%;
   }

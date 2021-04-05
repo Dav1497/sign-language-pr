@@ -19,7 +19,6 @@
 }
 @keyframes pop{
     50%  {transform: scale(1.1);}
-   
 }
 
 .lessonName {
@@ -29,7 +28,7 @@
     margin-left: 25px;
     text-align: left;
 
-    font-family: Varela Round;
+    font-family: 'Lexend', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 25px;
@@ -59,7 +58,7 @@
 .progress {
     width: 60%;
     height: 21px;
-    margin-left: 0px;    
+    margin-left: 0px;
     background: #19AD42;
     border-radius: 100px;
 }

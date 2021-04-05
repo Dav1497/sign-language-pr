@@ -1,22 +1,88 @@
-import React, { useReducer, useState } from "react";
+import React from "react";
 import './Lesson.css';
-import { Input, FormGroup, Label, Form, Container, Button, Col, Row } from 'reactstrap';
-import video from "./images/video.png";
 import { withRouter } from "react-router-dom";
-import Nav from "./Nav";
 import App from "./App";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import axios from "axios";
+import { headers, SERVER_URL } from "./Signup";
+import $ from 'jquery';
+import "./Quiz.css";
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormLabel from '@material-ui/core/FormLabel';
+import Button from '@material-ui/core/Button';
 
-function Quiz(props) {
+
+class Quiz extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      choices: [],
+      value: '',
+      helperText: '',
+      error: false
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.imageUrl) {
+      this.getChoices();
+    }
+  }
+
+  getChoices() {
+    axios.get(SERVER_URL + "choices/quiz/" + this.props.quizId, headers).then(res => {
+      console.log(res);
+      this.setState({
+        choices: res.data.choices
+      });
+    });
+  }
+
+  handleRadioChange = (event) => {
+    this.setState({
+      value: event.target.value,
+      helperText: '',
+      error: false
+    })
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+
+    if (this.state.value === this.props.quizAns) {
+      this.setState({
+        helperText: '¡Correcto!',
+        error: false
+      })
+    } else if (this.state.value && this.value != this.props.quizAns) {
+      this.setState({
+        helperText: 'Opción incorrecta',
+        error: true
+      })
+    } else {
+      this.setState({
+        helperText: 'Por favor seleccione una opción',
+        error: true
+      })
+    }
+  };
+
+  render() {
+
+    console.log(this.state.choices);
 
     return (
       <body>
         <div className="back">
-          {/* <div className="divAzul"/> */}
           <div style={{ height: "20px" }}><br /></div>
           <h1 className="title">
-            {props.quizName}
+            {this.props.quizName}
           </h1>
           <br />
           <table className="tableau">
@@ -25,69 +91,52 @@ function Quiz(props) {
                 <div className="cuadroBlanco">
 
                   <h1 className="subtitle">
-                    {props.question}
-                    {/* subtitle */}
-                    {props.xp}
-                    {/* aqui va la pregunta */}
+                    {this.props.question}
                   </h1>
                   <div>
-                    {props.modelUrl && <App modelUrl={props.modelUrl}></App>}
-                    {props.imgUrl && (<iframe src={props.imgUrl}
-                      width="90%" height="500px"></iframe>)}
+                    {this.props.modelUrl && <App modelUrl={this.props.modelUrl}></App>}
+                    {this.props.imageUrl && (<img src={this.props.imageUrl}
+                      alt="" style={{ marginTop: '10px' }}></img>)}
                   </div>
-                  <br></br>
+                  <br />
                 </div>
               </td>
               <td className="derecha">
                 <div className="cajaTrans">
-                  <button className="proxbtn" onClick={()=>{
-                    props.getNextQuiz()}}> Próximo
+                  <button className="proxbtn" onClick={() => {
+                    this.props.getNextQuiz()
+                  }}> Próximo
                   </button>
                 </div>
-                <br></br>
-                {props.ImgUrl && <div className="cajaAzul">
-                  <div>
-                    <input type="radio" name="radio"></input>
-                    <label className="radiocaja">Four
-                    
-                    <span className="radiogaga"></span>
-                    </label>
-                  </div>
-                  <div>
-                    <input type="radio" name="radio"></input>
-                    <label className="radiocaja">Four
-                    
-                    <span className="radiogaga"></span>
-                    </label>
-                  </div>
-                  <div>
-                    <input type="radio" name="radio"></input>
-                    <label className="radiocaja">Four
-                    
-                    <span className="radiogaga"></span>
-                    </label>
-                  </div>
-                  <div>
-                    <input type="radio" name="radio"></input>
-                    <label className="radiocaja">Four
-                    
-                    <span className="radiogaga"></span>
-                    </label>
-                  </div>
-                </div>}
-                <br>
-                </br>
+                <div className="cajaAzul">
+                <div className="helperTxt" style={{marginBottom:'25px', marginTop:'25xp'}}>Puntuación máxima: {this.props.xp} XP</div>
+                  <form onSubmit={this.handleSubmit}>
+                    <FormControl component="fieldset" error={this.error} style={{width:'100%'}} >
+                      <RadioGroup aria-label="quiz" name="quiz" value={this.state.value} onChange={this.handleRadioChange} style={{paddingLeft:'40px'}}>
+                        {this.state.choices.map(choice => (
+                          <FormControlLabel value={choice.choice_text} control={<Radio />} label={choice.choice_text} ></FormControlLabel>
+                        ))}
+                      </RadioGroup>
+                      <div className="helperTxt">{this.state.helperText}</div>
+                      <br />
+                      <div className="verificarBtn">
+                        <button type="submit" className="yellowBtn">Verificar</button>
+                      </div>
+                    </FormControl>
+                  </form>
+                </div>
+                <br/>
                 <div className="cajaTrans">
-                  <button className="orangebtn" onClick={() => props.quitQuiz()}> Abandonar Prueba  </button>
+                  <button className="orangebtn" onClick={() => this.props.quitQuiz()}> Abandonar Prueba  </button>
                 </div>
               </td>
             </tr>
           </table>
         </div>
-
       </body>
 
     );
+  }
 }
 
 export default withRouter(Quiz);

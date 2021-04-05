@@ -127,7 +127,6 @@ function Signup(props) {
               </br>
               <Row>
                 ¿Ya tienes cuenta? <a href="#" onClick={() => { props.goToLogin() }}>Iniciar Sesión</a>
-                {/* <Button className="naranja" type="submit" >Crear Cuenta</Button> */}
               </Row>
 
             </div>

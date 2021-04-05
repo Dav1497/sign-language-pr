@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@500&display=swap');
 
 .back{
     width:100%;
@@ -6,7 +7,7 @@
 }
 
 .title{
-    font-family: "Varela Round";
+    font-family: 'Lexend', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 2.5em;
@@ -16,10 +17,10 @@
 }
 
 .subtitle{
-    font-family: "Varela Round";
+    font-family: 'Lexend', sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 3em;
+    font-size: 30px;
     line-height: 52px;
     text-align: left;
     color: #F18B2D;
@@ -27,7 +28,7 @@
 }
 
 .parrafo{
-    font-family: "Varela Round";
+    font-family: 'Lexend', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 1.5em;
@@ -42,7 +43,8 @@
 .cuadroBlanco{
     background-color: white;
     text-align: center;
-    border-radius: 2.5%;
+    /* border-radius: 2.5%; */
+    box-shadow: 10px 10px rgb(19, 12, 78);
     height: 100%;
     padding-top: 20px;
     margin-bottom: 50px;
@@ -63,7 +65,7 @@
     /* background-color: red; */
     text-align: center;
     border-radius: 2.5%;
-    height: 100%; 
+    height: 100%;
 }
 
 .derecha{
@@ -74,16 +76,20 @@
 
 .proxbtn{
     width: 80%;
-    height: 100%;
+    height: 40px;
     border-radius: 5px;
-    font-family: Varela Round;
+    font-family: 'Lexend', sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 2em;
+    font-size: 20px;
     background-color: #19AD42;
-  
     border: none;
-    color: #FFFFFF;
+    color: #126326;
+}
+
+.proxbtn:hover{
+    background-color: #178536;
+    color: white;
 }
 
 .divAzul {
@@ -98,32 +104,27 @@
 
 .cajaAzul{
     /* background: rgba(34, 75, 136, 1); */
-    font-family: "Varela Round";
+    font-family: 'Lexend', sans-serif;
     font-style: normal;
     font-weight: normal;
     font-size: 30px;
     line-height: 47px;
     text-align: left;
-    padding: 5%;
-    
+    padding-left: 10%;
     color: #FFFFFF;
 }
 
 .orangebtn{
-    
     width: 80%;
-    height: 100%;
+    height: 40px;
     border-radius: 5px;
-    font-family: "Varela Round";
+    font-family: 'Lexend', sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 2em;
-   
-  
+    font-size: 20px;
     border: none;
-    color: #FFFFFF;
+    color: #703702;
     background-color: rgba(224, 111, 63, 1);
-       
 }
 
 .orangebtn:hover {
@@ -132,15 +133,21 @@
 }
 
 .textoAzul{
-    font-family: "Varela Round";
+    font-family: 'Lexend', sans-serif;
     font-style: normal;
     font-weight: normal;
-    font-size: 30px;
-    line-height: 47px;
+    font-size: 25px;
+    line-height: 30px;
     color: #3FB0E0;
     z-index: 1;
 }
 
+.quizName{
+    font-size: 25px;
+}
+
 .quizName:hover {
     color: #FFE607;
+    font-size: 30px;
+    text-shadow: 2px 2px rgb(6, 5, 68);
 }

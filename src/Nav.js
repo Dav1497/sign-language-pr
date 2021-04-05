@@ -3,6 +3,7 @@ import "./Nav.css";
 import { Link } from "react-router-dom";
 import logo from "./images/logo.PNG";
 import UserBox from './UserBox';
+import { withRouter } from 'react-router-dom';
 
 function Nav(props) {
     return (
@@ -11,28 +12,18 @@ function Nav(props) {
                 <table className="barra">
                     <tr>
                         <td>
-                            {/* <div className="loguito"> */}
-
-                            <img src={logo} alt="logo" className="loguito" />
-
-                            {/* </div> */}
+                            <img src={logo} alt="logo" className="loguito" onClick={()=> {props.history.push('/home')}}/>
                         </td>
                         <td className="letras">
                             <ul className="nav">
-
-                                {/* <Link to="/"> */}
                                 <li className="listItem">Diccionario</li>
-                                {/* </Link> */}
-                                {/* <Link to="/"> */}
                                 <li className="listItem">Sobre Nosotros</li>
-                                {/* </Link> */}
                             </ul>
-
                         </td>
-                        <td className="cajita" style={{textAlign: "right"}}>
-                            <UserBox 
-                            loggedInUserId={props.loggedInUserId}
-                            loggedInUserName={props.loggedInUserName} />
+                        <td className="cajita" style={{ textAlign: "right" }}>
+                            <UserBox
+                                loggedInUserId={props.loggedInUserId}
+                                loggedInUserName={props.loggedInUserName} />
                         </td>
                     </tr>
                 </table>
@@ -41,4 +32,4 @@ function Nav(props) {
     );
 }
 
-export default Nav;
+export default withRouter(Nav);

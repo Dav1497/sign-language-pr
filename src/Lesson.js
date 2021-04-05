@@ -1,7 +1,5 @@
-import React, { useReducer, useState } from "react";
+import React from "react";
 import './Lesson.css';
-import { Input, FormGroup, Label, Form, Container, Button, Col, Row } from 'reactstrap';
-import video from "./images/video.png";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
 import { headers, SERVER_URL } from "./Signup";
@@ -77,20 +75,22 @@ class Lesson extends React.Component {
   render() {
     if (this.state.quizVisible) {
       const idx = this.state.currIndex;
-      console.log(idx);
+      console.log(this.state.quizzes[idx]);
       return (<div>
         {this.state.loggedInUser && <Nav
           loggedInUserId={this.state.loggedInUser.user_id}
           loggedInUserName={this.state.loggedInUser.name} />}
         <Quiz
           quizName={this.state.quizzes[idx].quiz_name}
-          xp={this.state.quizzes[idx].xp}
+          quizId= {this.state.quizzes[idx].quiz_id}
+          xp={this.state.quizzes[idx].quiz_xp}
           question={this.state.quizzes[idx].question}
           modelUrl={this.state.quizzes[idx].model_url}
-          imgUrl={this.state.quizzes[idx].image_url}
+          imageUrl={this.state.quizzes[idx].img_url}
           getNextQuiz={this.getNextQuiz.bind(this)}
           lessonId={this.state.lesson.lesson_id}
           quitQuiz={this.quitQuiz.bind(this)}
+          quizAns = {this.state.quizzes[idx].answer}
         ></Quiz>
       </div>
 
@@ -134,8 +134,6 @@ class Lesson extends React.Component {
                 <br></br>
                 <div className="cajaAzul">
                   <h1>Max XP: {this.state.lesson.max_xp}</h1>
-                  <br>
-                  </br>
                   <h2 className="textoAzul">Video</h2>
                   {this.state.quizzes.map(q => (<div className="quizName" onClick={() => {
                       this.setState({

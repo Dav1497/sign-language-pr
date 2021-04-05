@@ -17,7 +17,6 @@ ReactDOM.render(
     <body>
       <BrowserRouter>
         <Switch>
-          
           <Route path="/home">
             <HomePage></HomePage>
           </Route>
@@ -27,8 +26,6 @@ ReactDOM.render(
           <Route path="/">
             <Welcome/>
           </Route>
-         
-          
         </Switch>
       </BrowserRouter>
       {/* <App/> */}

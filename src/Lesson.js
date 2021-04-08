@@ -91,6 +91,7 @@ class Lesson extends React.Component {
           lessonId={this.state.lesson.lesson_id}
           quitQuiz={this.quitQuiz.bind(this)}
           quizAns = {this.state.quizzes[idx].answer}
+          userId = {this.state.loggedInUser.user_id}
         ></Quiz>
       </div>
 

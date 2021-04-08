@@ -116,14 +116,14 @@ def getAllScores():
     if request.method == 'GET':
         return ScoresHandler().getAllScores()
     elif request.method == 'POST':
-        return ScoresHandler().createScore(request.json) 
+        return ScoresHandler().createScore(request.json)
     else:
         return jsonify(message="Method not allowed."), 405
 
 @app.route('/scores/<int:sid>', methods=['GET', 'PUT', 'DELETE'])
 def getScoreById(sid):
     if request.method == 'GET':
-        return ScoresHandler().getScoreById(sid)
+        return ScoresHandler().getScoresById(sid)
     elif request.method == 'PUT':
         return ScoresHandler().updateScore(sid, request.json)
     elif request.method == 'DELETE':
@@ -131,24 +131,24 @@ def getScoreById(sid):
     else:
         return jsonify(message="Method not allowed."), 405
 
-@app.route('/scores/user/<int:did>', methods=['GET'])
+@app.route('/scores/user/<int:uid>', methods=['GET'])
 def getScoresByUserId(uid):
     if request.method == 'GET':
         return ScoresHandler().getScoresByUserId(uid)
     else:
         return jsonify(message="Method not allowed."), 405
 
-@app.route('/scores/quiz/<int:did>', methods=['GET'])
+@app.route('/scores/quiz/<int:qid>', methods=['GET'])
 def getScoresByQuizId(qid):
     if request.method == 'GET':
         return ScoresHandler().getScoresByQuizId(qid)
     else:
         return jsonify(message="Method not allowed."), 405
 
-@app.route('/scores/quiz/user/<int:qid>/<int:uid>', methods=['GET'])
-def getScoresByQuizIdAndUserId(qid, uid):
-    if request.method == 'GET':
-        return ScoresHandler().getScoresByQuizIdAndUserId(qid, uid)
+@app.route('/scores/userAndQuiz', methods=['POST'])
+def getScoresByQuizIdAndUserId():
+    if request.method == 'POST':
+        return ScoresHandler().getScoresByQuizIdAndUserId(request.json)
     else:
         return jsonify(message="Method not allowed."), 405
 

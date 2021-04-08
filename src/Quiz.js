@@ -6,15 +6,11 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
 import { headers, SERVER_URL } from "./Signup";
-import $ from 'jquery';
 import "./Quiz.css";
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import FormLabel from '@material-ui/core/FormLabel';
-import Button from '@material-ui/core/Button';
 
 
 class Quiz extends React.Component {
@@ -25,7 +21,8 @@ class Quiz extends React.Component {
       choices: [],
       value: '',
       helperText: '',
-      error: false
+      error: false,
+      score: null
     }
   }
 
@@ -33,6 +30,7 @@ class Quiz extends React.Component {
     if (this.props.imageUrl) {
       this.getChoices();
     }
+
   }
 
   getChoices() {
@@ -42,6 +40,19 @@ class Quiz extends React.Component {
         choices: res.data.choices
       });
     });
+  }
+
+  getQuizScore() {
+    scorepost = {
+      user_id: this.props.user_id,
+      quiz_id: this.props.quizId
+    }
+    axios.post(SERVER_URL+"scores/userAndQuiz", scorepost).then(res => {
+      console.log(res);
+      this.setState({
+        score: res.data.score
+      })
+    })
   }
 
   handleRadioChange = (event) => {

@@ -4,7 +4,7 @@ import "./Nav.css";
 import Footer from "./Footer";
 import Nav from './Nav';
 import "./Dictionary.css";
-import data from './MOCK_DATA.json'
+
 import dictionaryData from './dictionary.json'
 import { useState } from "react"
 import Modal from 'react-modal';
@@ -13,10 +13,7 @@ import ModalContent from "./ModalContent.js"
 function Dictionary(props) {
 
     const [searchTerm, setSearchTerm] = useState('')
-
-    const [dropdownOpen, setOpen] = useState(false);
-    const toggleDrop = () => setOpen(!dropdownOpen);
-
+    const [currentTerm, setCurrentTerm] = useState('')
     const [modalIsOpen, setIsOpen] = React.useState(false);
 
     function openModal() {
@@ -56,7 +53,9 @@ function Dictionary(props) {
 
                             <div className="words">
 
-                                <button className="word" onClick={openModal}>{val.name}</button>
+                                <button className="word" onClick={() => {
+                                    setCurrentTerm(val);
+                                    openModal();}  }>{val.name}</button>
                                 <Modal
                                     isOpen={modalIsOpen}
                                     //   onAfterOpen={afterOpenModal}
@@ -67,7 +66,8 @@ function Dictionary(props) {
                                 >
                                     <div className="imgDiv">
                                         {/* <button className=""  onClick={closeModal}>X</button> */}
-                                        <img src={val.image} alt="" className="img" />
+                                        <img src={currentTerm.image} alt="" className="img" />
+                                        
                                     </div>
 
                                     <br></br>

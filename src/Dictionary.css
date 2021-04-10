@@ -56,13 +56,13 @@ margin: 1.5%;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 500px;
-  height: 500px;
+  width: 800px;
+  height: 450px;
 }
 
 .imgModal{
   background-color: whitesmoke;
-  width: 550px;
+  width: 810px;
   height: 550px;
  
   border-radius: 5%;

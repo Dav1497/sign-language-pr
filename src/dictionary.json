@@ -1,12 +1,140 @@
 [
   {
     "id": 1,
-    "name": "t",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/1/13/Sign_language_T.svg"
+    "name": "a",
+    "image": "https://drive.google.com/uc?export=view&id=134IkZ33xR6Np8N5Nx_kurzhaVBdWJge5"
   },
   {
     "id": 2,
-    "name": "a",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/2/27/Sign_language_A.svg"
-  }
+    "name": "b",
+    "image": "https://drive.google.com/uc?export=view&id=1wfNttMwIkSp6D45lMdN0OGIFKpdbz49q"
+  },
+  {
+    "id": 3,
+    "name": "c",
+    "image": "https://drive.google.com/uc?export=view&id=1nwIIY_FKAKD8jjUDrO0KoF0NqkZht6eO"
+  },
+  {
+    "id": 4,
+    "name": "d",
+    "image": "https://drive.google.com/uc?export=view&id=1ttHjA4PMcMgzOes5R6muddz_u9wZEMtb"
+  },
+  {
+    "id": 5,
+    "name": "e",
+    "image": "https://drive.google.com/uc?export=view&id=1sSeCcaykDSWnm4-btnkhZUk5ztgJJ9cl"
+  },
+  {
+    "id": 6,
+    "name": "f",
+    "image": "https://drive.google.com/uc?export=view&id=1ayuihIEaoCxaCO3OwjPzqiiTccnJhgYB"
+  },
+  {
+    "id": 7,
+    "name": "g",
+    "image": "https://drive.google.com/uc?export=view&id=1x4tIs-fDHyYYf0vWCezlwP6W-6uERcQr"
+  },
+  {
+    "id": 8,
+    "name": "h",
+    "image": "https://drive.google.com/uc?export=view&id=1H9GEZnVLDwu4QTCR8javTPhT9ialXjQ5"
+  },
+  {
+    "id": 9,
+    "name": "i",
+    "image": "https://drive.google.com/uc?export=view&id=1MDwPBxgkyhw3Ua85EBGoM6mRWRBi8t_7"
+  },
+  {
+    "id": 10,
+    "name": "j",
+    "image": "https://drive.google.com/uc?export=view&id=1x7RmF7xIc5pFom2YxIhUxr6DLtbYrTYn"
+  },
+  {
+    "id": 11,
+    "name": "k",
+    "image": "https://drive.google.com/uc?export=view&id=1gAcmy6Ksq0eMvPTStGLzuhgH4Pfe6Xd-"
+  },
+  {
+    "id": 12,
+    "name": "l",
+    "image": "https://drive.google.com/uc?export=view&id=1PoO53Ym16NwAMoUa_vfUoUYzr4F8wR9f"
+  },
+  {
+    "id": 13,
+    "name": "m",
+    "image": "https://drive.google.com/uc?export=view&id=1ZYX_cVa1jGvQ7cJe970ElR-Zh6Ffa8Zj"
+  },
+{
+  "id": 14,
+  "name": "n",
+  "image": "https://drive.google.com/uc?export=view&id=1cTTQXIhHoOmberzWgzrlODpp6fz_hXYL"
+},
+{
+  "id": 15,
+  "name": "ñ",
+  "image": "https://drive.google.com/uc?export=view&id=1o67evVi78AZ70j0pwQRODfE7vBuwUL1c"
+},
+{
+  "id": 16,
+  "name": "o",
+  "image": "https://drive.google.com/uc?export=view&id=11aUWMBhwLaDRj99DcE_uO1E924h4yH67"
+},
+{
+  "id": 17,
+  "name": "p",
+  "image": "https://drive.google.com/uc?export=view&id=1kK1gUraBeDaq5IztRn2HUCOP8jL4KQNI"
+},
+{
+  "id": 18,
+  "name": "q",
+  "image": "https://drive.google.com/uc?export=view&id=1iQT5cVh8GrViCDyDu-K8r21tUT9tXXWG"
+},
+{
+  "id": 19,
+  "name": "r",
+  "image": "https://drive.google.com/uc?export=view&id=1cM1Ysa7rHLY4FFaBfPmsxDVLjbJPwxch"
+},
+{
+  "id": 20,
+  "name": "s",
+  "image": "https://drive.google.com/uc?export=view&id=1zaMR8lmnsAHe8DEFwqB5vMvIeZPdsFZ1"
+},
+{
+  "id": 21,
+  "name": "t",
+  "image": "https://drive.google.com/uc?export=view&id=1KD015nQMC-8ng9ZrZ7_7uu11_dodc6L6"
+},
+{
+  "id": 22,
+  "name": "u",
+  "image": "https://drive.google.com/uc?export=view&id=1NSm-mtv-1QKXOC5PZQbGeVfEDyVmrgdG"
+},
+{
+  "id": 23,
+  "name": "v",
+  "image": "https://drive.google.com/uc?export=view&id=1OOR2LAZXI84iQH94DbEaXR1Al7b-MYv7"
+},
+{
+  "id": 24,
+  "name": "w",
+  "image": "https://drive.google.com/uc?export=view&id=15xnZtCyOQOP7P_NJchplibF7iN7ClOU-"
+},
+{
+  "id": 25,
+  "name": "x",
+  "image": "https://drive.google.com/uc?export=view&id=1ArayWAtm54TZMQcPuux5zhSKz1gDGXGr"
+},
+{
+  "id": 26,
+  "name": "y",
+  "image": "https://drive.google.com/uc?export=view&id=1Yle69xpFUAjv06gzeG7CwQG7yBPQoSP8"
+},
+{
+  "id": 27,
+  "name": "z",
+  "image": "https://drive.google.com/uc?export=view&id=1RaMqTin0FgKg3VN8L_G6rFEf-lGwokO9"
+}
+
 ]
+
+

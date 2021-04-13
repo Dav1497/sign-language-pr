@@ -64,10 +64,8 @@ class ScoresHandler:
             return jsonify(reason="Server error", error=e.__str__()), 500
 
     @staticmethod
-    def getScoresByQuizIdAndUserId(json):
+    def getScoresByQuizIdAndUserId(uid, qid):
         try:
-            qid = json['quiz_id']
-            uid = json['user_id']
             scores = Scores.getScoresByQuizIdAndUserId(qid, uid)
             result_list = []
             for score in scores:

@@ -38,3 +38,98 @@
 .derecha{
     text-align: right;
 }
+.izquierda{
+    text-align: left;
+}
+
+.round{
+    border-radius: 50%;
+    background-color: #081c3a !important;
+
+}
+
+.ddi{
+    width: 100%;
+    border: none;
+background: none;
+font-family: "varela round";
+}
+
+.ddi:hover{
+    background-color: whitesmoke;
+}
+
+.newModal{
+    background-color: whitesmoke;
+    width: fit-content;
+    block-size: fit-content;
+    border-radius: 5%;
+    padding:-50px;
+/* background-color: yellow; */
+position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.botonDone{
+    color: white;
+    background-color: rgba(224, 111, 63, 1);
+    font-size: 1.5em;
+    font-family: "Varela Round";
+    border: none;
+    border-radius: 5%;
+    cursor: pointer;
+}
+
+.espacio{
+    padding-left: 3em;
+    padding-right: 3em;
+    
+   width: 30em;
+}
+
+.centro{
+    text-align: center;
+  
+}
+
+.der{
+    text-align: right;
+    padding-right: 3%;
+    padding-top: 3%;
+    /* background-color: aqua; */
+}
+
+input[type="file"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    border: 0;
+}
+
+.imageUpload{
+    object-fit: cover;
+    width:200px;
+    height: 200px;
+    outline: none;
+    border-radius: 50%;
+    padding: 0;
+    border: none;
+    outline: none;
+}
+
+.color{
+  background-color: yellow;
+ 
+}
+
+.in{
+padding: 3px;
+}
+
+

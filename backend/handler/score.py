@@ -21,9 +21,9 @@ class ScoresHandler:
             return jsonify(reason="Server error", error=e.__str__()), 500
 
     @staticmethod
-    def getScoreById(sid):
+    def getScoresById(sid):
         try:
-            score = Scores.getScoreById(sid)
+            score = Scores.getScoresById(sid)
             score_dict = Utilities.to_dict(score)
             result = {
                 "message": "Success!",
@@ -64,7 +64,7 @@ class ScoresHandler:
             return jsonify(reason="Server error", error=e.__str__()), 500
 
     @staticmethod
-    def getScoresByQuizIdAndUserId(qid, uid):
+    def getScoresByQuizIdAndUserId(uid, qid):
         try:
             scores = Scores.getScoresByQuizIdAndUserId(qid, uid)
             result_list = []
@@ -147,5 +147,3 @@ class ScoresHandler:
                 return jsonify(message="Server Error!", error=err.__str__()), 500
         else:
             return jsonify(message="Bad Request!"), 400
-
-    

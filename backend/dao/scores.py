@@ -38,8 +38,8 @@ class Scores(db.Model):
         return Scores().query.all()
 
     @staticmethod
-    def getScoresById(scoreid):
-        return Scores().query.filter_by(score_id=scoreid).first()
+    def getScoresById(sid):
+        return Scores().query.filter_by(score_id=sid).first()
 
     @staticmethod
     def getScoresByUserId(uid):

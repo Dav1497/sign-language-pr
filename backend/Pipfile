@@ -1,0 +1,25 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+bcrypt= "==3.2.0"
+cffi= "==1.14.5"
+click = "==7.1.2"
+gunicorn = "==20.1.0"
+itsdangerous = "==1.1.0"
+psycopg2-binary = "==2.8.6"
+pycparser= "==2.20"
+six = "==1.15.0"
+Flask = "==1.1.2"
+Flask-Bcrypt= "==0.7.1"
+Flask-Cors = "==3.0.10"
+Jinja2 = "==2.11.3"
+MarkupSafe = "==1.1.1"
+Werkzeug = "==1.0.1"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"

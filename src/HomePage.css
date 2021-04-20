@@ -1,10 +1,25 @@
 .homeMenu {
-    position: fixed !important;
+    /* position: fixed !important; */
     overflow: hidden;
     width: 100%; /* Full width */
+    margin-top: 0;
 }
 
 .funInfo {
     width: 100% !important;
     /* margin-left: 50%; */
+}
+
+.mytable {
+    table-layout:fixed;
+    width: 95%;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    margin-top: 10px;
+}
+
+.leftCol{
+    vertical-align: top;
+    width: 25%;
+    right: 0;
 }

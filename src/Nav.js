@@ -3,42 +3,37 @@ import "./Nav.css";
 import { Link } from "react-router-dom";
 import logo from "./images/logo.PNG";
 import UserBox from './UserBox';
+import { withRouter } from 'react-router-dom';
 
 function Nav(props) {
     return (
-        <navbar>
-            <div className="backg">
-                <table className="barra">
+        <div className="backg">
+            <table className="barra">
+                <tbody>
                     <tr>
                         <td>
-                            {/* <div className="loguito"> */}
-
-                            <img src={logo} alt="logo" className="loguito" />
-
-                            {/* </div> */}
+                            <img src={logo} alt="logo" className="loguito" onClick={() => { props.history.push('/home') }} />
                         </td>
                         <td className="letras">
                             <ul className="nav">
-
-                                {/* <Link to="/"> */}
+                                <Link to="/dictionary">
                                 <li className="listItem">Diccionario</li>
-                                {/* </Link> */}
-                                {/* <Link to="/"> */}
+                                </Link>
+                                <Link to="/about">
                                 <li className="listItem">Sobre Nosotros</li>
-                                {/* </Link> */}
+                                </Link>
                             </ul>
-
                         </td>
-                        <td className="cajita" style={{textAlign: "right"}}>
-                            <UserBox 
-                            loggedInUserId={props.loggedInUserId}
-                            loggedInUserName={props.loggedInUserName} />
+                        <td className="cajita" style={{ textAlign: "right" }}>
+                            <UserBox
+                                loggedInUserId={props.loggedInUserId}
+                                loggedInUserName={props.loggedInUserName} />
                         </td>
                     </tr>
-                </table>
-            </div>
-        </navbar>
+                </tbody>
+            </table>
+        </div>
     );
 }
 
-export default Nav;
+export default withRouter(Nav);

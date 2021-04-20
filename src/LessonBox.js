@@ -3,9 +3,6 @@ import "./LessonBox.css";
 
 
 function LessonBox(props) {
-    console.log(props.lessonImg);
-
-
     return(
         <div className="box" onClick={() => {props.onLessonClick(props.lid)}}>
             <p className="lessonName">{props.lessonName}</p>
@@ -17,7 +14,6 @@ function LessonBox(props) {
             </div>
         </div>
         );
-        
     }
 
 

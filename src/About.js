@@ -5,12 +5,32 @@ import Footer from "./Footer.js";
 import dimaris from './images/dimaris.jpeg';
 import david from './images/davidCarrion.jpg'
 import estefania from './images/estefania.jpeg';
+import { SERVER_URL, headers } from "./Signup";
+import axios from "axios";
+import { useState } from "react"
 
 function About(props) {
+
+    let uid = localStorage.getItem('loggedInUserID');
+    const [user, setUser] = useState(
+        {
+            email: "",
+            name: "",
+            password: "",
+            user_id: -1
+        }
+    )
+
+    axios.get(SERVER_URL + "users/" + uid, headers).then(res => {
+        setUser({...user, ...res.data.user})
+    })
+
     return (
 
         <div className="" >
-            <Nav></Nav>
+           {user && <Nav
+                loggedInUserId={user.user_id}
+                loggedInUserName={user.name} />}
             <div className="c">
                 <table className="t" >
                     {/* style={{backgroundColor:"red"}} */}

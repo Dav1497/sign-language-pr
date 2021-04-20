@@ -14,7 +14,6 @@ import { Route, BrowserRouter, Switch } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
-    <body>
       <BrowserRouter>
         <Switch>
           <Route path="/home">
@@ -28,8 +27,6 @@ ReactDOM.render(
           </Route>
         </Switch>
       </BrowserRouter>
-      {/* <App/> */}
-    </body>
   </React.StrictMode>,
   document.getElementById('root')
 );

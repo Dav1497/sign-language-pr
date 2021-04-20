@@ -7,12 +7,12 @@ import { withRouter } from 'react-router-dom';
 
 function Nav(props) {
     return (
-        <navbar>
-            <div className="backg">
-                <table className="barra">
+        <div className="backg">
+            <table className="barra">
+                <tbody>
                     <tr>
                         <td>
-                            <img src={logo} alt="logo" className="loguito" onClick={()=> {props.history.push('/home')}}/>
+                            <img src={logo} alt="logo" className="loguito" onClick={() => { props.history.push('/home') }} />
                         </td>
                         <td className="letras">
                             <ul className="nav">
@@ -26,9 +26,9 @@ function Nav(props) {
                                 loggedInUserName={props.loggedInUserName} />
                         </td>
                     </tr>
-                </table>
-            </div>
-        </navbar>
+                </tbody>
+            </table>
+        </div>
     );
 }
 

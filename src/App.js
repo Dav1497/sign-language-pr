@@ -1,33 +1,33 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import * as tf from '@tensorflow/tfjs';
-import {loadGraphModel} from '@tensorflow/tfjs-converter';
+import { loadGraphModel } from "@tensorflow/tfjs-converter";
 import "./App.css";
+
 tf.setBackend('webgl');
 
 const threshold = 0.75;
 
 async function load_model(modelUrl) {
-    // It's possible to load the model locally or from a repo
-    // You can choose whatever IP and PORT you want in the "http://127.0.0.1:8080/model.json" just set it before in your https server
-    //const model = await loadGraphModel("http://127.0.0.1:8080/model.json");
-    const model = await loadGraphModel(modelUrl);
-    return model;
-  }
+  // It's possible to load the model locally or from a repo
+  // You can choose whatever IP and PORT you want in the "http://127.0.0.1:8080/model.json" just set it before in your https server
+  //const model = await loadGraphModel("http://127.0.0.1:8080/model.json");
+  const model = await loadGraphModel(modelUrl);
+  return model;
+}
 
 let classesDir = {
-    1: {
-        name: 'A',
-        id: 1,
-    },
-    2: {
-        name: 'B',
-        id: 2,
-    },
-    3: {
-      name: 'C',
-      id: 3
-    }
+  1: {
+    name: 'A',
+    id: 1,
+  },
+  2: {
+    name: 'B',
+    id: 2,
+  },
+  3: {
+    name: 'C',
+    id: 3
+  }
 }
 
 class App extends React.Component {
@@ -36,10 +36,32 @@ class App extends React.Component {
 
   constructor(props) {
     super(props);
+
+    this.state = {
+      hasUserMedia: false    }
+    //this.setBackend();
   }
 
+  async setBackend() {
+    tf.setBackend('webgl');
+  }
+
+  componentWillUnmount() {
+
+    // tf.removeBackend('webgl');
+    const stream = window.stream;
+    if (stream?.getVideoTracks) {
+      stream.getVideoTracks().map(track => track.stop());
+    }
+  }
 
   componentDidMount() {
+
+    console.log(this.props.modelUrl);
+    if(tf.getBackend() != 'webgl'){
+      this.setBackend();
+    }
+
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       const webCamPromise = navigator.mediaDevices
         .getUserMedia({
@@ -50,11 +72,22 @@ class App extends React.Component {
         })
         .then(stream => {
           window.stream = stream;
-          this.videoRef.current.srcObject = stream;
+          try{
+            if(this.videoRef?.current){
+              this.videoRef.current.srcObject = stream;
+            }
+          }catch(err){
+          }
+
           return new Promise((resolve, reject) => {
-            this.videoRef.current.onloadedmetadata = () => {
-              resolve();
-            };
+            if(this.videoRef.current){
+              this.videoRef.current.onloadedmetadata = () => {
+                resolve();
+              };
+            }else{
+              reject();
+            }
+
           });
         });
 
@@ -62,7 +95,10 @@ class App extends React.Component {
 
       Promise.all([modelPromise, webCamPromise])
         .then(values => {
-          this.detectFrame(this.videoRef.current, values[0]);
+          console.log(values);
+          if(this.videoRef?.current){
+            this.detectFrame(this.videoRef.current, values[0]);
+          }
         })
         .catch(error => {
           console.error(error);
@@ -70,20 +106,21 @@ class App extends React.Component {
     }
   }
 
-    detectFrame = (video, model) => {
-        tf.engine().startScope();
-        model.executeAsync(this.process_input(video)).then(predictions => {
-        this.renderPredictions(predictions, video);
-        requestAnimationFrame(() => {
-          this.detectFrame(video, model);
-        });
-        tf.engine().endScope();
+  detectFrame = (video, model) => {
+    tf.engine().startScope();
+    console.log(model);
+    model.executeAsync(this.process_input(video))
+    .then(predictions => {
+      this.renderPredictions(predictions, video);
+      requestAnimationFrame(() => {
+        this.detectFrame(video, model);
       });
+      tf.engine().endScope();
+    });
   };
 
-  process_input(video_frame){
-    const tfimg = tf.browser.fromPixels(video_frame).toInt();
-    const expandedimg = tfimg.transpose([0,1,2]).expandDims();
+  process_input(video_frame) {
+    const expandedimg = tf.browser.fromPixels(video_frame).cast('int32').expandDims()
     return expandedimg;
   };
 
@@ -114,7 +151,7 @@ class App extends React.Component {
   }
 
   renderPredictions = predictions => {
-    if(!this.canvasRef.current) return
+    if (!this.canvasRef.current) return
     const ctx = this.canvasRef.current.getContext("2d");
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
@@ -128,7 +165,7 @@ class App extends React.Component {
     const scores = predictions[0].arraySync();
     const classes = predictions[1].dataSync();
     const detections = this.buildDetectedObjects(scores, threshold,
-                                    boxes, classes, classesDir);
+      boxes, classes, classesDir);
 
     detections.forEach(item => {
       const x = item['bbox'][0];
@@ -136,11 +173,11 @@ class App extends React.Component {
       const width = item['bbox'][2];
       const height = item['bbox'][3];
 
-      if(item["label"]=='A'){
+      if (item["label"] == 'A') {
         ctx.strokeStyle = "#00FFFF";
         ctx.fillStyle = "#00FFFF";
       }
-      else if(item["label"]=='B') {
+      else if (item["label"] == 'B') {
         ctx.strokeStyle = "red";
         ctx.fillStyle = "red";
       }
@@ -164,17 +201,17 @@ class App extends React.Component {
 
       // Draw the text last to ensure it's on top.
       ctx.fillStyle = "#000000";
-      ctx.fillText(item["label"] + " " + (100*item["score"]).toFixed(2) + "%", x, y);
+      ctx.fillText(item["label"] + " " + (100 * item["score"]).toFixed(2) + "%", x, y);
     });
   };
 
-render() {
-  return (
-    <div>
-      {/* <header className="App-header"> */}
-      
-      <video
-          style={{height: '500px', width: "700px"}}
+  render() {
+    console.log(this.props.modelUrl);
+    return (
+      <div key={this.props.rand}>
+        <video
+          key={'vid' + this.props.modelUrl + this.props.rand}
+          style={{ height: '500px', width: "700px" }}
           autoPlay
           playsInline
           muted
@@ -187,12 +224,11 @@ render() {
           ref={this.canvasRef}
           width="700"
           height="500"
-          style={{position: 'relative', top: -500}}
+          style={{ position: 'relative', top: -500 }}
         />
-      {/* </header> */}
-    </div>
-  );
-}
+      </div>
+    );
+  }
 }
 
 export default App;

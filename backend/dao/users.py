@@ -1,5 +1,5 @@
 from util.config import db
-
+import bcrypt as bcrypt
 
 class Users(db.Model):
     __tablename__ = 'users'
@@ -18,6 +18,7 @@ class Users(db.Model):
         return self.user_id
 
     def create(self):
+        self.password = bcrypt.hashpw(self.password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
         db.session.add(self)
         db.session.commit()
         return self

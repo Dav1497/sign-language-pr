@@ -15,9 +15,13 @@
   color: #817823;
 }
 
-.yellowBtn:hover{
+.yellowBtn:hover:enabled{
   background-color: #afa625;
   color: white;
+}
+
+.yellowBtn:disabled {
+ opacity: 70%;
 }
 
 .letterSize {
@@ -37,4 +41,11 @@
   text-align: left;
   border-radius: 2.5%;
   height: 100%;
+}
+
+.scoreOfUser {
+  margin-bottom: 45px;
+  margin-top: 25px;
+  color:chartreuse;
+  font-size: 22px;
 }

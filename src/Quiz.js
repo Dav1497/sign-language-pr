@@ -11,7 +11,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
-
+import { ThemeConsumer } from "react-bootstrap/esm/ThemeProvider";
 
 class Quiz extends React.Component {
 
@@ -22,7 +22,9 @@ class Quiz extends React.Component {
       value: '',
       helperText: '',
       error: false,
-      score: null
+      score: [],
+      currentScore: this.props.xp,
+      rand: 0
     }
   }
 
@@ -30,8 +32,13 @@ class Quiz extends React.Component {
     if (this.props.imageUrl) {
       this.getChoices();
     }
-
+    this.getQuizScore();
+    this.setState({
+      rand: this.generateRand()
+    });
+    console.log(this.state.rand);
   }
+
 
   getChoices() {
     axios.get(SERVER_URL + "choices/quiz/" + this.props.quizId, headers).then(res => {
@@ -43,15 +50,11 @@ class Quiz extends React.Component {
   }
 
   getQuizScore() {
-    scorepost = {
-      user_id: this.props.user_id,
-      quiz_id: this.props.quizId
-    }
-    axios.post(SERVER_URL+"scores/userAndQuiz", scorepost).then(res => {
+    axios.get(SERVER_URL + "scores/userAndQuiz/" + this.props.userId + "/" + this.props.quizId).then(res => {
       console.log(res);
       this.setState({
-        score: res.data.score
-      })
+        score: res.data.scores
+      });
     })
   }
 
@@ -70,12 +73,32 @@ class Quiz extends React.Component {
       this.setState({
         helperText: '¡Correcto!',
         error: false
+      });
+      let myScore = {
+        user_id: this.props.userId,
+        quiz_id: this.props.quizId,
+        lesson_id: this.props.lessonId,
+        gained_xp: this.state.currentScore
+      }
+      axios.post(SERVER_URL + 'scores', myScore).then(res => {
+        console.log(res);
+        this.setState({
+          score: res.data.score
+        })
       })
     } else if (this.state.value && this.value != this.props.quizAns) {
-      this.setState({
-        helperText: 'Opción incorrecta',
-        error: true
-      })
+      if (this.state.currentScore > 0) {
+        this.setState({
+          helperText: 'Opción incorrecta',
+          currentScore: this.state.currentScore - 1,
+          error: true
+        })
+      } else {
+        this.setState({
+          helperText: 'Opción incorrecta',
+          error: true
+        })
+      }
     } else {
       this.setState({
         helperText: 'Por favor seleccione una opción',
@@ -84,19 +107,25 @@ class Quiz extends React.Component {
     }
   };
 
+  generateRand(){
+    const min = 1;
+    const max = 100;
+    return min+ (Math.random()*(max-min));
+  }
+
   render() {
 
-    console.log(this.state.choices);
+    console.log(this.state.score);
 
     return (
-      <body>
-        <div className="back">
-          <div style={{ height: "20px" }}><br /></div>
-          <h1 className="title">
-            {this.props.quizName}
-          </h1>
-          <br />
-          <table className="tableau">
+      <div className="back" key={'quizz' + this.props.quizId}>
+        <div style={{ height: "20px" }}><br /></div>
+        <h1 className="title">
+          {this.props.quizName}
+        </h1>
+        <br />
+        <table className="tableau">
+          <tbody>
             <tr>
               <td>
                 <div className="cuadroBlanco">
@@ -105,7 +134,7 @@ class Quiz extends React.Component {
                     {this.props.question}
                   </h1>
                   <div>
-                    {this.props.modelUrl && <App modelUrl={this.props.modelUrl}></App>}
+                    {this.props.modelUrl && <App key={'mod'+this.props.modelUrl+this.state.rand} rand={this.state.rand} modelUrl={this.props.modelUrl}></App>}
                     {this.props.imageUrl && (<img src={this.props.imageUrl}
                       alt="" style={{ marginTop: '10px' }}></img>)}
                   </div>
@@ -120,12 +149,13 @@ class Quiz extends React.Component {
                   </button>
                 </div>
                 <div className="cajaAzul">
-                <div className="helperTxt" style={{marginBottom:'25px', marginTop:'25xp'}}>Puntuación máxima: {this.props.xp} XP</div>
+                  {!this.state.score?.gained_xp && <div className="helperTxt" style={{ marginBottom: '25px', marginTop: '25xp' }}>Puntuación máxima: {this.props.xp}</div>}
+                  {this.state.score?.gained_xp && <div className="helperTxt scoreOfUser">Puntuación obtenida: {this.state.score.gained_xp}/{this.props.xp}</div>}
                   <form onSubmit={this.handleSubmit}>
-                    <FormControl component="fieldset" error={this.error} style={{width:'100%'}} >
-                      <RadioGroup aria-label="quiz" name="quiz" value={this.state.value} onChange={this.handleRadioChange} style={{paddingLeft:'40px'}}>
-                        {this.state.choices.map(choice => (
-                          <FormControlLabel value={choice.choice_text} control={<Radio />} label={choice.choice_text} ></FormControlLabel>
+                    <FormControl component="fieldset" error={this.error} style={{ width: '100%' }} >
+                      <RadioGroup aria-label="quiz" name="quiz" value={this.state.value} onChange={this.handleRadioChange} style={{ paddingLeft: '40px' }} >
+                        {this.state.choices?.map(choice => (
+                          <FormControlLabel key={'mychoice' + choice.choice_text} value={choice.choice_text} control={<Radio />} label={choice.choice_text} ></FormControlLabel>
                         ))}
                       </RadioGroup>
                       <div className="helperTxt">{this.state.helperText}</div>
@@ -136,16 +166,15 @@ class Quiz extends React.Component {
                     </FormControl>
                   </form>
                 </div>
-                <br/>
+                <br />
                 <div className="cajaTrans">
                   <button className="orangebtn" onClick={() => this.props.quitQuiz()}> Abandonar Prueba  </button>
                 </div>
               </td>
             </tr>
-          </table>
-        </div>
-      </body>
-
+          </tbody>
+        </table>
+      </div>
     );
   }
 }

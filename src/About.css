@@ -1,0 +1,46 @@
+@import url('//fonts.googleapis.com/css?family=Varela+Round');
+
+.h{
+    color: white;
+    font-family: "Varela Round";
+    padding-left: 5%;
+}
+
+.p{
+    color:white;
+    font-family: "Varela Round";
+    /* padding-left: 5%;
+    padding-right: 5%; */
+}
+
+.j{
+    text-align: justify;
+    text-justify: inter-word;
+}
+
+.t{
+    table-layout: fixed;
+    width:90%;
+    margin: auto;
+}
+
+td{
+    width:50%;
+}
+
+.i{
+    width:50%;
+}
+
+.c{
+    text-align: center;
+}
+
+.l{
+    text-align: left;
+}
+
+.s{
+    padding-left: 5%;
+    padding-right: 5%;
+}

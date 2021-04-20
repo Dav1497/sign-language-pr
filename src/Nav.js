@@ -16,8 +16,12 @@ function Nav(props) {
                         </td>
                         <td className="letras">
                             <ul className="nav">
+                                <Link to="/dictionary">
                                 <li className="listItem">Diccionario</li>
+                                </Link>
+                                <Link to="/about">
                                 <li className="listItem">Sobre Nosotros</li>
+                                </Link>
                             </ul>
                         </td>
                         <td className="cajita" style={{ textAlign: "right" }}>

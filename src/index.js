@@ -9,13 +9,22 @@ import Lesson from './Lesson';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import HomePage from './HomePage';
-import Quiz from './Quiz'
+import Quiz from './Quiz';
+import About from './About';
+import Dictionary from './Dictionary'
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
 
 ReactDOM.render(
   <React.StrictMode>
       <BrowserRouter>
         <Switch>
+
+        <Route path="/about">
+            <About></About>
+          </Route>
+          <Route path="/dictionary">
+           <Dictionary></Dictionary>
+          </Route>
           <Route path="/home">
             <HomePage></HomePage>
           </Route>
@@ -23,8 +32,9 @@ ReactDOM.render(
             <Lesson></Lesson>
           </Route>
           <Route path="/">
-            <Welcome/>
+            <Welcome />
           </Route>
+
         </Switch>
       </BrowserRouter>
   </React.StrictMode>,

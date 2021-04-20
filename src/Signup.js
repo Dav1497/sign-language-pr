@@ -4,7 +4,7 @@ import { Input, FormGroup, Label, Form, Container, Button, Col, Row } from 'reac
 import axios from "axios";
 import { propTypes } from "react-bootstrap/esm/Image";
 
-export const SERVER_URL = "http://localhost:5000/"
+export const SERVER_URL = "https://signlanguagepr-backend.herokuapp.com/"
 export const headers = {
   'Access-Control-Allow-Origin': '*'
 }

@@ -1,16 +1,29 @@
 import React from "react";
 import "./Nav.css";
-
 import Footer from "./Footer";
 import Nav from './Nav';
+import axios from "axios";
 import "./Dictionary.css";
-
 import dictionaryData from './dictionary.json'
 import { useState } from "react"
 import Modal from 'react-modal';
-import ModalContent from "./ModalContent.js"
+import { SERVER_URL, headers } from "./Signup";
 
 function Dictionary(props) {
+
+    let uid = localStorage.getItem('loggedInUserID');
+    const [user, setUser] = useState(
+        {
+            email: "",
+            name: "",
+            password: "",
+            user_id: -1
+        }
+    )
+
+    axios.get(SERVER_URL + "users/" + uid, headers).then(res => {
+        setUser({...user, ...res.data.user})
+    })
 
     const [searchTerm, setSearchTerm] = useState('')
     const [currentTerm, setCurrentTerm] = useState('')
@@ -26,7 +39,10 @@ function Dictionary(props) {
 
     return (
         <div>
-            <Nav></Nav>
+            {user && <Nav
+                loggedInUserId={user.user_id}
+                loggedInUserName={user.name} />}
+
             <div className="max">
 
                 <input
@@ -55,7 +71,8 @@ function Dictionary(props) {
 
                                 <button className="word" onClick={() => {
                                     setCurrentTerm(val);
-                                    openModal();}  }>{val.name}</button>
+                                    openModal();
+                                }}>{val.name}</button>
                                 <Modal
                                     isOpen={modalIsOpen}
                                     //   onAfterOpen={afterOpenModal}
@@ -67,7 +84,7 @@ function Dictionary(props) {
                                     <div className="imgDiv">
                                         {/* <button className=""  onClick={closeModal}>X</button> */}
                                         <img src={currentTerm.image} alt="" className="img" />
-                                        
+
                                     </div>
 
                                     <br></br>

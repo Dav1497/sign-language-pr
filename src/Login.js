@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from "react";
+import React, { useState } from "react";
 import './Login.css';
 import { Input, FormGroup, Label, Form, Container, Button, Col, Row } from 'reactstrap';
 import { useHistory } from "react-router";

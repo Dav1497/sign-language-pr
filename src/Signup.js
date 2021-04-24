@@ -1,8 +1,8 @@
-import React, { useReducer, useState } from "react";
+import React, { useState } from "react";
 import './Signup.css';
 import { Input, FormGroup, Label, Form, Container, Button, Col, Row } from 'reactstrap';
 import axios from "axios";
-import { propTypes } from "react-bootstrap/esm/Image";
+import { useHistory } from "react-router";
 
 export const SERVER_URL = "https://signlanguagepr-backend.herokuapp.com/"
 export const headers = {
@@ -15,6 +15,7 @@ function Signup(props) {
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  let history = useHistory();
 
   const handleFirstNameChange = event => {
     setFirstName(event.target.value)
@@ -41,9 +42,11 @@ function Signup(props) {
     }
 
     axios.post(SERVER_URL + "users", newUser, headers)
-      .then(response =>
+      .then(response => {
         console.log(response)
-      )
+        localStorage.setItem('loggedInUserID', response.data.user.user_id);
+        history.push('/home');
+      })
       .catch(error => console.log('Form submit error', error))
   };
 

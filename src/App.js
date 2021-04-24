@@ -2,10 +2,11 @@ import React from "react";
 import * as tf from '@tensorflow/tfjs';
 import { loadGraphModel } from "@tensorflow/tfjs-converter";
 import "./App.css";
+import { getModelDict } from "./ModelDirs";
 
 tf.setBackend('webgl');
 
-const threshold = 0.75;
+const threshold = 0.55;
 
 async function load_model(modelUrl) {
   // It's possible to load the model locally or from a repo
@@ -15,21 +16,7 @@ async function load_model(modelUrl) {
   return model;
 }
 
-let classesDir = {
-  1: {
-    name: 'A',
-    id: 1,
-  },
-  2: {
-    name: 'B',
-    id: 2,
-  },
-  3: {
-    name: 'C',
-    id: 3
-  }
-}
-
+let classesDir = {}
 class App extends React.Component {
   videoRef = React.createRef();
   canvasRef = React.createRef();
@@ -38,8 +25,8 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      hasUserMedia: false    }
-    //this.setBackend();
+      hasUserMedia: false,
+    }
   }
 
   async setBackend() {
@@ -47,18 +34,22 @@ class App extends React.Component {
   }
 
   componentWillUnmount() {
-
-    // tf.removeBackend('webgl');
     const stream = window.stream;
     if (stream?.getVideoTracks) {
       stream.getVideoTracks().map(track => track.stop());
     }
   }
 
+  async loadDict() {
+    classesDir = await getModelDict(this.props.model_id)
+  }
+
   componentDidMount() {
 
-    console.log(this.props.modelUrl);
-    if(tf.getBackend() != 'webgl'){
+    this.loadDict()
+
+    console.log(classesDir);
+    if (tf.getBackend() != 'webgl') {
       this.setBackend();
     }
 
@@ -72,19 +63,19 @@ class App extends React.Component {
         })
         .then(stream => {
           window.stream = stream;
-          try{
-            if(this.videoRef?.current){
+          try {
+            if (this.videoRef?.current) {
               this.videoRef.current.srcObject = stream;
             }
-          }catch(err){
+          } catch (err) {
           }
 
           return new Promise((resolve, reject) => {
-            if(this.videoRef.current){
+            if (this.videoRef.current) {
               this.videoRef.current.onloadedmetadata = () => {
                 resolve();
               };
-            }else{
+            } else {
               reject();
             }
 
@@ -96,7 +87,7 @@ class App extends React.Component {
       Promise.all([modelPromise, webCamPromise])
         .then(values => {
           console.log(values);
-          if(this.videoRef?.current){
+          if (this.videoRef?.current) {
             this.detectFrame(this.videoRef.current, values[0]);
           }
         })
@@ -108,15 +99,14 @@ class App extends React.Component {
 
   detectFrame = (video, model) => {
     tf.engine().startScope();
-    console.log(model);
     model.executeAsync(this.process_input(video))
-    .then(predictions => {
-      this.renderPredictions(predictions, video);
-      requestAnimationFrame(() => {
-        this.detectFrame(video, model);
+      .then(predictions => {
+        this.renderPredictions(predictions, video);
+        requestAnimationFrame(() => {
+          this.detectFrame(video, model);
+        });
+        tf.engine().endScope();
       });
-      tf.engine().endScope();
-    });
   };
 
   process_input(video_frame) {
@@ -127,8 +117,9 @@ class App extends React.Component {
   buildDetectedObjects(scores, threshold, boxes, classes, classesDir) {
     const detectionObjects = []
     var video_frame = document.getElementById('frame');
-
+    console.log(scores, boxes, classes);
     scores[0].forEach((score, i) => {
+      // console.log(score)
       if (score > threshold) {
         const bbox = [];
         const minY = boxes[0][i][0] * video_frame.offsetHeight;
@@ -161,9 +152,9 @@ class App extends React.Component {
     ctx.textBaseline = "top";
 
     //Getting predictions
-    const boxes = predictions[3].arraySync();
-    const scores = predictions[0].arraySync();
-    const classes = predictions[1].dataSync();
+    const boxes = predictions[this.props.boxes].arraySync();
+    const scores = predictions[this.props.scores].arraySync();
+    const classes = predictions[this.props.classes].dataSync();
     const detections = this.buildDetectedObjects(scores, threshold,
       boxes, classes, classesDir);
 
@@ -173,19 +164,9 @@ class App extends React.Component {
       const width = item['bbox'][2];
       const height = item['bbox'][3];
 
-      if (item["label"] == 'A') {
-        ctx.strokeStyle = "#00FFFF";
-        ctx.fillStyle = "#00FFFF";
-      }
-      else if (item["label"] == 'B') {
-        ctx.strokeStyle = "red";
-        ctx.fillStyle = "red";
-      }
-      else {
-        ctx.strokeStyle = "yellow";
-        ctx.fillStyle = "yellow";
-      }
-      // Draw the bounding box.
+      ctx.strokeStyle = "#00FFFF";
+      ctx.fillStyle = "#00FFFF";
+
       ctx.lineWidth = 4;
       ctx.strokeRect(x, y, width, height);
 
@@ -208,9 +189,9 @@ class App extends React.Component {
   render() {
     console.log(this.props.modelUrl);
     return (
-      <div key={this.props.rand}>
+      <div>
         <video
-          key={'vid' + this.props.modelUrl + this.props.rand}
+          key={'vid' + this.props.modelUrl}
           style={{ height: '500px', width: "700px" }}
           autoPlay
           playsInline

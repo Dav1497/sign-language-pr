@@ -4,20 +4,20 @@ import { withRouter } from "react-router-dom";
 import axios from "axios";
 import { headers, SERVER_URL } from "./Signup";
 import Nav from "./Nav";
-// import Quiz from "./Quiz";
 import Quiz from 'react-quiz-component';
+import App from "./App";
 
 class Lesson extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
       lesson: "",
-      quizzes: [],
-      currIndex: -1,
+      models: [],
       quizVisible: false,
       loggedInUser: null,
-      quiz: {}
+      quiz: {},
+      modelVisible: false,
+      modelIdx: -1
     }
   }
 
@@ -25,51 +25,38 @@ class Lesson extends React.Component {
     this.getLoggedInUser();
     const lid = this.props.match.params.lid;
     this.getLessonData(lid);
-    this.getLessonQuizzes(lid);
-    this.getCustomQuiz();
+    this.getLessonModels(lid);
   }
 
-  getLessonData(lid) {
-    axios.get(SERVER_URL + "lessons/" + lid, headers).then(res => {
+  async getLessonData(lid) {
+    await axios.get(SERVER_URL + "lessons/" + lid, headers).then(res => {
+      console.log(res);
       this.setState({
-        lesson: res.data.lesson
+        lesson: res.data.lesson,
       });
     })
   }
 
-  getLessonQuizzes(lid) {
-    axios.get(SERVER_URL + 'quizzes/lessons/' + lid, headers).then(res => {
-      res.data.quizzes.map(q => this.state.quizzes.push(q));
-      console.log(this.state.quizzes);
+  async getLessonModels(lid) {
+    await axios.get(SERVER_URL + 'models/lessons/' + lid, headers).then(res => {
+      console.log(res);
       this.setState({
-        currIndex: -1
-      });
+        models: res.data.models
+      })
     });
   }
 
-  getCustomQuiz() {
-    axios.get("https://raw.githubusercontent.com/estefaniatc/Models_SignLangPR/main/abc_model/abc_quiz.json").then(res=> {
-    console.log(res);
-    this.setState({
-        quiz: res.data
-      });
-    })
-  }
-
-  getNextQuiz() {
-    // if (this.state.currIndex + 1 < this.state.quizzes.length) {
-      this.setState({
-        // currIndex: this.state.currIndex + 1,
-        quizVisible: true
-      });
-    // }
-  }
-
-  quitQuiz() {
-    this.setState({
-      quizVisible: false,
-      currIndex: -1
-    });
+  async getLessonQuiz() {
+    if (this.state.lesson?.quiz_url) {
+      await axios.get(this.state.lesson.quiz_url).then(res => {
+        console.log(res);
+        this.setState({
+          quiz: res.data,
+          quizVisible: true,
+          modelVisible: false
+        });
+      })
+    }
   }
 
   getLoggedInUser() {
@@ -81,19 +68,21 @@ class Lesson extends React.Component {
     })
   }
 
-  render() {
-    // if (this.state.quizVisible) {
-    //   const idx = this.state.currIndex;
-    //   return (<div>
-    //     {this.state.loggedInUser && <Nav
-    //       loggedInUserId={this.state.loggedInUser.user_id}
-    //       loggedInUserName={this.state.loggedInUser.name} />}
-    //     <Quiz
-    //       quiz={quiz}></Quiz>
-    //   </div>
+  clickModel(idx) {
+    this.setState({
+      modelIdx: idx,
+      modelVisible: true
+    })
+  }
 
-    //   );
-    // }
+  clickVideo(){
+    this.setState({
+      modelVisible: false,
+      quizVisible: false
+    })
+  }
+
+  render() {
     return (
       <div>
         {this.state.loggedInUser && <Nav
@@ -106,41 +95,45 @@ class Lesson extends React.Component {
           <table className="tableau">
             <tbody>
               <tr>
-              <td className="derecha" >
+                <td className="derecha" >
                   <div className="detailsBox">
-                  <br></br>
-                  <div className="cajaAzul">
-                    <p style={{fontSize:'30px', color:'black'}}>Detalles</p>
-                    <hr/>
-                    <p className="textoAzul">
-                    Video
-                    <br/>
-                    Pruebas: 3
-                    <br/>
-                    Sesiones interactivas: 2
-                    </p>
-                    {this.state.quizzes.map(q => (<div className="quizName" key={'quiz_menu'+q.quiz_name} onClick={() => {
-                      this.setState({
-                        currIndex: this.state.quizzes.indexOf(q),
-                        quizVisible: true
-                      })
-                    }}>Prueba : {q.quiz_name}</div>))}
-                  </div>
-                  <br>
-                  </br>
+                    <br></br>
+                    <div className="cajaAzul">
+                      <p style={{ fontSize: '30px', color: 'black' }}>Detalles</p>
+                      <hr />
+                      <p className="textoAzul">Video</p>
+                      <p className="textoAzul">Prueba</p>
+                      {this.state.models.length > 0 && <p className="textoAzul">Sesiones interactivas:</p>}
+                      {this.state.models.map((mod, index) =>
+                        <div key={'modelo'+ mod.model_id} className="modLink" onClick={()=> {this.clickModel(index)}}>
+                          {mod.model_name}
+                        </div>
+                      )}
+                    </div>
+                    <br>
+                    </br>
                     <button className="proxbtn" onClick={() => {
-                      this.getNextQuiz();
+                      this.getLessonQuiz();
                     }
                     }> Comenzar prueba </button>
                     <button className="orangebtn" onClick={() => { this.props.history.push('/home') }}> Abandonar Lección  </button>
-                  <br/>
+                    <br />
                   </div>
                 </td>
                 <td>
-                  {this.state.quizVisible && <div className="quizBlanco">
+                  {this.state.quizVisible && this.state.quiz && <div className="quizBlanco">
                     <Quiz quiz={this.state.quiz}></Quiz>
+                  </div>}
+                  {this.state.modelVisible && <div className="quizBlanco">
+                    <App
+                    modelUrl={this.state.models[this.state.modelIdx].model_url}
+                    model_id={this.state.models[this.state.modelIdx].model_id}
+                    boxes={this.state.models[this.state.modelIdx].boxes}
+                    classes={this.state.models[this.state.modelIdx].classes}
+                    scores={this.state.models[this.state.modelIdx].scores}
+                    />
                     </div>}
-                  {!this.state.quizVisible && <div className="cuadroBlanco">
+                  {!this.state.quizVisible && !this.state.modelVisible && <div className="cuadroBlanco">
                     <br></br>
                     <div>
                       <iframe src={this.state.lesson.video_url} width="90%" height="500px"></iframe>

@@ -175,3 +175,13 @@
     margin-right: 20px;
     background-image: linear-gradient(rgb(183, 211, 255), white);
 }
+
+.modLink {
+    font-size: 20px;
+    margin-left: 35px;
+    color: rgb(19, 12, 78);
+}
+
+.modLink:hover {
+    color: cornflowerblue;
+}

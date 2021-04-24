@@ -1,57 +1,47 @@
 from flask import jsonify, session
-from dao.choices import Choices
+from dao.models import Models
 from util.utilities import Utilities
-
-
-class ChoicesHandler:
+class ModelsHandler:
 
     @staticmethod
-    def getAllChoices():
+    def getAllModels():
         try:
-            choices = Choices.getChoices()
+            models = Models.getQuizzes()
             result_list = []
-            for choice in choices:
-                result_list.append(Utilities.to_dict(choice))
+            for modl in models:
+                result_list.append(Utilities.to_dict(modl))
             result = {
                 "message": "Success!",
-                "choices": result_list
+                "models": result_list
             }
             return jsonify(result), 200
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), 500
 
     @staticmethod
-    def getChoicesById(cid):
+    def getModelById(model_id):
         try:
-            choice = Choices.getChoicesById(cid)
-            choice_dict = Utilities.to_dict(choice)
+            modl = Models.getQuizById(model_id)
+            mod_dict = Utilities.to_dict(modl)
             result = {
                 "message": "Success!",
-                "choice": choice_dict
+                "model": mod_dict
             }
             return jsonify(result), 200
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), 500
 
     @staticmethod
-    def getChoicesByQuizId(qid):
+    def getModelsByLessonId(lesson_id):
         try:
-            choices = Choices.getChoicesByQuizId(qid)
+            models = Models.getQuizzesByLessonId(lesson_id)
             result_list = []
-            for choice in choices:
-                result_list.append(Utilities.to_dict(choice))
+            for modl in models:
+                result_list.append(Utilities.to_dict(modl))
             result = {
                 "message": "Success!",
-                "choices": result_list
+                "models": result_list
             }
             return jsonify(result), 200
         except Exception as e:
             return jsonify(reason="Server error", error=e.__str__()), 500
-   
-   
-
-
-
-    
-
-  

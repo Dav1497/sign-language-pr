@@ -35,7 +35,7 @@
     line-height: 32px;
     padding-left: 8%;
     padding-right: 8%;
-    color: #000000; 
+    color: #000000;
     text-align: justify;
     text-justify: inter-word;
 }
@@ -48,6 +48,19 @@
     height: 100%;
     padding-top: 20px;
     margin-bottom: 50px;
+}
+
+.quizBlanco{
+    width: 100%;
+    background-color: white;
+    text-align: center !important;
+    /* border-radius: 2.5%; */
+    box-shadow: 10px 10px rgb(19, 12, 78);
+    height: 100%;
+    padding-top: 20px;
+    padding-left: 25%;
+    margin-bottom: 50px;
+    padding-bottom: 20px;
 }
 
 .video{
@@ -63,14 +76,16 @@
 .cajaTrans{
     vertical-align: text-top;
     /* background-color: red; */
+    width: 300px;
     text-align: center;
+    margin-bottom: 10px;
     border-radius: 2.5%;
     height: 100%;
 }
 
 .derecha{
     vertical-align: top;
-    width: 35%;
+    width: 18%;
     right: 0;
 }
 
@@ -84,7 +99,9 @@
     font-size: 20px;
     background-color: #19AD42;
     border: none;
-    color: #126326;
+    color: white;
+    margin-bottom: 10px;
+    margin-right: 10%;
 }
 
 .proxbtn:hover{
@@ -123,8 +140,10 @@
     font-weight: normal;
     font-size: 20px;
     border: none;
-    color: #703702;
+    color: white;
+    margin-right: 10%;
     background-color: rgba(224, 111, 63, 1);
+    margin-bottom: 30px;
 }
 
 .orangebtn:hover {
@@ -138,7 +157,7 @@
     font-weight: normal;
     font-size: 25px;
     line-height: 30px;
-    color: #3FB0E0;
+    color: #294f5f;
     z-index: 1;
 }
 
@@ -150,4 +169,9 @@
     color: #FFE607;
     font-size: 30px;
     text-shadow: 2px 2px rgb(6, 5, 68);
+}
+
+.detailsBox {
+    margin-right: 20px;
+    background-image: linear-gradient(rgb(183, 211, 255), white);
 }

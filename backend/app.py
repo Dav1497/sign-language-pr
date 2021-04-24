@@ -6,9 +6,8 @@ from util.config import app
 from handler.lesson import LessonsHandler
 from handler.user import UsersHandler
 from handler.level import LevelsHandler
-from handler.quiz import QuizzesHandler
+from handler.model import ModelsHandler
 from handler.score import ScoresHandler
-from handler.choice import ChoicesHandler
 
 @app.route('/', methods=['GET'])
 def index():
@@ -87,26 +86,26 @@ def getLevelById(lid):
         return jsonify(message="Method not allowed."), 405
 
 
-# QUIZZES ENDPOINTS
-@app.route('/quizzes', methods=['GET'])
+# MODELS ENDPOINTS
+@app.route('/models', methods=['GET'])
 def getAllQuizzes():
     if request.method == 'GET':
-        return QuizzesHandler.getAllQuizzes()
+        return ModelsHandler.getAllModels()
     else:
         return jsonify(message="Method not allowed."), 405
 
 
-@app.route('/quizzes/<int:qid>', methods=['GET'])
-def getQuizById(qid):
+@app.route('/models/<int:mid>', methods=['GET'])
+def getModelById(mid):
     if request.method == 'GET':
-        return QuizzesHandler.getQuizById(qid)
+        return ModelsHandler.getModelById(mid)
     else:
         return jsonify(message="Method not allowed."), 405
 
-@app.route('/quizzes/lessons/<int:lid>', methods=['GET'])
-def getQuizzesByLessonId(lid):
+@app.route('/models/lessons/<int:lid>', methods=['GET'])
+def getModelsByLessonId(lid):
     if request.method == 'GET':
-        return QuizzesHandler().getQuizzesByLessonId(lid)
+        return ModelsHandler().getModelsByLessonId(lid)
     else:
         return jsonify(message="Method not allowed."), 405
 
@@ -156,28 +155,6 @@ def getScoresByQuizIdAndUserId(uid, qid):
 def getScoresByLessonIdAndUserId(lid, uid):
     if request.method == 'GET':
         return ScoresHandler().getScoresByLessonIdAndUserId(lid, uid)
-    else:
-        return jsonify(message="Method not allowed."), 405
-
-#CHOICES ENDPOINTS
-@app.route('/choices', methods=['GET'])
-def getAllChoices():
-    if request.method == 'GET':
-        return ChoicesHandler().getAllChoices()
-    else:
-        return jsonify(message="Method not allowed."), 405
-
-@app.route('/choices/<int:cid>', methods=['GET'])
-def getChoicesById(cid):
-    if request.method == 'GET':
-        return ChoicesHandler().getChoicesById(cid)
-    else:
-        return jsonify(message="Method not allowed."), 405
-
-@app.route('/choices/quiz/<int:qid>', methods=['GET'])
-def getChoicesByQuizId(qid):
-    if request.method == 'GET':
-        return ChoicesHandler().getChoicesByQuizId(qid)
     else:
         return jsonify(message="Method not allowed."), 405
 

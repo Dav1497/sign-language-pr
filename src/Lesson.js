@@ -4,7 +4,8 @@ import { withRouter } from "react-router-dom";
 import axios from "axios";
 import { headers, SERVER_URL } from "./Signup";
 import Nav from "./Nav";
-import Quiz from "./Quiz";
+// import Quiz from "./Quiz";
+import Quiz from 'react-quiz-component';
 
 class Lesson extends React.Component {
 
@@ -15,7 +16,8 @@ class Lesson extends React.Component {
       quizzes: [],
       currIndex: -1,
       quizVisible: false,
-      loggedInUser: null
+      loggedInUser: null,
+      quiz: {}
     }
   }
 
@@ -24,6 +26,7 @@ class Lesson extends React.Component {
     const lid = this.props.match.params.lid;
     this.getLessonData(lid);
     this.getLessonQuizzes(lid);
+    this.getCustomQuiz();
   }
 
   getLessonData(lid) {
@@ -44,13 +47,22 @@ class Lesson extends React.Component {
     });
   }
 
+  getCustomQuiz() {
+    axios.get("https://raw.githubusercontent.com/estefaniatc/Models_SignLangPR/main/abc_model/abc_quiz.json").then(res=> {
+    console.log(res);
+    this.setState({
+        quiz: res.data
+      });
+    })
+  }
+
   getNextQuiz() {
-    if (this.state.currIndex + 1 < this.state.quizzes.length) {
+    // if (this.state.currIndex + 1 < this.state.quizzes.length) {
       this.setState({
-        currIndex: this.state.currIndex + 1,
+        // currIndex: this.state.currIndex + 1,
         quizVisible: true
       });
-    }
+    // }
   }
 
   quitQuiz() {
@@ -70,30 +82,18 @@ class Lesson extends React.Component {
   }
 
   render() {
-    if (this.state.quizVisible) {
-      const idx = this.state.currIndex;
-      return (<div key={'LessQuiz' + this.state.quizzes[idx].quiz_id}>
-        {this.state.loggedInUser && <Nav
-          loggedInUserId={this.state.loggedInUser.user_id}
-          loggedInUserName={this.state.loggedInUser.name} />}
-        <Quiz
-          key={"my_quiz"+this.state.quizzes[idx].quiz_id}
-          quizName={this.state.quizzes[idx].quiz_name}
-          quizId={this.state.quizzes[idx].quiz_id}
-          xp={this.state.quizzes[idx].quiz_xp}
-          question={this.state.quizzes[idx].question}
-          modelUrl={this.state.quizzes[idx].model_url}
-          imageUrl={this.state.quizzes[idx].img_url}
-          getNextQuiz={this.getNextQuiz.bind(this)}
-          lessonId={this.state.lesson.lesson_id}
-          quitQuiz={this.quitQuiz.bind(this)}
-          quizAns={this.state.quizzes[idx].answer}
-          userId={this.state.loggedInUser.user_id}
-        ></Quiz>
-      </div>
+    // if (this.state.quizVisible) {
+    //   const idx = this.state.currIndex;
+    //   return (<div>
+    //     {this.state.loggedInUser && <Nav
+    //       loggedInUserId={this.state.loggedInUser.user_id}
+    //       loggedInUserName={this.state.loggedInUser.name} />}
+    //     <Quiz
+    //       quiz={quiz}></Quiz>
+    //   </div>
 
-      );
-    }
+    //   );
+    // }
     return (
       <div>
         {this.state.loggedInUser && <Nav
@@ -106,8 +106,41 @@ class Lesson extends React.Component {
           <table className="tableau">
             <tbody>
               <tr>
+              <td className="derecha" >
+                  <div className="detailsBox">
+                  <br></br>
+                  <div className="cajaAzul">
+                    <p style={{fontSize:'30px', color:'black'}}>Detalles</p>
+                    <hr/>
+                    <p className="textoAzul">
+                    Video
+                    <br/>
+                    Pruebas: 3
+                    <br/>
+                    Sesiones interactivas: 2
+                    </p>
+                    {this.state.quizzes.map(q => (<div className="quizName" key={'quiz_menu'+q.quiz_name} onClick={() => {
+                      this.setState({
+                        currIndex: this.state.quizzes.indexOf(q),
+                        quizVisible: true
+                      })
+                    }}>Prueba : {q.quiz_name}</div>))}
+                  </div>
+                  <br>
+                  </br>
+                    <button className="proxbtn" onClick={() => {
+                      this.getNextQuiz();
+                    }
+                    }> Comenzar prueba </button>
+                    <button className="orangebtn" onClick={() => { this.props.history.push('/home') }}> Abandonar Lección  </button>
+                  <br/>
+                  </div>
+                </td>
                 <td>
-                  <div className="cuadroBlanco">
+                  {this.state.quizVisible && <div className="quizBlanco">
+                    <Quiz quiz={this.state.quiz}></Quiz>
+                    </div>}
+                  {!this.state.quizVisible && <div className="cuadroBlanco">
                     <br></br>
                     <div>
                       <iframe src={this.state.lesson.video_url} width="90%" height="500px"></iframe>
@@ -120,31 +153,7 @@ class Lesson extends React.Component {
                       {this.state.lesson.description}
                     </p>
                     <br />
-                  </div>
-                </td>
-                <td className="derecha">
-                  <div className="cajaTrans">
-                    <button className="proxbtn" onClick={() => {
-                      this.getNextQuiz();
-                    }
-                    }> Próximo </button>
-                  </div>
-                  <br></br>
-                  <div className="cajaAzul">
-                    <h1>Max XP: {this.state.lesson.max_xp}</h1>
-                    <h2 className="textoAzul">Video</h2>
-                    {this.state.quizzes.map(q => (<div className="quizName" key={'quiz_menu'+q.quiz_name} onClick={() => {
-                      this.setState({
-                        currIndex: this.state.quizzes.indexOf(q),
-                        quizVisible: true
-                      })
-                    }}>Prueba : {q.quiz_name}</div>))}
-                  </div>
-                  <br>
-                  </br>
-                  <div className="cajaTrans">
-                    <button className="orangebtn" onClick={() => { this.props.history.push('/home') }}> Abandonar Lección  </button>
-                  </div>
+                  </div>}
                 </td>
               </tr>
             </tbody>

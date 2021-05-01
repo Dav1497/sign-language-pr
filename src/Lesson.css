@@ -161,6 +161,20 @@
     z-index: 1;
 }
 
+.textoAzulA{
+    font-family: 'Lexend', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 25px;
+    line-height: 30px;
+    color: #294f5f;
+    z-index: 1;
+}
+
+.textoAzulA:hover{
+    color: #209e46;
+}
+
 .quizName{
     font-size: 25px;
 }
@@ -180,6 +194,7 @@
     font-size: 20px;
     margin-left: 35px;
     color: rgb(19, 12, 78);
+    line-height: 30px;
 }
 
 .modLink:hover {

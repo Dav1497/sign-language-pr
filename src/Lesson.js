@@ -71,7 +71,8 @@ class Lesson extends React.Component {
   clickModel(idx) {
     this.setState({
       modelIdx: idx,
-      modelVisible: true
+      modelVisible: true,
+      quizVisible:false
     })
   }
 
@@ -101,8 +102,8 @@ class Lesson extends React.Component {
                     <div className="cajaAzul">
                       <p style={{ fontSize: '30px', color: 'black' }}>Detalles</p>
                       <hr />
-                      <p className="textoAzul">Video</p>
-                      <p className="textoAzul">Prueba</p>
+                      <p className="textoAzulA" onClick={() => {this.clickVideo();}}>Video</p>
+                      <p className="textoAzulA" onClick={() => {this.getLessonQuiz();}}>Prueba</p>
                       {this.state.models.length > 0 && <p className="textoAzul">Sesiones interactivas:</p>}
                       {this.state.models.map((mod, index) =>
                         <div key={'modelo'+ mod.model_id} className="modLink" onClick={()=> {this.clickModel(index)}}>
@@ -124,13 +125,15 @@ class Lesson extends React.Component {
                   {this.state.quizVisible && this.state.quiz && <div className="quizBlanco">
                     <Quiz quiz={this.state.quiz}></Quiz>
                   </div>}
-                  {this.state.modelVisible && <div className="quizBlanco">
+                  {this.state.modelVisible && <div className="cuadroBlanco" style={{paddingBottom:'20px'}}>
+                    <p style={{fontSize:'20px', fontFamily:'Lexend'}}>{this.state.models[this.state.modelIdx].question}</p>
                     <App
                     modelUrl={this.state.models[this.state.modelIdx].model_url}
                     model_id={this.state.models[this.state.modelIdx].model_id}
                     boxes={this.state.models[this.state.modelIdx].boxes}
                     classes={this.state.models[this.state.modelIdx].classes}
                     scores={this.state.models[this.state.modelIdx].scores}
+                    answer={this.state.models[this.state.modelIdx].answer}
                     />
                     </div>}
                   {!this.state.quizVisible && !this.state.modelVisible && <div className="cuadroBlanco">

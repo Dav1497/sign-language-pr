@@ -1,11 +1,26 @@
-import React from "react";
+import React, {useState} from "react";
 import "./Nav.css";
 import { Link } from "react-router-dom";
 import logo from "./images/logo.PNG";
 import UserBox from './UserBox';
 import { withRouter } from 'react-router-dom';
 
+import axios from "axios";
+import { SERVER_URL, headers } from "./Signup";
+
 function Nav(props) {
+   
+
+    const [currentUser, setUser] = useState(props.loggedInUserName);
+
+    const [pic, setPic] = useState("");
+
+    let uid = localStorage.getItem('loggedInUserID');
+    axios.get(SERVER_URL + "users/" + uid, headers).then(res => {
+       setPic(res.data.user.picture_url)
+       
+    });
+    
     return (
         <div className="backg">
             <table className="barra">
@@ -25,9 +40,11 @@ function Nav(props) {
                             </ul>
                         </td>
                         <td className="cajita" style={{ textAlign: "right" }}>
-                            <UserBox
+                            <UserBox 
+                                setUser={setUser}
                                 loggedInUserId={props.loggedInUserId}
-                                loggedInUserName={props.loggedInUserName} />
+                                loggedInUserName={props.loggedInUserName}
+                                pic={pic} />
                         </td>
                     </tr>
                 </tbody>

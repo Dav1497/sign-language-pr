@@ -9,6 +9,12 @@ import perfil from "./images/user.jpg";
 import { Button, ButtonDropdown, DropdownToggle, DropdownItem, DropdownMenu, Form, FormGroup, Label, Input, FormText } from "reactstrap";
 import Modal from 'react-modal';
 
+import axios from "axios";
+import { SERVER_URL, headers } from "./Signup";
+import { Redirect, withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
+
+
 let myImgUrl = "https://upload.wikimedia.org/wikipedia/commons/4/42/Photo-camera-in-circular-outlined-interface-button.svg";
 
 function UserBox(props) {
@@ -28,29 +34,47 @@ function UserBox(props) {
 
     var setMyImageUrl = function (url) {
         myImgUrl = url;
-        console.log(myImgUrl);
     };
 
+    // const [pic, setPic] = useState("");
+
+    // let uid = localStorage.getItem('loggedInUserID');
+    // axios.get(SERVER_URL + "users/" + uid, headers).then(res => {
+    //    setPic(res.data.user.picture_url)
+       
+    // });
+
+    function logOut() {
+        axios.get(SERVER_URL + "logout", headers);
+        localStorage.setItem('loggedInUserID', "");
+        console.log("logout");
+        // this.setState({
+        //   loggedInUserData: ""
+        // })
+        // window.location.reload();
+      }
 
     return (
-        <div>
+        
+        <div  style={{padding:"10px" }}>
 
             <table>
                 <tr>
 
-                    <td rowspan="2">
-
-                        <ButtonDropdown isOpen={dropdownOpen} toggle={toggleDrop}>
-                            <DropdownToggle className="round" caret>
-                                <img src={perfil} alt="perfil" className="perfil" />
+                    <td rowSpan="2">
+                        <ButtonDropdown className="" isOpen={dropdownOpen} toggle={toggleDrop}>
+                            <DropdownToggle className="round " caret>
+                                {/* <iframe classname="perfil" src={props.pic}></iframe> */}
+                                <img src={props.pic} alt="perfil " className="perfil " />
                             </DropdownToggle>
-                            <DropdownMenu>
-                                <DropdownItem className="ddi" header>Header</DropdownItem>
+                            <DropdownMenu className="over">
+                                {/* <DropdownItem className="ddi" header>Header</DropdownItem> */}
 
-                                <DropdownItem className="ddi" onClick={openModal} >Edit</DropdownItem>
+                                <DropdownItem  className="ddi " onClick={openModal} >Edit</DropdownItem>
 
                                 <Modal
                                     isOpen={modalIsOpen}
+                                    ariaHideApp={false}
                                     //   onAfterOpen={afterOpenModal}
                                     onRequestClose={closeModal}
                                     // style={customStyles}
@@ -58,16 +82,19 @@ function UserBox(props) {
                                     className="newModal"
                                 >
                                      <div className="der"><Button className="" color="danger" onClick={closeModal}>X</Button></div>
-                                    <ModalContent setMyImageUrl={setMyImageUrl} ></ModalContent>
+                                    <ModalContent pic ={props.pic} setUser={props.setUser} closeModal={closeModal.bind(this)} ></ModalContent>
                                    <br></br>
                                 </Modal>
                                 <DropdownItem className="ddi" divider />
-                                <DropdownItem className="ddi">Log Out</DropdownItem>
+                                <Link to="/">
+                                <DropdownItem className="ddi" onClick={logOut.bind(this)}>Log Out</DropdownItem>
+                                </Link>
                             </DropdownMenu>
 
                         </ButtonDropdown>
                     </td>
-                    <td className="texto name" colSpan="2">{props.loggedInUserName}</td>
+                    <td className="texto name" colSpan="2">{props.loggedInUserName}
+                   </td>
                 </tr>
                 <tr>
                     <td className="texto derecha">XP :</td>

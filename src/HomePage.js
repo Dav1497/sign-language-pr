@@ -47,12 +47,13 @@ class HomePage extends React.Component {
             return <Redirect to="/"></Redirect>
         }
         return (
-            <body>
+            <div>
                 <div className="homeMenu">
                     {this.state.loggedInUser && <Nav
                         loggedInUserId={this.state.loggedInUser.user_id}
                         loggedInUserName={this.state.loggedInUser.name} />}
                 </div>
+                <div className="">
                 <table className="mytable">
                     <tbody>
                         <tr>
@@ -90,10 +91,12 @@ class HomePage extends React.Component {
                         </tr>
                     </tbody>
                 </table>
+                </div>
                 <br></br>
 
                 <Footer></Footer>
-            </body>);
+           </div>
+            );
     }
 }
 

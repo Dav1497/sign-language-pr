@@ -1,135 +1,152 @@
-@import url('//fonts.googleapis.com/css?family=Varela+Round');
+@import url("//fonts.googleapis.com/css?family=Varela+Round");
 
-.perfil{
-    width: auto;
-    border-radius: 50%;
-    height: 5em;
+.perfil {
+  width: auto;
+  border-radius: 50%;
+  height: 7em;
+  border: none;
 }
 
-.texto{
-    font-family: Varela Round;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 1.5em;
-    line-height: 36px;
-    text-align: center;
-
-    color: #FFFFFF;
-    padding-left: 1em;
+.perfil:hover {
+  border: yellow;
+  background-color: red;
 }
 
-.name{
-    border-bottom: 4px solid white;
-    border-radius: 5px;
+.texto {
+  font-family: Varela Round;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.5em;
+  line-height: 36px;
+  text-align: center;
+
+  color: #ffffff;
+  padding-left: 1em;
 }
 
-.amarillo{
-    font-family: Varela Round;
-    font-style: normal;
-    font-weight: normal;
-    font-size: 1.5em;
-    line-height: 36px;
-    text-align: left;
-    
-    color: rgba(255, 230, 7, 1);
-    padding-left: 1em;
+.name {
+  border-bottom: 4px solid white;
+  border-radius: 5px;
 }
 
-.derecha{
-    text-align: right;
-}
-.izquierda{
-    text-align: left;
-}
+.amarillo {
+  font-family: Varela Round;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.5em;
+  line-height: 36px;
+  text-align: left;
 
-.round{
-    border-radius: 50%;
-    background-color: #081c3a !important;
-
-}
-
-.ddi{
-    width: 100%;
-    border: none;
-background: none;
-font-family: "varela round";
+  color: rgba(255, 230, 7, 1);
+  padding-left: 1em;
 }
 
-.ddi:hover{
-    background-color: whitesmoke;
+.derecha {
+  text-align: right;
+}
+.izquierda {
+  text-align: left;
 }
 
-.newModal{
-    background-color: whitesmoke;
-    width: fit-content;
-    block-size: fit-content;
-    border-radius: 5%;
-    padding:-50px;
-/* background-color: yellow; */
-position: absolute;
+.round {
+  border-radius: 50%;
+  background-color: #081c3a !important;
+}
+
+.ddi {
+  width: 100%;
+  border: none;
+  background: none;
+  font-family: "varela round";
+  color: black;
+}
+
+.ddi:hover {
+  background-color: whitesmoke;
+}
+
+.newModal {
+  background-color: whitesmoke;
+  width: fit-content;
+  block-size: fit-content;
+  border-radius: 5%;
+  padding: -50px;
+  /* background-color: yellow; */
+  position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
 }
 
-.botonDone{
-    color: white;
-    background-color: rgba(224, 111, 63, 1);
-    font-size: 1.5em;
-    font-family: "Varela Round";
-    border: none;
-    border-radius: 5%;
-    cursor: pointer;
+.botonDone {
+  color: white;
+  background-color: rgba(224, 111, 63, 1);
+  font-size: 1.5em;
+  font-family: "Varela Round";
+  border: none;
+  border-radius: 5%;
+  cursor: pointer;
 }
 
-.espacio{
-    padding-left: 3em;
-    padding-right: 3em;
-    
-   width: 30em;
+.espacio {
+  padding-left: 3em;
+  padding-right: 3em;
+
+  width: 30em;
 }
 
-.centro{
-    text-align: center;
-  
+.centro {
+  text-align: center;
 }
 
-.der{
-    text-align: right;
-    padding-right: 3%;
-    padding-top: 3%;
-    /* background-color: aqua; */
+.der {
+  text-align: right;
+  padding-right: 3%;
+  padding-top: 3%;
+  /* background-color: aqua; */
 }
 
 input[type="file"] {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0,0,0,0);
-    border: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
 
-.imageUpload{
-    object-fit: cover;
-    width:200px;
-    height: 200px;
-    outline: none;
-    border-radius: 50%;
-    padding: 0;
-    border: none;
-    outline: none;
+.imageUpload {
+  object-fit: cover;
+  width: 200px;
+  height: 200px;
+  outline: none;
+  border-radius: 50%;
+  padding: 0;
+  border: none;
+  outline: none;
 }
 
-.color{
+.imag {
+  width: 200px;
+}
+
+.color {
   background-color: yellow;
- 
 }
 
-.in{
-padding: 3px;
+.in {
+  padding: 3px;
 }
 
+.over {
+  z-index: 10;
+color:rebeccapurple;
 
+}
+
+.under {
+  z-index: -1;
+  position: relative;
+}

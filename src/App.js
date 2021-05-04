@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
 import * as tf from '@tensorflow/tfjs';
-import { loadGraphModel } from "@tensorflow/tfjs-converter";
 import "./App.css";
 import { getModelDict } from "./ModelDirs";
 import confetti from "canvas-confetti";
 
 const threshold = 0.75;
 let count = 0
+tf.setBackend('webgl');
 
 async function load_model(modelUrl) {
   // It's possible to load the model locally or from a repo
@@ -40,54 +40,63 @@ function App(props) {
     classesDir = await getModelDict(props.model_id)
   }
 
-  tf.setBackend('webgl');
-
   loadDict()
 
   console.log(classesDir);
 
-  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    const webCamPromise = navigator.mediaDevices
-      .getUserMedia({
-        audio: false,
-        video: {
-          facingMode: "user"
-        }
-      })
-      .then(stream => {
-        window.stream = stream;
-        try {
-          if (videoRef?.current) {
-            videoRef.current.srcObject = stream;
+  useEffect(() => {
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      const webCamPromise = navigator.mediaDevices
+        .getUserMedia({
+          audio: false,
+          video: {
+            facingMode: "user"
           }
-        } catch (err) {
-        }
-
-        return new Promise((resolve, reject) => {
-          if (videoRef.current) {
-            videoRef.current.onloadedmetadata = () => {
-              resolve();
-            };
-          } else {
-            reject();
+        })
+        .then(stream => {
+          window.stream = stream;
+          try {
+            if (videoRef?.current) {
+              videoRef.current.srcObject = stream;
+            }
+          } catch (err) {
+            console.error(err);
           }
 
+          return new Promise((resolve, reject) => {
+            if (videoRef.current) {
+              videoRef.current.onloadedmetadata = () => {
+                resolve();
+              };
+            } else {
+              reject();
+            }
+
+          });
         });
-      });
 
-    const modelPromise = load_model(props.modelUrl);
+      const modelPromise = load_model(props.modelUrl);
 
-    Promise.all([modelPromise, webCamPromise])
-      .then(values => {
-        console.log(values);
-        if (videoRef?.current && videoRef.current.onloadedmetadata) {
-          detectFrame(videoRef.current, values[0]);
+
+      Promise.all([modelPromise, webCamPromise])
+        .then(values => {
+          console.log(values);
+          if (videoRef?.current && videoRef.current.onloadedmetadata) {
+            detectFrame(videoRef.current, values[0]);
+          }
+        })
+        .catch(error => {
+          console.error(error);
+        });
+
+      return function cleanup() {
+        const stream = window.stream;
+        if (stream?.getVideoTracks) {
+          stream.getVideoTracks().map(track => track.stop());
         }
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }
+      }
+    }
+  })
 
 
   const detectFrame = (video, model) => {

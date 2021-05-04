@@ -38,7 +38,7 @@ class LevelBox extends React.Component {
                 <div style={{ display: "flex", flexDirection: "row", textAlign: "center" }}>
                     <div className="left"></div>
                     <p className="levelText">{this.props.levelName}</p>
-                    <div className="right"></div>
+                    <div style={{height: '80px'}}></div>
                 </div>
                 <div style={{ display: "flex", flexDirection: "row", textAlign: "center", overflowX: "scroll" }}>
                     {this.state.lessons.map(lesson => (

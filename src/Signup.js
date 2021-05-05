@@ -38,7 +38,8 @@ function Signup(props) {
     const newUser = {
       name: firstName + " " + lastName,
       email: email,
-      password: password
+      password: password,
+      picture_url: "https://drive.google.com/uc?export=view&id=1aJ8YYrGbfFupaeHQJePX9wUVl01-Eml6"
     }
 
     axios.post(SERVER_URL + "users", newUser, headers)

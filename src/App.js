@@ -1,58 +1,50 @@
-import React from "react";
+import React, { useEffect } from "react";
 import * as tf from '@tensorflow/tfjs';
-import { loadGraphModel } from "@tensorflow/tfjs-converter";
 import "./App.css";
 import { getModelDict } from "./ModelDirs";
+import confetti from "canvas-confetti";
 
+const threshold = 0.75;
+let count = 0
 tf.setBackend('webgl');
-
-const threshold = 0.55;
 
 async function load_model(modelUrl) {
   // It's possible to load the model locally or from a repo
   // You can choose whatever IP and PORT you want in the "http://127.0.0.1:8080/model.json" just set it before in your https server
   //const model = await loadGraphModel("http://127.0.0.1:8080/model.json");
-  const model = await loadGraphModel(modelUrl);
+  const model = await tf.loadGraphModel(modelUrl);
   return model;
 }
 
 let classesDir = {}
-class App extends React.Component {
-  videoRef = React.createRef();
-  canvasRef = React.createRef();
 
-  constructor(props) {
-    super(props);
+function App(props) {
 
-    this.state = {
-      hasUserMedia: false,
+  const videoRef = React.useRef(null);
+  const canvasRef = React.useRef(null);
+
+  const correctAnswer = (ctx) => {
+    count++;
+    if (count < 3) {
+      var myConfetti = confetti.create(ctx, {
+        resize: true
+      });
+      myConfetti({
+        particleCount: 100,
+        spread: 160
+      });
     }
   }
 
-  async setBackend() {
-    tf.setBackend('webgl');
+  const loadDict = async () => {
+    classesDir = await getModelDict(props.model_id)
   }
 
-  componentWillUnmount() {
-    const stream = window.stream;
-    if (stream?.getVideoTracks) {
-      stream.getVideoTracks().map(track => track.stop());
-    }
-  }
+  loadDict()
 
-  async loadDict() {
-    classesDir = await getModelDict(this.props.model_id)
-  }
+  console.log(classesDir);
 
-  componentDidMount() {
-
-    this.loadDict()
-
-    console.log(classesDir);
-    if (tf.getBackend() != 'webgl') {
-      this.setBackend();
-    }
-
+  useEffect(() => {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       const webCamPromise = navigator.mediaDevices
         .getUserMedia({
@@ -64,15 +56,16 @@ class App extends React.Component {
         .then(stream => {
           window.stream = stream;
           try {
-            if (this.videoRef?.current) {
-              this.videoRef.current.srcObject = stream;
+            if (videoRef?.current) {
+              videoRef.current.srcObject = stream;
             }
           } catch (err) {
+            console.error(err);
           }
 
           return new Promise((resolve, reject) => {
-            if (this.videoRef.current) {
-              this.videoRef.current.onloadedmetadata = () => {
+            if (videoRef.current) {
+              videoRef.current.onloadedmetadata = () => {
                 resolve();
               };
             } else {
@@ -82,42 +75,49 @@ class App extends React.Component {
           });
         });
 
-      const modelPromise = load_model(this.props.modelUrl);
+      const modelPromise = load_model(props.modelUrl);
+
 
       Promise.all([modelPromise, webCamPromise])
         .then(values => {
           console.log(values);
-          if (this.videoRef?.current) {
-            this.detectFrame(this.videoRef.current, values[0]);
+          if (videoRef?.current && videoRef.current.onloadedmetadata) {
+            detectFrame(videoRef.current, values[0]);
           }
         })
         .catch(error => {
           console.error(error);
         });
-    }
-  }
 
-  detectFrame = (video, model) => {
-    tf.engine().startScope();
-    model.executeAsync(this.process_input(video))
+      return function cleanup() {
+        const stream = window.stream;
+        if (stream?.getVideoTracks) {
+          stream.getVideoTracks().map(track => track.stop());
+        }
+      }
+    }
+  })
+
+
+  const detectFrame = (video, model) => {
+    model.executeAsync(process_input(video))
       .then(predictions => {
-        this.renderPredictions(predictions, video);
+        renderPredictions(predictions, video);
         requestAnimationFrame(() => {
-          this.detectFrame(video, model);
+          detectFrame(video, model);
         });
-        tf.engine().endScope();
       });
   };
 
-  process_input(video_frame) {
+  const process_input = (video_frame) => {
     const expandedimg = tf.browser.fromPixels(video_frame).cast('int32').expandDims()
     return expandedimg;
   };
 
-  buildDetectedObjects(scores, threshold, boxes, classes, classesDir) {
+  const buildDetectedObjects = (scores, threshold, boxes, classes, classesDir) => {
     const detectionObjects = []
     var video_frame = document.getElementById('frame');
-    console.log(scores, boxes, classes);
+    // console.log(scores, boxes, classes);
     scores[0].forEach((score, i) => {
       // console.log(score)
       if (score > threshold) {
@@ -141,9 +141,9 @@ class App extends React.Component {
     return detectionObjects
   }
 
-  renderPredictions = predictions => {
-    if (!this.canvasRef.current) return
-    const ctx = this.canvasRef.current.getContext("2d");
+  const renderPredictions = predictions => {
+    if (!canvasRef.current) return
+    const ctx = canvasRef.current.getContext("2d");
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
     // Font options.
@@ -152,10 +152,10 @@ class App extends React.Component {
     ctx.textBaseline = "top";
 
     //Getting predictions
-    const boxes = predictions[this.props.boxes].arraySync();
-    const scores = predictions[this.props.scores].arraySync();
-    const classes = predictions[this.props.classes].dataSync();
-    const detections = this.buildDetectedObjects(scores, threshold,
+    const boxes = predictions[props.boxes].arraySync();
+    const scores = predictions[props.scores].arraySync();
+    const classes = predictions[props.classes].dataSync();
+    const detections = buildDetectedObjects(scores, threshold,
       boxes, classes, classesDir);
 
     detections.forEach(item => {
@@ -183,33 +183,38 @@ class App extends React.Component {
       // Draw the text last to ensure it's on top.
       ctx.fillStyle = "#000000";
       ctx.fillText(item["label"] + " " + (100 * item["score"]).toFixed(2) + "%", x, y);
-    });
-  };
 
-  render() {
-    console.log(this.props.modelUrl);
-    return (
-      <div>
-        <video
-          key={'vid' + this.props.modelUrl}
-          style={{ height: '500px', width: "700px" }}
-          autoPlay
-          playsInline
-          muted
-          ref={this.videoRef}
-          width="700"
-          height="500"
-          id="frame"
-        />
-        <canvas
-          ref={this.canvasRef}
-          width="700"
-          height="500"
-          style={{ position: 'relative', top: -500 }}
-        />
-      </div>
-    );
+      console.log(props.answer);
+      if (props.answer == item["label"]) {
+        setTimeout(() => { correctAnswer(canvasRef.current) }, 2000);
+        setTimeout(() => { count = 0 }, 5000)
+      }
+    });
+
   }
+
+  return (
+    <div style={{ height: '550px' }}>
+      <video
+        key={'vid' + props.model_id}
+        style={{ height: '500px', width: "700px" }}
+        autoPlay
+        playsInline
+        muted
+        ref={videoRef}
+        width="700"
+        height="500"
+        id="frame"
+      />
+      <canvas
+        ref={canvasRef}
+        width="700"
+        height="500"
+        style={{ position: 'relative', top: -500 }}
+      />
+    </div>
+  );
+
 }
 
 export default App;

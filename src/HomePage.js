@@ -47,12 +47,13 @@ class HomePage extends React.Component {
             return <Redirect to="/"></Redirect>
         }
         return (
-            <body>
+            <div>
                 <div className="homeMenu">
                     {this.state.loggedInUser && <Nav
                         loggedInUserId={this.state.loggedInUser.user_id}
                         loggedInUserName={this.state.loggedInUser.name} />}
                 </div>
+                <div className="">
                 <table className="mytable">
                     <tbody>
                         <tr>
@@ -62,7 +63,7 @@ class HomePage extends React.Component {
                                     <p style={{ color: "#438CFB", fontFamily: "Varela Round", fontSize: "20px" }}>
                                         DATOS CURIOSOS
                                 </p>
-                                    <div style={{ color: "white", fontSize: "18px" }}>
+                                    <div style={{ color: "white", fontSize: "18px", fontFamily: "Varela Round"}}>
                                         El Instituto de Estadísticas del Gobierno de Puerto Rico reportó que para el año 2018, la población de adultos sordos o con problemas auditivos
                                         severos fue estimada en 218,495 personas.
                                         Según el censo, nuestro país contó con 2,601,142 habitantes en ese año,
@@ -90,10 +91,12 @@ class HomePage extends React.Component {
                         </tr>
                     </tbody>
                 </table>
+                </div>
                 <br></br>
 
                 <Footer></Footer>
-            </body>);
+           </div>
+            );
     }
 }
 

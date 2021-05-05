@@ -1,110 +1,130 @@
 import React, { useReducer, useState } from "react";
 import './UserBox.css';
 import { storage } from "./firebase";
-
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
+import axios from "axios";
+import { SERVER_URL, headers } from "./Signup";
+import ReactFirebaseFileUpload from "./ReactFirebaseFileUpload.js"
+class ModalContent extends React.Component {
 
-function ModalContent(props) {
-
-    const [image, setImage] = useState(null);
-    const [url, setUrl] = useState("");
-    const [progress, setProgress] = useState(0);
-
-    const handleChange = e => {
-
-        if (e.target.files[0]) {
-            setImage(e.target.files[0]);
+    constructor(props) {
+        super(props);
+        this.state = {
+            myImgUrl:
+            props.pic,
+            userData: {
+                user_id: '',
+                name: '',
+                email: '',
+                password: '',
+                picture_url: ''
+            }  
         }
-    };
+    }
 
-    const handleUpload = () => {
+    async componentDidMount() {
+        let uid = localStorage.getItem('loggedInUserID');
+        axios.get(SERVER_URL + "users/" + uid, headers).then(res => {
+            // console.log(res.data.user);
+            this.setState({
+                userData: res.data.user,
+                myImgUrl: res.data.user.picture_url
+            })
+        });
+    }
 
-        if (image !== null) {
-            const uploadTask = storage.ref(`images/${image.name}`).put(image);
-            uploadTask.on(
-                "state_changed",
-                snapshot => {
-                    const progress = Math.round(
-                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                    );
-                    setProgress(progress);
-                },
-                error => {
-                    console.log(error);
-                },
-                () => {
-                    storage
-                        .ref("images")
-                        .child(image.name)
-                        .getDownloadURL()
-                        .then(url => {
-                            setUrl(url);
-                            props.setMyImageUrl(url);
-                        });
-                }
-            );
+    async updateUser() {
+        console.log(this.state.userData)
+        const new_obj = {
+            name: this.state.userData.name,
+            email: this.state.userData.email,
+            password: this.state.userData.password,
+            picture_url: this.state.myImgUrl,
+            user_id: this.state.userData.user_id
         }
-    };
+        console.log(new_obj.password)
+       await axios.put(SERVER_URL + "users/"+ this.state.userData.user_id, new_obj).then(response => {
+            console.log(response.data.user);
+            console.log("wait")
+            this.props.closeModal();
+            this.props.setUser(response.data.user.name);
+        });      
+    }
 
-    return (
-        <div>
-            <div className="centro "> <h2>Editar Perfil</h2> </div>
-            <Form className="espacio">
+    handleCallback = (childData) => {
+        console.log("estoy en call back")
+        console.log(childData);
+        this.setState({ myImgUrl: childData });
+        console.log(this.state.myImgUrl);
+        console.log("estoy en call back")
+      };
 
-                <div className="">
-                    <table >
-                        <tr>
-                            <td className="" >
-                                <img className="imageUpload" alt="firebase" src={url || "https://upload.wikimedia.org/wikipedia/commons/4/42/Photo-camera-in-circular-outlined-interface-button.svg"} />
-                            </td>
-                            <td className="centro">
-                                <div className="">
-                                    <progress value={progress} max="100" />
-                                    <br />
-                                    <br />
-                                    <label for="selectedFile" class="in botonDone">
-                                        Choose File
-</label>
-                                    <input type="file" id="selectedFile" className="in " onChange={handleChange} />
+    render() {
+        return (
+            <div>
+                <div className="centro "> <h2>Editar Perfil</h2> </div>
+                <Form className="espacio">
+                <ReactFirebaseFileUpload
+              parentCallback={this.handleCallback}
+              url={this.props.pic}
+            />
+                    <FormGroup>
+                        <br></br>
+                        <Label for="name">Nombre</Label>
+                        <Input type="name" name="name" id="name" value={this.state.userData.name}
+                            onChange={(e) => {
+                                let { userData } = this.state;
 
-                                    <br />
-                                    <button className="botonDone" onClick={handleUpload}>Upload</button>
+                                userData.name = e.target.value;
 
+                                this.setState({ userData });
+                            }} />
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="exampleEmail">Correo Electrónico</Label>
+                        <Input type="email" name="email" id="exampleEmail" value={this.state.userData.email} 
+                         onChange={(e) => {
+                            let { userData } = this.state;
 
-                                </div>
-                            </td>
+                            userData.email = e.target.value;
 
-                        </tr>
+                            this.setState({ userData });
+                        }} />
+                    </FormGroup>
 
-                    </table>
-                </div>
-                <FormGroup>
-                    <br></br>
+                    <FormGroup>
+                        <Label for="examplePassword">Contraseña</Label>
+                        <Input type="password" name="password" id="examplePassword" autoComplete="off" value={this.state.userData.password}
+                            onChange={(e) => {
+                                let { userData } = this.state;
+    
+                                userData.password = e.target.value;
+    
+                                this.setState({ userData });
+                            }} />
+                    </FormGroup>
 
-                    <Label for="exampleFirstName">Nombre</Label>
-                    <Input type="firstName" name="firstName" id="firstName" placeholder="with a placeholder" />
-                </FormGroup>
+                    <FormGroup>
+                        {this.state.myImgUrl}
+                        <Label for="url">URL</Label>
+                        {this.state.userData.picture_url}
+                        <Input readOnly type="text" name="url" id="url" value={this.state.myImgUrl}
+                            onChange={(e) => {
+                                let { userData } = this.state;
+    
+                                userData.picture_url = e.target.value;
+    
+                                this.setState({ userData });
+                            }} />
+                    </FormGroup>
 
-                <FormGroup>
-                    <Label for="exampleLastName">Apellido</Label>
-                    <Input type="lastName" name="lastName" id="exampleLastName" placeholder="with a placeholder" />
-                </FormGroup>
-
-                <FormGroup>
-                    <Label for="exampleEmail">Correo Electrónico</Label>
-                    <Input type="email" name="email" id="exampleEmail" placeholder="with a placeholder" />
-                </FormGroup>
-
-                <FormGroup>
-                    <Label for="examplePassword">Contraseña</Label>
-                    <Input type="password" name="password" id="examplePassword" placeholder="with a placeholder" />
-                </FormGroup>
-                <div className="izquierda"><button className="botonDone">Guardar Cambios </button> </div>
-            </Form>
-
-
-        </div>
-    );
+                    <div className="izquierda">
+                        <button onClick={this.updateUser.bind(this)} className="botonDone">Guardar Cambios </button>
+                    </div>
+                </Form>
+            </div>
+        );
+    }
 }
 
 export default ModalContent;

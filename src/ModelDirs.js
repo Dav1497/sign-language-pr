@@ -43,6 +43,19 @@ export function getModelDict(mid) {
                 }
                 console.log(classesDir);
                 return classesDir;
+            case 5:
+                classesDir = {
+                    1: {
+                        name: 'Rojo',
+                        id: 1,
+                    },
+                    2: {
+                        name: 'Diciembre',
+                        id: 2,
+                    }
+                }
+                console.log(classesDir);
+                return classesDir;
         }
     }
 }

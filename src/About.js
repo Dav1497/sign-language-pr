@@ -7,23 +7,38 @@ import david from './images/davidCarrion.jpg'
 import estefania from './images/estefania.jpeg';
 import { SERVER_URL, headers } from "./Signup";
 import axios from "axios";
-import { useState } from "react"
+import { useState } from "react";
+import { Redirect, withRouter } from "react-router-dom";
 
 function About(props) {
 
     let uid = localStorage.getItem('loggedInUserID');
+    const [isObtained, setIsObtained] = useState(false)
     const [user, setUser] = useState(
         {
             email: "",
             name: "",
             password: "",
-            user_id: -1
+            user_id: -1,
+            picture_url: ""
         }
     )
 
-    axios.get(SERVER_URL + "users/" + uid, headers).then(res => {
-        setUser({...user, ...res.data.user})
-    })
+    if(!isObtained){
+        getLoggedInUser();
+    }
+
+    function getLoggedInUser() {
+        axios.get(SERVER_URL + "users/" + uid, headers).then(res => {
+            setUser({...user, ...res.data.user})
+        })
+        setIsObtained(true)
+    }
+
+    if (!localStorage.getItem('loggedInUserID')) {
+        return <Redirect to="/"></Redirect>
+    }
+    else{
 
     return (
 
@@ -39,9 +54,9 @@ function About(props) {
                             <h2 className="h l">Recurso Educativo</h2>
                         </td>
                     </tr>
-                    <br></br>
                     <tr>
                         <td>
+                        <br></br>
                             <div className="">
                                 <img src={dimaris} alt="dimaris" className="i"></img>
                             </div>
@@ -64,16 +79,17 @@ function About(props) {
 
                         </td>
                     </tr>
-                    <tr > <td colspan="2" > <hr></hr> </td> </tr>
+                    <tr > <td colSpan="2" > <hr></hr> </td> </tr>
 
                     <tr>
                         <td>
                             <h2 className="h l">Desarrolladores</h2>
                         </td>
                     </tr>
-                    <br></br>
+                   
                     <tr>
                         <td>
+                        <br></br>
                             <div className="">
                                 <img src={david} alt="david" className="i"></img>
                             </div>
@@ -86,9 +102,10 @@ function About(props) {
                         </td>
 
                     </tr>
-                    <br></br>
+                 
                     <tr>
                         <td>
+                        <br></br>
                             <div className="j s">
                                 <p className="p">
                                     Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque feugiat mattis
@@ -126,6 +143,7 @@ function About(props) {
         </div>
 
     );
+}
 }
 
 export default About;

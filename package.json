@@ -22,12 +22,15 @@
     "react-bootstrap": "^1.5.0",
     "react-dom": "^17.0.1",
     "react-modal": "^3.12.1",
+    "react-progressbar": "^15.4.1",
     "react-quiz-component-estefiversion": "0.0.2",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.2",
     "react-webcam": "^5.2.3",
+    "react-youtube": "^7.13.1",
     "reactstrap": "^8.9.0",
+    "video-react": "^0.14.1",
     "web-vitals": "^1.1.0"
   },
   "scripts": {

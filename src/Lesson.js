@@ -7,6 +7,8 @@ import Nav from "./Nav";
 import Quiz from 'react-quiz-component-estefiversion';
 import App from "./App";
 import { storage } from "./firebase";
+import { Player, ControlBar } from 'video-react';
+import YouTube from 'react-youtube';
 
 class Lesson extends React.Component {
   constructor(props) {
@@ -105,7 +107,7 @@ class Lesson extends React.Component {
         quiz_sum.questions = this.state.lessonQuestions;
         console.log(quiz_sum);
         if(quiz_sum.userInput.length === this.state.lessonQuestions.length){
-          this.setState({quiz_summary_obj: quiz_sum});
+          // this.setState({quiz_summary_obj: quiz_sum});
         }
       }
     })
@@ -144,6 +146,7 @@ class Lesson extends React.Component {
         this.saveUserInputs(res.data.score.score_id, obj.userInput)
       });
     }
+    this.activityDone("quiz")
   }
 
   async saveUserInputs(score_id, user_arr) {
@@ -158,6 +161,24 @@ class Lesson extends React.Component {
     })
   }
 
+  async activityDone(type){
+    const activity ={
+      lesson_id:this.state.lesson.lesson_id,
+      user_id:this.state.loggedInUser?.user_id,
+      type: type,
+      isCompleted: true,
+    }
+    console.log(activity);
+  await axios.post(SERVER_URL+'progress', activity).then(res=> {
+      console.log("done");
+      console.log(res);
+      console.log("done");
+    })
+  }
+
+   myCallback (){ 
+     console.log('Video has ended');
+    }
 
   render() {
     console.log(this.state.quiz_summary_obj);
@@ -212,12 +233,14 @@ class Lesson extends React.Component {
                     classes={this.state.models[this.state.modelIdx].classes}
                     scores={this.state.models[this.state.modelIdx].scores}
                     answer={this.state.models[this.state.modelIdx].answer}
+                    user_id={this.state.loggedInUser.user_id}
+                    lesson_id={this.state.lesson.lesson_id}
                     />
                     </div>}
                   {!this.state.quizVisible && !this.state.modelVisible && <div className="cuadroBlanco">
                     <br></br>
                     <div>
-                      <iframe src={this.state.lesson.video_url} width="90%" height="500px"></iframe>
+                      <YouTube videoId={this.state.lesson.video_url} opts={{width:"90%", height:"500px", playerVars:{rel:0}}} onEnd={this.activityDone("video")}></YouTube>
                     </div>
                     <br></br>
                     <h1 className="subtitle">

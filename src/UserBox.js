@@ -70,7 +70,7 @@ function UserBox(props) {
                             <DropdownMenu className="over">
                                 {/* <DropdownItem className="ddi" header>Header</DropdownItem> */}
 
-                                <DropdownItem  className="ddi " onClick={openModal} >Edit</DropdownItem>
+                                <DropdownItem  className="ddi over" onClick={openModal} >Edit</DropdownItem>
 
                                 <Modal
                                     isOpen={modalIsOpen}
@@ -85,9 +85,9 @@ function UserBox(props) {
                                     <ModalContent pic ={props.pic} setUser={props.setUser} closeModal={closeModal.bind(this)} ></ModalContent>
                                    <br></br>
                                 </Modal>
-                                <DropdownItem className="ddi" divider />
+                                <DropdownItem className="ddi over" divider />
                                 <Link to="/">
-                                <DropdownItem className="ddi" onClick={logOut.bind(this)}>Log Out</DropdownItem>
+                                <DropdownItem className="ddi over" onClick={logOut.bind(this)}>Log Out</DropdownItem>
                                 </Link>
                             </DropdownMenu>
 

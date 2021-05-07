@@ -3,6 +3,7 @@ import * as tf from '@tensorflow/tfjs';
 import "./App.css";
 import { getModelDict } from "./ModelDirs";
 import confetti from "canvas-confetti";
+import * as blazeface from '@tensorflow-models/blazeface';
 
 const threshold = 0.75;
 let count = 0
@@ -17,6 +18,25 @@ async function load_model(modelUrl) {
 }
 
 let classesDir = {}
+
+async function loadNoseModel(video) {
+  const nose_model = await blazeface.load();
+  const returnTensors = false;
+  const pred = await nose_model.estimateFaces(video, returnTensors);
+  if(pred.length > 0) {
+    console.log(pred);
+  }
+  // Promise.all([nose_model]).then(val => {
+  //   console.log(val);
+  //   const returnTensors = false;
+  //   const nose_prediction = val[0].estimateFaces(videoRef.current, returnTensors);
+  //   if(nose_prediction.length > 0) {
+  //     console.log(nose_prediction);
+  //     console.log('sign box:', x,y);
+  //   }
+  // })
+  // return nose_model;
+}
 
 function App(props) {
 
@@ -39,6 +59,7 @@ function App(props) {
   const loadDict = async () => {
     classesDir = await getModelDict(props.model_id)
   }
+
 
   loadDict()
 
@@ -77,11 +98,13 @@ function App(props) {
 
       const modelPromise = load_model(props.modelUrl);
 
-
       Promise.all([modelPromise, webCamPromise])
         .then(values => {
           console.log(values);
           if (videoRef?.current && videoRef.current.onloadedmetadata) {
+            if(props.answer == "Diciembre"){
+              loadNoseModel(videoRef.current);
+            }
             detectFrame(videoRef.current, values[0]);
           }
         })
@@ -117,10 +140,10 @@ function App(props) {
   const buildDetectedObjects = (scores, threshold, boxes, classes, classesDir) => {
     const detectionObjects = []
     var video_frame = document.getElementById('frame');
-    // console.log(scores, boxes, classes);
+    console.log(scores, boxes, classes);
     scores[0].forEach((score, i) => {
       // console.log(score)
-      if (score > threshold) {
+      if (score > threshold || ( score> .5 && props.answer=="Rojo")) {
         const bbox = [];
         const minY = boxes[0][i][0] * video_frame.offsetHeight;
         const minX = boxes[0][i][1] * video_frame.offsetWidth;

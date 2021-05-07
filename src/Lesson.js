@@ -87,7 +87,7 @@ class Lesson extends React.Component {
       numberOfIncorrectAnswers: -1,
       numberOfQuestions: -1,
       totalPoints: -1,
-      userInput: [],
+      userInput: [2,3,1,4],
       questions: [],
     }
     await axios.get(SERVER_URL + 'scores/lesson/'+lid+'/'+uid).then(res => {
@@ -98,17 +98,18 @@ class Lesson extends React.Component {
         quiz_sum.numberOfIncorrectAnswers = my_scores.numberOfIncorrectAnswers;
         quiz_sum.numberOfQuestions = my_scores.numberOfQuestions;
         quiz_sum.totalPoints = my_scores.totalPoints;
-        my_scores.userInput.map(uio => {
-          quiz_sum.userInput.push(uio.input);
-        })
+        // my_scores.userInput.map((ui, index) => {
+        //   quiz_sum.userInput[index] = ui.input
+        // })
+        // console.log(quiz_sum.userInput);
         quiz_sum.questions = this.state.lessonQuestions;
         console.log(quiz_sum);
-        this.setState({quiz_summary_obj: quiz_sum});
+        if(quiz_sum.userInput.length === this.state.lessonQuestions.length){
+          this.setState({quiz_summary_obj: quiz_sum});
+        }
       }
     })
   }
-
-
 
   clickModel(idx) {
     this.setState({
@@ -146,7 +147,7 @@ class Lesson extends React.Component {
   }
 
   async saveUserInputs(score_id, user_arr) {
-    user_arr.map(ui => {
+    await user_arr.map(ui => {
       const new_ui = {
         score_id: score_id,
         input: ui
@@ -159,6 +160,7 @@ class Lesson extends React.Component {
 
 
   render() {
+    console.log(this.state.quiz_summary_obj);
     return (
       <div>
         {this.state.loggedInUser && <Nav

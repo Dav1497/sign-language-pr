@@ -1,6 +1,7 @@
 import React from "react";
 import LevelBox from './LevelBox';
 import Nav from './Nav';
+import ProgressBar from './ProgressBar';
 import Footer from './Footer';
 import axios from "axios";
 import { SERVER_URL, headers } from "./Signup";
@@ -74,7 +75,7 @@ class HomePage extends React.Component {
                                     </div><br />
                                 </div>
                                 <div style={{ textAlign: 'left' }}>
-                                    {/* https://gurabo.uagm.edu/sites/default/files/uploads/Health-Sciences/Thesis/2018/Elisamuel-Rivera-PHL-2018.pdf */}
+                                
                                     <img style={{ width: '100px' }} src='https://drive.google.com/uc?export=view&id=1S3BoN6iaIcI6U-IHHwoFQ9Yg6MdHtCO9' alt="" />
                                 </div>
 
@@ -82,7 +83,7 @@ class HomePage extends React.Component {
                             <td>
                                 <br></br>
                                 {this.state.levels && this.state.levels.length > 0 && this.state.levels.map(level => (
-                                    <div key={'homeLevel'+level.level_id}>
+                                    <div key={'homeLevel'+ level.level_id}>
                                         <LevelBox levelName={level.level_name} levelId={level.level_id}></LevelBox>
                                         <div style={{ height: "50px" }}><br /></div>
                                     </div>
@@ -93,7 +94,6 @@ class HomePage extends React.Component {
                 </table>
                 </div>
                 <br></br>
-
                 <Footer></Footer>
            </div>
             );

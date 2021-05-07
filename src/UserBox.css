@@ -141,9 +141,7 @@ input[type="file"] {
 }
 
 .over {
-  z-index: 10;
-color:rebeccapurple;
-
+  z-index: 999 !important;
 }
 
 .under {

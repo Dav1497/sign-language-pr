@@ -3,6 +3,8 @@ import * as tf from '@tensorflow/tfjs';
 import "./App.css";
 import { getModelDict } from "./ModelDirs";
 import confetti from "canvas-confetti";
+import {SERVER_URL} from "./Signup.js";
+import axios from "axios";
 
 const threshold = 0.75;
 let count = 0
@@ -42,7 +44,7 @@ function App(props) {
 
   loadDict()
 
-  console.log(classesDir);
+  
 
   useEffect(() => {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -80,7 +82,6 @@ function App(props) {
 
       Promise.all([modelPromise, webCamPromise])
         .then(values => {
-          console.log(values);
           if (videoRef?.current && videoRef.current.onloadedmetadata) {
             detectFrame(videoRef.current, values[0]);
           }
@@ -117,9 +118,7 @@ function App(props) {
   const buildDetectedObjects = (scores, threshold, boxes, classes, classesDir) => {
     const detectionObjects = []
     var video_frame = document.getElementById('frame');
-    // console.log(scores, boxes, classes);
     scores[0].forEach((score, i) => {
-      // console.log(score)
       if (score > threshold) {
         const bbox = [];
         const minY = boxes[0][i][0] * video_frame.offsetHeight;
@@ -139,6 +138,23 @@ function App(props) {
       }
     })
     return detectionObjects
+  }
+
+  async function activityDone (type) {
+    const activity ={
+      lesson_id: props.lesson_id,
+      user_id: props.user_id,
+      type: type,
+      isCompleted: true,
+    }
+  try{ 
+    await axios.post( SERVER_URL +'progress', activity).then(res=> {
+      console.log(res);
+    })
+  }
+    catch(err){
+      console.log("ya esta completado")
+    }
   }
 
   const renderPredictions = predictions => {
@@ -184,14 +200,17 @@ function App(props) {
       ctx.fillStyle = "#000000";
       ctx.fillText(item["label"] + " " + (100 * item["score"]).toFixed(2) + "%", x, y);
 
-      console.log(props.answer);
+      
       if (props.answer == item["label"]) {
+          activityDone("modelo"+props.answer);
         setTimeout(() => { correctAnswer(canvasRef.current) }, 2000);
         setTimeout(() => { count = 0 }, 5000)
       }
     });
 
   }
+
+ 
 
   return (
     <div style={{ height: '550px' }}>

@@ -52,6 +52,7 @@ class LevelBox extends React.Component {
                                 maxXp={lesson.max_xp}
                                 lessonImg={lesson.lesson_img}
                                 onLessonClick={this.onLessonClick.bind(this)}
+                                total_activities={lesson.total_activities}
                             ></LessonBox>
                         </div>
                     ))}

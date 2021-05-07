@@ -1,6 +1,6 @@
 .homeMenu {
     /* position: fixed !important; */
-    overflow: hidden;
+    overflow:visible;
     width: 100%; /* Full width */
     margin-top: 0;
 }

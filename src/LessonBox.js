@@ -1,6 +1,6 @@
 import React from "react";
 import "./LessonBox.css";
-
+import ProgressBar from "./ProgressBar"
 
 function LessonBox(props) {
     return(
@@ -10,7 +10,12 @@ function LessonBox(props) {
                 <img className="pict" src={props.lessonImg} alt=""></img>
             </div>
             <div className="progressBar">
-                <div className="progress"></div>
+                <ProgressBar 
+                lesson_id={props.lid}
+                total_activities={props.total_activities}
+                ></ProgressBar>
+                {/* <div className="progress"></div> */}
+                
             </div>
         </div>
         );

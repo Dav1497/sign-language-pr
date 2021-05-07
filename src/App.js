@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import * as tf from '@tensorflow/tfjs';
 import "./App.css";
 import { getModelDict } from "./ModelDirs";
@@ -22,11 +22,13 @@ async function load_model(modelUrl) {
 let classesDir = {}
 
 async function loadNoseModel(video) {
-  const nose_model = await blazeface.load();
+  const nose_model = await blazeface.load()
   const returnTensors = false;
-  const pred = await nose_model.estimateFaces(video, returnTensors);
+  let pred = await nose_model.estimateFaces(video, returnTensors);
   if(pred.length > 0) {
     console.log(pred);
+    return pred[0]
+    pred = null;
   }
   // Promise.all([nose_model]).then(val => {
   //   console.log(val);
@@ -44,6 +46,7 @@ function App(props) {
 
   const videoRef = React.useRef(null);
   const canvasRef = React.useRef(null);
+  const [modelDone, setModelDone] = useState(false);
 
   const correctAnswer = (ctx) => {
     count++;
@@ -64,8 +67,6 @@ function App(props) {
 
 
   loadDict()
-
-  
 
   useEffect(() => {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -104,7 +105,7 @@ function App(props) {
         .then(values => {
           if (videoRef?.current && videoRef.current.onloadedmetadata) {
             if(props.answer == "Diciembre"){
-              loadNoseModel(videoRef.current);
+              // loadNoseModel(videoRef.current);
             }
             detectFrame(videoRef.current, values[0]);
           }
@@ -118,6 +119,7 @@ function App(props) {
         if (stream?.getVideoTracks) {
           stream.getVideoTracks().map(track => track.stop());
         }
+        tf.disposeVariables();
       }
     }
   })
@@ -166,19 +168,23 @@ function App(props) {
   }
 
   async function activityDone (type) {
-    const activity ={
-      lesson_id: props.lesson_id,
-      user_id: props.user_id,
-      type: type,
-      isCompleted: true,
-    }
-  try{ 
-    await axios.post( SERVER_URL +'progress', activity).then(res=> {
-      console.log(res);
-    })
-  }
-    catch(err){
-      console.log("ya esta completado")
+    if(!modelDone) {
+      const activity ={
+        lesson_id: props.lesson_id,
+        user_id: props.user_id,
+        type: type,
+        isCompleted: true,
+      }
+      try{
+        await axios.post( SERVER_URL +'progress', activity).then(res=> {
+          console.log(res);
+          setModelDone(true);
+        })
+      }
+        catch(err){
+          console.log("ya esta completado")
+        }
+
     }
   }
 
@@ -225,7 +231,6 @@ function App(props) {
       ctx.fillStyle = "#000000";
       ctx.fillText(item["label"] + " " + (100 * item["score"]).toFixed(2) + "%", x, y);
 
-      
       if (props.answer == item["label"]) {
           activityDone("modelo"+props.answer);
         setTimeout(() => { correctAnswer(canvasRef.current) }, 2000);

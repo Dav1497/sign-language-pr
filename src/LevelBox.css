@@ -57,3 +57,14 @@
     text-shadow: darkblue 2px 2px;
     color: rgba(255, 230, 7, 1);;
 }
+
+.boxi {
+   display: flex;
+   text-align: center;
+   flex-direction: row;
+   overflow-x: scroll;
+}
+
+.boxi::-webkit-scrollbar {
+    background: #2C62B1;
+}

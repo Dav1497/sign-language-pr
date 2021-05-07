@@ -98,7 +98,7 @@ function UserBox(props) {
                 </tr>
                 <tr>
                     <td className="texto derecha">XP :</td>
-                    <td className="amarillo">204 </td>
+                    <td className="amarillo">{props.totalPoints}</td>
                 </tr>
             </table>
         </div>

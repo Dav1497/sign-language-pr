@@ -18,7 +18,7 @@ class HomePage extends React.Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getLoggedInUser();
         this.getLevels();
     }
@@ -55,48 +55,47 @@ class HomePage extends React.Component {
                         loggedInUserName={this.state.loggedInUser.name} />}
                 </div>
                 <div className="">
-                <table className="mytable">
-                    <tbody>
-                        <tr>
-                            <td className="leftCol">
-                                <div>
-                                    <hr></hr>
-                                    <p style={{ color: "#438CFB", fontFamily: "Varela Round", fontSize: "20px" }}>
-                                        DATOS CURIOSOS
+                    <table className="mytable">
+                        <tbody>
+                            <tr>
+                                <td className="leftCol">
+                                    <div>
+                                        <hr></hr>
+                                        <p style={{ color: "#438CFB", fontFamily: "Varela Round", fontSize: "20px" }}>
+                                            DATOS CURIOSOS
                                 </p>
-                                    <div style={{ color: "white", fontSize: "18px", fontFamily: "Varela Round"}}>
-                                        El Instituto de Estadísticas del Gobierno de Puerto Rico reportó que para el año 2018, la población de adultos sordos o con problemas auditivos
-                                        severos fue estimada en 218,495 personas.
-                                        Según el censo, nuestro país contó con 2,601,142 habitantes en ese año,
-                                    lo cual significa que 8.4% de la población de Puerto Rico se constituye de personas sordas.
+                                        <div style={{ color: "white", fontSize: "18px", fontFamily: "Varela Round" }}>
+                                            El Instituto de Estadísticas del Gobierno de Puerto Rico reportó que para el año 2018, la población de adultos sordos o con problemas auditivos
+                                            severos fue estimada en 218,495 personas.
+                                            Según el censo, nuestro país contó con 2,601,142 habitantes en ese año,
+                                            lo cual significa que 8.4% de la población de Puerto Rico se constituye de personas sordas.
                                     <hr></hr>
                                     Las agencias gubernamentales estatales no están preparadas para atender a personas de la comunidad sorda.
                                     <hr></hr>
-                                    </div><br />
-                                </div>
-                                <div style={{ textAlign: 'left' }}>
-                                
-                                    <img style={{ width: '100px' }} src='https://drive.google.com/uc?export=view&id=1S3BoN6iaIcI6U-IHHwoFQ9Yg6MdHtCO9' alt="" />
-                                </div>
-
-                            </td>
-                            <td>
-                                <br></br>
-                                {this.state.levels && this.state.levels.length > 0 && this.state.levels.map(level => (
-                                    <div key={'homeLevel'+ level.level_id}>
-                                        <LevelBox levelName={level.level_name} levelId={level.level_id}></LevelBox>
-                                        <div style={{ height: "50px" }}><br /></div>
+                                        </div><br />
                                     </div>
-                                ))}
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                    <div style={{ textAlign: 'left' }}>
+                                        <img style={{ width: '100px' }} src='https://drive.google.com/uc?export=view&id=1S3BoN6iaIcI6U-IHHwoFQ9Yg6MdHtCO9' alt="" />
+                                    </div>
+
+                                </td>
+                                <td>
+                                    <br></br>
+                                    {this.state.levels && this.state.levels.length > 0 && this.state.levels.map(level => (
+                                        <div key={'homeLevel' + level.level_id}>
+                                            <LevelBox levelName={level.level_name} levelId={level.level_id}></LevelBox>
+                                            <div style={{ height: "30px" }}><br /></div>
+                                        </div>
+                                    ))}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <br></br>
                 <Footer></Footer>
-           </div>
-            );
+            </div>
+        );
     }
 }
 

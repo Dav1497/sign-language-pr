@@ -40,7 +40,7 @@ class LevelBox extends React.Component {
                     <p className="levelText">{this.props.levelName}</p>
                     <div style={{height: '80px'}}></div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row", textAlign: "center", overflowX: "scroll" }}>
+                <div className="boxi">
                     {this.state.lessons.map(lesson => (
                         <div className="listItem1" key={'LevelLesson' + lesson.lesson_id}>
                             <LessonBox

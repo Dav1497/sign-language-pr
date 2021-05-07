@@ -14,11 +14,12 @@ function Nav(props) {
     const [currentUser, setUser] = useState(props.loggedInUserName);
 
     const [pic, setPic] = useState("");
+    const [totalPoints, setPoints] = useState(0);
 
     let uid = localStorage.getItem('loggedInUserID');
     axios.get(SERVER_URL + "users/" + uid, headers).then(res => {
-       setPic(res.data.user.picture_url)
-       
+       setPic(res.data.user.picture_url);
+       setPoints(res.data.user.total_points);
     });
     
     return (
@@ -44,7 +45,8 @@ function Nav(props) {
                                 setUser={setUser}
                                 loggedInUserId={props.loggedInUserId}
                                 loggedInUserName={props.loggedInUserName}
-                                pic={pic} />
+                                pic={pic}
+                                totalPoints={totalPoints} />
                         </td>
                     </tr>
                 </tbody>

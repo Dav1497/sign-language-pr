@@ -27,19 +27,10 @@ async function loadNoseModel(video) {
   let pred = await nose_model.estimateFaces(video, returnTensors);
   if(pred.length > 0) {
     console.log(pred);
-    return pred[0]
+    const nose_pos =  pred[0]
     pred = null;
+    return nose_pos;
   }
-  // Promise.all([nose_model]).then(val => {
-  //   console.log(val);
-  //   const returnTensors = false;
-  //   const nose_prediction = val[0].estimateFaces(videoRef.current, returnTensors);
-  //   if(nose_prediction.length > 0) {
-  //     console.log(nose_prediction);
-  //     console.log('sign box:', x,y);
-  //   }
-  // })
-  // return nose_model;
 }
 
 function App(props) {
@@ -105,7 +96,8 @@ function App(props) {
         .then(values => {
           if (videoRef?.current && videoRef.current.onloadedmetadata) {
             if(props.answer == "Diciembre"){
-              // loadNoseModel(videoRef.current);
+              // const noseLocation = loadNoseModel(videoRef.current);
+              // console.log(noseLocation);
             }
             detectFrame(videoRef.current, values[0]);
           }
@@ -182,7 +174,7 @@ function App(props) {
         })
       }
         catch(err){
-          console.log("ya esta completado")
+          console.log(err)
         }
 
     }

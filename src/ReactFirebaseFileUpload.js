@@ -17,9 +17,7 @@ class ReactFirebaseFileUpload extends React.Component {
       url: props.url,
       progress: 0
     }
-    console.log("este es el url")
     console.log(this.state.url)
-    console.log("este es el url")
   }
 
   setImage(image) {
@@ -72,16 +70,13 @@ class ReactFirebaseFileUpload extends React.Component {
         }
       );
     } catch (error) {
-      console.log("No hay foto escogida")
+      console.log(error)
     }
   };
 
-  // console.log("image: ", image)
   call = () => {
     this.props.parentCallback(this.state.url)
-    console.log("estoy en callback")
     console.log(this.state.url)
-    console.log("estoy en callback")
   }
 
   render() {
@@ -89,6 +84,7 @@ class ReactFirebaseFileUpload extends React.Component {
       <div className="">
 
         <table >
+          <tbody>
           <tr>
             <td  >
               <div className="">
@@ -98,15 +94,14 @@ class ReactFirebaseFileUpload extends React.Component {
             <td className="centro">
               <div className="">
                 <progress value={this.state.progress} max="100" />
-                <label htmlFor="file-upload" className="in botonDone">
-                  Escoger Imagen
-</label>
+                <label htmlFor="file-upload" className="in botonDone">Escoger Imagen</label>
                 <input className="in " id="file-upload" type="file" onChange={this.handleChange} />
                 <br></br>
                 <button className="botonesDone"  onClick={this.handleUpload} >Upload</button>
               </div>
             </td>
           </tr>
+          </tbody>
         </table>
       </div>
     );

@@ -48,7 +48,7 @@ function About(props) {
                 loggedInUserName={user.name} />}
             <div className="c">
                 <table className="t" >
-                    {/* style={{backgroundColor:"red"}} */}
+                    <tbody>
                     <tr>
                         <td>
                             <h2 className="h l">Recurso Educativo</h2>
@@ -136,7 +136,7 @@ function About(props) {
                             </div>
                         </td>
                     </tr>
-
+                    </tbody>
                 </table>
             </div>
             <Footer></Footer>

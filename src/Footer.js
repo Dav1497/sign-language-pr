@@ -8,6 +8,7 @@ function Nav(props) {
         <div className="fondo">
 
             <table className="bottomTable">
+                <tbody>
                 <tr className="fila">
 
                     <td className="listado">
@@ -47,7 +48,7 @@ function Nav(props) {
 
                     </td>
                 </tr>
-
+                </tbody>
             </table>
 
         </div>

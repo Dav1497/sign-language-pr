@@ -77,8 +77,12 @@
   font-size: 1.25em;
   font-family: "Varela Round";
   border: none;
-  border-radius: 5%;
+  border-radius: 5px;
   cursor: pointer;
+}
+
+.botonDone:hover{
+  background-color: #c86338;
 }
 
 .botonesDone{
@@ -87,14 +91,17 @@
   font-size: 1.5em;
   font-family: "Varela Round";
   border: none;
-  border-radius: 5%;
+  border-radius: 5px;
   cursor: pointer;
+}
+
+.botonesDone:hover{
+  background-color: #c86338;
 }
 
 .espacio {
   padding-left: 3em;
   padding-right: 3em;
-
   width: 30em;
 }
 

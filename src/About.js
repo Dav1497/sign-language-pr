@@ -24,13 +24,13 @@ function About(props) {
         }
     )
 
-    if(!isObtained){
+    if (!isObtained) {
         getLoggedInUser();
     }
 
     function getLoggedInUser() {
         axios.get(SERVER_URL + "users/" + uid, headers).then(res => {
-            setUser({...user, ...res.data.user})
+            setUser({ ...user, ...res.data.user })
         })
         setIsObtained(true)
     }
@@ -38,112 +38,103 @@ function About(props) {
     if (!localStorage.getItem('loggedInUserID')) {
         return <Redirect to="/"></Redirect>
     }
-    else{
+    else {
 
-    return (
+        return (
 
-        <div className="" >
-           {user && <Nav
-                loggedInUserId={user.user_id}
-                loggedInUserName={user.name} />}
-            <div className="c">
-                <table className="t" >
-                    {/* style={{backgroundColor:"red"}} */}
-                    <tr>
-                        <td>
-                            <h2 className="h l">Recurso Educativo</h2>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                        <br></br>
-                            <div className="">
-                                <img src={dimaris} alt="dimaris" className="i"></img>
-                            </div>
+            <div className="" >
+                {user && <Nav
+                    loggedInUserId={user.user_id}
+                    loggedInUserName={user.name} />}
+                <div className="c">
+                    <table className="t" >
+                        {/* style={{backgroundColor:"red"}} */}
+                        <tr>
+                            <td>
+                                <h2 className="h l">Recurso Educativo</h2>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <br></br>
+                                <div className="">
+                                    <img src={dimaris} alt="dimaris" className="i"></img>
+                                </div>
 
-                        </td>
-                        <td >
-                            <div className="j">
-                                <p className="p">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque feugiat mattis
-                                    massa lobortis varius. Pellentesque sollicitudin velit a purus commodo euismod.
-                                    Proin a sodales lectus, in elementum sapien. Sed et hendrerit sem, et aliquet arcu.
-                                    Donec egestas nunc et pellentesque dictum. Fusce a dolor ac nunc mattis bibendum in
-                                    id turpis. Maecenas sollicitudin rutrum felis ac lobortis. Nam non quam et erat lobortis
-                                    lacinia. Maecenas posuere nisl in nisi rutrum, in bibendum lacus sodales. Donec pulvinar
-                                    dignissim maximus. Ut ac nisl nibh. Maecenas tincidunt iaculis felis, et accumsan odio
-                                    efficitur placerat. In hac habitasse platea dictumst. Pellentesque in odio finibus,
-                                    auctor erat ac, rhoncus nunc. Sed viverra turpis a urna elementum, ut consectetur dolor pulvinar.
+                            </td>
+                            <td >
+                                <div className="j">
+                                    <p className="p">
+                                        Dimaris Pachecho Rodríguez es educadura de lenguaje de
+                                        señas y trabaja en el Departamento de Justicia de Puerto
+                                        Rico. En su tiempo trabajando allí ha identificado la necesidad
+                                        y la falta de conocimiento por parte del personal para así
+                                        servir a la comunidad sorda. En su tiempo libre se dedica a 
+                                        ofrecer clases de seña.
             </p>
-                            </div>
+                                </div>
 
-                        </td>
-                    </tr>
-                    <tr > <td colSpan="2" > <hr></hr> </td> </tr>
+                            </td>
+                        </tr>
+                        <tr > <td colSpan="2" > <hr></hr> </td> </tr>
 
-                    <tr>
-                        <td>
-                            <h2 className="h l">Desarrolladores</h2>
-                        </td>
-                    </tr>
-                   
-                    <tr>
-                        <td>
-                        <br></br>
-                            <div className="">
-                                <img src={david} alt="david" className="i"></img>
-                            </div>
+                        <tr>
+                            <td>
+                                <h2 className="h l">Desarrolladores</h2>
+                            </td>
+                        </tr>
 
-                        </td>
-                        <td>
-                            <div className="">
-                                <img src={estefania} alt="estefania" className="i"></img>
-                            </div>
-                        </td>
+                        <tr>
+                            <td>
+                                <br></br>
+                                <div className="">
+                                    <img src={david} alt="david" className="i"></img>
+                                </div>
 
-                    </tr>
-                 
-                    <tr>
-                        <td>
-                        <br></br>
-                            <div className="j s">
-                                <p className="p">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque feugiat mattis
-                                    massa lobortis varius. Pellentesque sollicitudin velit a purus commodo euismod.
-                                    Proin a sodales lectus, in elementum sapien. Sed et hendrerit sem, et aliquet arcu.
-                                    Donec egestas nunc et pellentesque dictum. Fusce a dolor ac nunc mattis bibendum in
-                                    id turpis. Maecenas sollicitudin rutrum felis ac lobortis. Nam non quam et erat lobortis
-                                    lacinia. Maecenas posuere nisl in nisi rutrum, in bibendum lacus sodales. Donec pulvinar
-                                    dignissim maximus. Ut ac nisl nibh. Maecenas tincidunt iaculis felis, et accumsan odio
-                                    efficitur placerat. In hac habitasse platea dictumst. Pellentesque in odio finibus,
-                                    auctor erat ac, rhoncus nunc. Sed viverra turpis a urna elementum, ut consectetur dolor pulvinar.
+                            </td>
+                            <td>
+                                <div className="">
+                                    <img src={estefania} alt="estefania" className="i"></img>
+                                </div>
+                            </td>
+
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <br></br>
+                                <div className="j s">
+                                    <p className="p">
+                                        David Carrión es estudiante de quinto año en la Universidad de Puerto Rico:
+                                        Recinto de Mayagüez. Sabe un poco de lenguaje de señas pero le gustaría
+                                        aprender más en el futuro. Sus intereses incluyen dibujar, leer y ver una buena
+                                        película.
             </p>
-                            </div>
-                        </td>
-                        <td>
-                            <div className="j s">
-                                <p className="p">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque feugiat mattis
-                                    massa lobortis varius. Pellentesque sollicitudin velit a purus commodo euismod.
-                                    Proin a sodales lectus, in elementum sapien. Sed et hendrerit sem, et aliquet arcu.
-                                    Donec egestas nunc et pellentesque dictum. Fusce a dolor ac nunc mattis bibendum in
-                                    id turpis. Maecenas sollicitudin rutrum felis ac lobortis. Nam non quam et erat lobortis
-                                    lacinia. Maecenas posuere nisl in nisi rutrum, in bibendum lacus sodales. Donec pulvinar
-                                    dignissim maximus. Ut ac nisl nibh. Maecenas tincidunt iaculis felis, et accumsan odio
-                                    efficitur placerat. In hac habitasse platea dictumst. Pellentesque in odio finibus,
-                                    auctor erat ac, rhoncus nunc. Sed viverra turpis a urna elementum, ut consectetur dolor pulvinar.
-            </p>
-                            </div>
-                        </td>
-                    </tr>
+                                </div>
+                            </td>
+                            <td>
+                            <br></br>
+                                <div className="j s">
+                                    <p className="p">
+                                 
+                                        Estefanía Torres es estudiante de quinto año en la Universidad de Puerto Rico:
+                                        Recinto de Mayagüez. Aprendió un poco de lenguaje de señas haciendo
+                                        este proyecto y le gustaría aprender más en el futuro. Sus intereses
+                                        incluyen visitar restaurantes locales, ir de compras y tomarse una
+                                        rica taza de café.
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
 
-                </table>
+                    </table>
+                    <br></br>
+                </div>
+                <Footer></Footer>
             </div>
-            <Footer></Footer>
-        </div>
 
-    );
-}
+        );
+    }
 }
 
 export default About;

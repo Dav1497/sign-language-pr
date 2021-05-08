@@ -101,9 +101,9 @@ class ReactFirebaseFileUpload extends React.Component {
                 <label htmlFor="file-upload" className="in botonDone">
                   Escoger Imagen
 </label>
-                <input className="in " id="file-upload" type="file" onChange={this.handleChange} />
+                <input className="in " id="file-upload" type="file" onChange={this.handleChange.bind(this)} />
                 <br></br>
-                <button className="botonesDone"  onClick={this.handleUpload} >Upload</button>
+                <Button className="botonesDone" color="success"  onClick={this.handleUpload.bind(this)} >Upload</Button>
               </div>
             </td>
           </tr>

@@ -44,10 +44,8 @@ function UserBox(props) {
     return (
         
         <div  style={{padding:"10px" }}>
-
             <table>
                 <tr>
-
                     <td rowSpan="2">
                         <ButtonDropdown className="" isOpen={dropdownOpen} toggle={toggleDrop}>
                             <DropdownToggle className="round" caret>      
@@ -68,7 +66,6 @@ function UserBox(props) {
                                 >
                                      <div className="der"><Button className="" color="danger" onClick={closeModal}>X</Button></div>
                                     <ModalContent pic ={props.pic} 
-
                                     setPic={props.setPic}
                                     setUser={props.setUser} 
                                     setPassword={props.setPassword}

@@ -7,11 +7,6 @@
   border: none;
 }
 
-.perfil:hover {
-  border: yellow;
-  background-color: red;
-}
-
 .texto {
   font-family: Varela Round;
   font-style: normal;
@@ -51,11 +46,6 @@
   text-align: left;
 }
 
-.round {
-  border-radius: 50%;
-  background-color: #081c3a !important;
-}
-
 .ddi {
   width: 100%;
   border: none;
@@ -82,6 +72,16 @@
 }
 
 .botonDone {
+  color: white;
+  background-color: rgba(224, 111, 63, 1);
+  font-size: 1.25em;
+  font-family: "Varela Round";
+  border: none;
+  border-radius: 5%;
+  cursor: pointer;
+}
+
+.botonesDone{
   color: white;
   background-color: rgba(224, 111, 63, 1);
   font-size: 1.5em;
@@ -122,8 +122,8 @@ input[type="file"] {
 
 .imageUpload {
   object-fit: cover;
-  width: 200px;
-  height: 200px;
+  width: 175px;
+  height: 175px;
   outline: none;
   border-radius: 50%;
   padding: 0;
@@ -150,4 +150,28 @@ input[type="file"] {
 .under {
   z-index: -1;
   position: relative;
+}
+
+.circle{
+  object-fit:cover;
+  border-radius: 50%;
+    width:7em;
+    height:7em;
+}
+
+.round {
+  border-radius: 50%;
+  background-color: rgb(8,28,58);
+}
+.mm:hover{
+  background: rgb(255,230,7);
+background: linear-gradient(45deg, rgba(255,230,7,1) 0%, rgba(255,76,0,1) 100%);
+}
+
+.mm{
+  width: 7.5em;
+  padding-top: .25em;
+  height: 7.5em;
+  border-radius: 50%;
+  
 }

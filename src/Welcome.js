@@ -58,7 +58,7 @@ class Welcome extends React.Component {
         <br></br>
         <br></br>
 
-        <div className="contenedor">
+        <div className="contenedor over">
           {this.state.isLoginVisible && (<Login goToRegister={this.goToRegister.bind(this)}></Login>)}
           {!this.state.isLoginVisible && (<Signup goToLogin={this.goToLogin.bind(this)}></Signup>)}
         </div>

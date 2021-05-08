@@ -10,15 +10,14 @@ class ModalContent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            myImgUrl:
-            props.pic,
+            myImgUrl: props.pic,
             userData: {
-                user_id: '',
-                name: '',
-                email: '',
-                password: '',
-                picture_url: ''
-            }  
+                user_id:"",
+                picture_url:"",
+                name:"",
+                email:"",
+                password:""
+            }
         }
     }
 
@@ -27,8 +26,13 @@ class ModalContent extends React.Component {
         axios.get(SERVER_URL + "users/" + uid, headers).then(res => {
             // console.log(res.data.user);
             this.setState({
-                userData: res.data.user,
-                myImgUrl: res.data.user.picture_url
+                userData:{
+                    user_id:res.data.user.user_id,
+                    picture_url: res.data.user.picture_url,
+                    name: res.data.user.name,
+                    email: res.data.user.email,
+                    password: res.data.user.password
+                }
             })
         });
     }
@@ -42,21 +46,18 @@ class ModalContent extends React.Component {
             picture_url: this.state.myImgUrl,
             user_id: this.state.userData.user_id
         }
-        console.log(new_obj.password)
+       console.log(new_obj.picture_url)
        await axios.put(SERVER_URL + "users/"+ this.state.userData.user_id, new_obj).then(response => {
             console.log(response.data.user);
-            console.log("wait")
-            this.props.closeModal();
             this.props.setUser(response.data.user.name);
+            this.props.setPic(response.data.user.picture_url);
+            this.props.setPassword(response.data.user.password);
+            this.props.closeModal();
         });      
     }
 
     handleCallback = (childData) => {
-        console.log("estoy en call back")
-        console.log(childData);
         this.setState({ myImgUrl: childData });
-        console.log(this.state.myImgUrl);
-        console.log("estoy en call back")
       };
 
     render() {
@@ -105,10 +106,8 @@ class ModalContent extends React.Component {
                     </FormGroup>
 
                     <FormGroup>
-                        {this.state.myImgUrl}
-                        <Label for="url">URL</Label>
-                        {this.state.userData.picture_url}
-                        <Input readOnly type="text" name="url" id="url" value={this.state.myImgUrl}
+                        {/* <Label for="url">URL</Label> */}
+                        <Input readOnly type="hidden" name="url" id="url" value={this.state.myImgUrl}
                             onChange={(e) => {
                                 let { userData } = this.state;
     
@@ -119,7 +118,7 @@ class ModalContent extends React.Component {
                     </FormGroup>
 
                     <div className="izquierda">
-                        <button onClick={this.updateUser.bind(this)} className="botonDone">Guardar Cambios </button>
+                        <button onClick={this.updateUser.bind(this)} className="botonesDone">Guardar Cambios </button>
                     </div>
                 </Form>
             </div>

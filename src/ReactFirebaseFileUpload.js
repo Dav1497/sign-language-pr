@@ -103,7 +103,7 @@ class ReactFirebaseFileUpload extends React.Component {
 </label>
                 <input className="in " id="file-upload" type="file" onChange={this.handleChange} />
                 <br></br>
-                <Button className="botonDone"  onClick={this.handleUpload} >Upload</Button>
+                <button className="botonesDone"  onClick={this.handleUpload} >Upload</button>
               </div>
             </td>
           </tr>

@@ -15,6 +15,7 @@ function Nav(props) {
 
     const [pic, setPic] = useState("");
     const [totalPoints, setPoints] = useState(0);
+    const [password, setPassword] = useState("");
 
     let uid = localStorage.getItem('loggedInUserID');
     axios.get(SERVER_URL + "users/" + uid, headers).then(res => {
@@ -27,22 +28,24 @@ function Nav(props) {
             <table className="barra">
                 <tbody>
                     <tr>
-                        <td>
+                        <td className="ancho">
                             <img src={logo} alt="logo" className="loguito" onClick={() => { props.history.push('/home') }} />
                         </td>
                         <td className="letras">
-                            <ul className="nav">
+                            <ul className="red">
                                 <Link to="/dictionary">
-                                <li className="listItem">Diccionario</li>
+                                <li className="listItem ">Diccionario</li>
                                 </Link>
                                 <Link to="/about">
-                                <li className="listItem">Sobre Nosotros</li>
+                                <li className="listItem ">Sobre Nosotros</li>
                                 </Link>
                             </ul>
                         </td>
                         <td className="cajita" style={{ textAlign: "right" }}>
                             <UserBox 
                                 setUser={setUser}
+                                setPic={setPic}
+                                setPassword={setPassword}
                                 loggedInUserId={props.loggedInUserId}
                                 loggedInUserName={props.loggedInUserName}
                                 pic={pic}

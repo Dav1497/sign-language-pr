@@ -46,7 +46,7 @@ class ModalContent extends React.Component {
             picture_url: this.state.myImgUrl,
             user_id: this.state.userData.user_id
         }
-       console.log(new_obj.picture_url)
+       console.log(new_obj);
        await axios.put(SERVER_URL + "users/"+ this.state.userData.user_id, new_obj).then(response => {
             console.log(response.data.user);
             this.props.setUser(response.data.user.name);
@@ -118,7 +118,7 @@ class ModalContent extends React.Component {
                     </FormGroup>
 
                     <div className="izquierda">
-                        <button onClick={this.updateUser.bind(this)} className="botonesDone">Guardar Cambios </button>
+                        <button onClick={() =>{ this.updateUser()}} className="botonesDone">Guardar Cambios </button>
                     </div>
                 </Form>
             </div>

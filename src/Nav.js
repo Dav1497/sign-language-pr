@@ -10,9 +10,7 @@ import { SERVER_URL, headers } from "./Signup";
 
 function Nav(props) {
    
-
     const [currentUser, setUser] = useState(props.loggedInUserName);
-
     const [pic, setPic] = useState("");
     const [totalPoints, setPoints] = useState(0);
     const [password, setPassword] = useState("");

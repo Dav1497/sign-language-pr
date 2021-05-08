@@ -42,55 +42,53 @@ function UserBox(props) {
     }
 
     return (
-
-        <div style={{ padding: "10px" }}>
-
+        
+        <div  style={{padding:"10px" }}>
             <table>
                 <tbody>
-                    <tr>
-                        <td rowSpan="2">
-                            <ButtonDropdown className="" isOpen={dropdownOpen} toggle={toggleDrop}>
-                                <DropdownToggle className="round" caret>
-                                    <div className="mm">
-                                        <img src={props.pic} alt="pic" className="circle" />
-                                    </div>
-                                </DropdownToggle>
-                                <DropdownMenu className="over">
-                                    <DropdownItem className="ddi over" onClick={openModal} >Edit</DropdownItem>
-                                    <Modal
-                                        isOpen={modalIsOpen}
-                                        ariaHideApp={false}
-                                        //   onAfterOpen={afterOpenModal}
-                                        onRequestClose={closeModal}
-                                        // style={customStyles}
-                                        contentLabel="Example Modal"
-                                        className="newModal"
-                                    >
-                                        <div className="der"><Button className="" color="danger" onClick={closeModal}>X</Button></div>
-                                        <ModalContent pic={props.pic}
+                <tr>
+                    <td rowSpan="2">
+                        <ButtonDropdown className="" isOpen={dropdownOpen} toggle={toggleDrop}>
+                            <DropdownToggle className="round" caret>      
+                                <div className="mm">
+                                <img src={props.pic} alt="pic" className="circle" />
+                                </div>
+                            </DropdownToggle>
+                            <DropdownMenu className="over">
+                                <DropdownItem  className="ddi over" onClick={openModal} >Edit</DropdownItem>
+                                <Modal
+                                    isOpen={modalIsOpen}
+                                    ariaHideApp={false}
+                                    //   onAfterOpen={afterOpenModal}
+                                    onRequestClose={closeModal}
+                                    // style={customStyles}
+                                    contentLabel="Example Modal"
+                                    className="newModal"
+                                >
+                                     <div className="der"><Button className="" color="danger" onClick={closeModal}>X</Button></div>
+                                    <ModalContent pic ={props.pic} 
+                                    setPic={props.setPic}
+                                    setUser={props.setUser} 
+                                    setPassword={props.setPassword}
+                                    closeModal={closeModal.bind(this)} 
+                                    ></ModalContent>
+                                   <br></br>
+                                </Modal>
+                                <DropdownItem className="ddi over" divider />
+                                <Link to="/">
+                                <DropdownItem className="ddi over" onClick={logOut.bind(this)}>Log Out</DropdownItem>
+                                </Link>
+                            </DropdownMenu>
 
-                                            setPic={props.setPic}
-                                            setUser={props.setUser}
-                                            setPassword={props.setPassword}
-                                            closeModal={closeModal.bind(this)}
-                                        ></ModalContent>
-                                        <br></br>
-                                    </Modal>
-                                    <DropdownItem className="ddi over" divider />
-                                    <Link to="/">
-                                        <DropdownItem className="ddi over" onClick={logOut.bind(this)}>Log Out</DropdownItem>
-                                    </Link>
-                                </DropdownMenu>
-
-                            </ButtonDropdown>
-                        </td>
-                        <td className="texto name" colSpan="2">{props.loggedInUserName}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className="texto derecha">XP :</td>
-                        <td className="amarillo">{props.totalPoints}</td>
-                    </tr>
+                        </ButtonDropdown>
+                    </td>
+                    <td className="texto name" colSpan="2">{props.loggedInUserName}
+                   </td>
+                </tr>
+                <tr>
+                    <td className="texto derecha">XP :</td>
+                    <td className="amarillo">{props.totalPoints}</td>
+                </tr>
                 </tbody>
             </table>
         </div>

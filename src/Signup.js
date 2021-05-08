@@ -3,6 +3,7 @@ import './Signup.css';
 import { Input, FormGroup, Label, Form, Container, Button, Col, Row } from 'reactstrap';
 import axios from "axios";
 import { useHistory } from "react-router";
+import ReactFirebaseFileUpload from "./ReactFirebaseFileUpload.js"
 
 export const SERVER_URL = "https://signlanguagepr-backend.herokuapp.com/"
 export const headers = {
@@ -15,6 +16,7 @@ function Signup(props) {
   const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [pic, setPicture] = useState("https://drive.google.com/uc?export=view&id=1aJ8YYrGbfFupaeHQJePX9wUVl01-Eml6")
   let history = useHistory();
 
   const handleFirstNameChange = event => {
@@ -39,7 +41,7 @@ function Signup(props) {
       name: firstName + " " + lastName,
       email: email,
       password: password,
-      picture_url: "https://drive.google.com/uc?export=view&id=1aJ8YYrGbfFupaeHQJePX9wUVl01-Eml6"
+      picture_url: pic
     }
 
     axios.post(SERVER_URL + "users", newUser, headers)
@@ -51,8 +53,16 @@ function Signup(props) {
       .catch(error => console.log('Form submit error', error))
   };
 
+  const handleCallback = (childData) => {
+    console.log("estoy en call back")
+    console.log(childData);
+    setPicture(childData)
+    console.log(pic);
+    console.log("estoy en call back")
+  };
+
   return (
-    <div>
+    <div className="over">
 
       <Container className="caja" >
 
@@ -60,6 +70,10 @@ function Signup(props) {
           <br>
           </br>
           <Col>
+          <ReactFirebaseFileUpload
+              parentCallback={handleCallback}
+              url={pic}
+            />
             <FormGroup inline>
               <Label>Nombre</Label>
               <Input

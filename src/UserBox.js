@@ -36,22 +36,9 @@ function UserBox(props) {
         myImgUrl = url;
     };
 
-    // const [pic, setPic] = useState("");
-
-    // let uid = localStorage.getItem('loggedInUserID');
-    // axios.get(SERVER_URL + "users/" + uid, headers).then(res => {
-    //    setPic(res.data.user.picture_url)
-       
-    // });
-
     function logOut() {
         axios.get(SERVER_URL + "logout", headers);
         localStorage.setItem('loggedInUserID', "");
-        console.log("logout");
-        // this.setState({
-        //   loggedInUserData: ""
-        // })
-        // window.location.reload();
       }
 
     return (
@@ -63,15 +50,13 @@ function UserBox(props) {
 
                     <td rowSpan="2">
                         <ButtonDropdown className="" isOpen={dropdownOpen} toggle={toggleDrop}>
-                            <DropdownToggle className="round " caret>
-                                {/* <iframe classname="perfil" src={props.pic}></iframe> */}
-                                <img src={props.pic} alt="perfil " className="perfil " />
+                            <DropdownToggle className="round" caret>      
+                                <div className="mm">
+                                <img src={props.pic} alt="pic" className="circle" />
+                                </div>
                             </DropdownToggle>
                             <DropdownMenu className="over">
-                                {/* <DropdownItem className="ddi" header>Header</DropdownItem> */}
-
                                 <DropdownItem  className="ddi over" onClick={openModal} >Edit</DropdownItem>
-
                                 <Modal
                                     isOpen={modalIsOpen}
                                     ariaHideApp={false}
@@ -82,7 +67,13 @@ function UserBox(props) {
                                     className="newModal"
                                 >
                                      <div className="der"><Button className="" color="danger" onClick={closeModal}>X</Button></div>
-                                    <ModalContent pic ={props.pic} setUser={props.setUser} closeModal={closeModal.bind(this)} ></ModalContent>
+                                    <ModalContent pic ={props.pic} 
+
+                                    setPic={props.setPic}
+                                    setUser={props.setUser} 
+                                    setPassword={props.setPassword}
+                                    closeModal={closeModal.bind(this)} 
+                                    ></ModalContent>
                                    <br></br>
                                 </Modal>
                                 <DropdownItem className="ddi over" divider />

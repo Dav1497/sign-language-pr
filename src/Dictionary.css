@@ -5,11 +5,11 @@
   text-align: center;
 font-size: 2em;
   height: 2em;
+  /* z-index: 2; */
 }
 
 .max{
     width: 100%;
-
     text-align: center;
 }
 

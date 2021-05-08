@@ -46,7 +46,7 @@ function App(props) {
 
   const videoRef = React.useRef(null);
   const canvasRef = React.useRef(null);
-  const [modelDone, setModelDone] = useState(false);
+  let modelDone = false;
 
   const correctAnswer = (ctx) => {
     count++;
@@ -178,7 +178,7 @@ function App(props) {
       try{
         await axios.post( SERVER_URL +'progress', activity).then(res=> {
           console.log(res);
-          setModelDone(true);
+          modelDone =true;
         })
       }
         catch(err){

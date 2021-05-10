@@ -47,7 +47,7 @@
   {
     "id": 10,
     "name": "j",
-    "image": "https://drive.google.com/uc?export=view&id=1x7RmF7xIc5pFom2YxIhUxr6DLtbYrTYn"
+    "image": "https://drive.google.com/uc?export=view&id=1CAqRxo0ylRNYsF8o3hRjFq-UFhtXBo6G"
   },
   {
     "id": 11,
@@ -72,7 +72,7 @@
 {
   "id": 15,
   "name": "ñ",
-  "image": "https://drive.google.com/uc?export=view&id=1o67evVi78AZ70j0pwQRODfE7vBuwUL1c"
+  "image": "https://drive.google.com/uc?export=view&id=1JnHNZHftliHTZsYlVj1y22eivkO2yD--"
 },
 {
   "id": 16,
@@ -132,7 +132,7 @@
 {
   "id": 27,
   "name": "z",
-  "image": "https://drive.google.com/uc?export=view&id=1RaMqTin0FgKg3VN8L_G6rFEf-lGwokO9"
+  "image": "https://drive.google.com/uc?export=view&id=1s7w2Ty194px-KaaURIsP6RFR9qyNsAG_"
 },
 {
   "id": 28,
@@ -166,7 +166,7 @@
 },
 {
   "id": 34,
-  "name": "mamá",
+  "name": "niños",
   "image": "https://drive.google.com/uc?export=view&id=1KUF1zjuXNcyusmJVLeR0CwdiCF1BqLB4"
 },
 {
@@ -193,7 +193,73 @@
   "id": 39,
   "name": "buenos días",
   "image": "https://drive.google.com/uc?export=view&id=1ZdaRDtMlQH4zWzwYXCveWvIRvRS-soR1"
+},
+{
+  "id": 40,
+  "name": "gracias",
+  "image": "https://drive.google.com/uc?export=view&id=1vfOGTpWBvBxHVMCob7PGmz13u9UkhUR6"
+},
+{
+  "id": 41,
+  "name": "hola",
+  "image": "https://drive.google.com/uc?export=view&id=1TqFix-jjEs0t65JJTYfBBq5OMmjzEv1n"
+},
+{
+  "id": 42,
+  "name": "mi nombre",
+  "image": "https://drive.google.com/uc?export=view&id=1KnRV3f07qxgQizrTTvjONh6z7PK0cdgT"
+},
+{
+  "id": 43,
+  "name": "domingo",
+  "image": "https://drive.google.com/uc?export=view&id=1iFSpJHKi-Uth61n2rR7TVtOSnX2YIscR"
+},
+{
+  "id": 44,
+  "name": "lunes",
+  "image": "https://drive.google.com/uc?export=view&id=1rdXry2jPvxcEGjXL-aXdYXOHKN5lY3fN"
+},
+{
+  "id": 45,
+  "name": "miércoles",
+  "image": "https://drive.google.com/uc?export=view&id=1391w-Y1iBZPplikZEvklvZs-QSIEl9x5"
+},
+{
+  "id": 46,
+  "name": "viernes",
+  "image": "https://drive.google.com/uc?export=view&id=1ExMTT4YEVdXNi4yUkr7fURSlUqPpzcj_"
+},
+{
+  "id": 47,
+  "name": "papá",
+  "image": "https://drive.google.com/uc?export=view&id=1BR6L0QG5RCttzwcjbL7zVZ8D2eqWc_vB"
+},
+{
+  "id": 48,
+  "name": "mujer",
+  "image": "https://drive.google.com/uc?export=view&id=1_ByxujroWCx39W0mgtjs7bdUQmX3UiJg"
+},
+{
+  "id": 49,
+  "name": "cuántos?",
+  "image": "https://drive.google.com/uc?export=view&id=1eS2ykTTVIns_7flWr_b6BPXGQK_RRfA_"
+},
+{
+  "id": 50,
+  "name": "dónde?",
+  "image": "https://drive.google.com/uc?export=view&id=1EnfdHIfA04XwdJyNRqnS4GnTfEc84B_s"
+},
+{
+  "id": 51,
+  "name": "qué?",
+  "image": "https://drive.google.com/uc?export=view&id=1kHFdTmcXR4hWTQhdFoZ7_Khl7ix80nyA"
+},
+{
+  "id": 52,
+  "name": "quién?",
+  "image": "https://drive.google.com/uc?export=view&id=137jkSYwyHTw3UXFuWqK4bWOe-rt1ovIa"
 }
+
 
 
 

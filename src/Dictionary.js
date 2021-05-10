@@ -8,7 +8,7 @@ import dictionaryData from './dictionary.json'
 import { useState } from "react"
 import Modal from 'react-modal';
 import { SERVER_URL, headers } from "./Signup";
-import { Redirect, withRouter } from "react-router-dom";
+import { Redirect, Route, withRouter } from "react-router-dom";
 
 function Dictionary(props) {
 
@@ -52,7 +52,7 @@ function Dictionary(props) {
     }
 
     if (!localStorage.getItem('loggedInUserID')) {
-        return <Redirect to="/"></Redirect>
+        return<Redirect to="/"></Redirect>
     }
     else{
 
@@ -100,9 +100,10 @@ function Dictionary(props) {
                                     // style={customStyles}
                                     contentLabel="Example Modal"
                                     className="imgModal"
+                                    styles={{ overlay: { background: "red !important" } }}
                                 >
                                     <div className="imgDiv">
-                                        {/* <button className=""  onClick={closeModal}>X</button> */}
+                                 
                                         <img src={currentTerm.image} alt="" className="img" />
                                     </div>
 

@@ -1,33 +1,30 @@
-
-
-.search{
-    width: 50%;
+.search {
+  width: 50%;
   text-align: center;
-font-size: 2em;
+  font-size: 2em;
   height: 2em;
   /* z-index: 2; */
 }
 
-.max{
-    width: 100%;
-    text-align: center;
+.max {
+  width: 100%;
+  text-align: center;
 }
 
-.words{
+.words {
   font-family: "Varela Round";
   color: white;
-font-size: 2em;
-margin: 1.5%;
+  font-size: 2em;
+  margin: 1.5%;
   width: 100%;
 
   text-align: left;
   padding-left: 25%;
- 
 }
 
-.mainDiv{
+.mainDiv {
   height: 500px;
-  overflow-y:auto;
+  overflow-y: auto;
   overflow-x: hidden;
   text-align: center;
 }
@@ -36,22 +33,22 @@ margin: 1.5%;
   display: none;
 }
 
-.word{
+.word {
   background: none;
-	color: inherit;
-	border: none;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
 }
 
-.word:hover{
+.word:hover {
   cursor: pointer;
   color: yellow;
 }
 
-.img{
+.img {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -60,19 +57,24 @@ margin: 1.5%;
   height: 450px;
 }
 
-.imgModal{
+.imgModal {
   background-color: whitesmoke;
   width: 810px;
   height: 550px;
- 
-  border-radius: 5%;
-position: absolute;
-left: 50%;
-top: 50%;
-transform: translate(-50%, -50%);
 
+  border-radius: 5%;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.imgDiv{
+.imgDiv {
+  /* background-color: red;
+width: 200px;
+height: 200px; */
+}
 
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.0001) !important;
 }

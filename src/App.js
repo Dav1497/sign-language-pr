@@ -4,12 +4,18 @@ import "./App.css";
 import { getModelDict } from "./ModelDirs";
 import confetti from "canvas-confetti";
 import * as blazeface from '@tensorflow-models/blazeface';
-import {SERVER_URL} from "./Signup.js";
+import { SERVER_URL } from "./Signup.js";
 import axios from "axios";
+import { handlePause } from "video-react/lib/actions/video";
 
 const threshold = 0.75;
 let count = 0
 tf.setBackend('webgl');
+let noseposition = "";
+let currModel = {};
+let dicArray = [];
+let runDetect = {};
+let classesDir = {}
 
 async function load_model(modelUrl) {
   // It's possible to load the model locally or from a repo
@@ -19,29 +25,34 @@ async function load_model(modelUrl) {
   return model;
 }
 
-let classesDir = {}
-
 async function loadNoseModel(video) {
   const nose_model = await blazeface.load()
   const returnTensors = false;
   let pred = await nose_model.estimateFaces(video, returnTensors);
-  if(pred.length > 0) {
-    console.log(pred);
-    const nose_pos =  pred[0]
-    pred = null;
-    return nose_pos;
+  // console.log(pred);
+  if (pred.length > 0) {
+    noseposition = pred[0].landmarks[2];
   }
+  tf.dispose(pred);
+  tf.dispose(nose_model);
+}
+
+async function loadTF() {
+  await tf.ready();
 }
 
 function App(props) {
+  loadTF();
 
   const videoRef = React.useRef(null);
   const canvasRef = React.useRef(null);
   let modelDone = false;
+  const comoArr = [];
 
   const correctAnswer = (ctx) => {
     count++;
-    if (count < 3) {
+    if (count < 2) {
+      handlePause();
       var myConfetti = confetti.create(ctx, {
         resize: true
       });
@@ -49,11 +60,27 @@ function App(props) {
         particleCount: 100,
         spread: 160
       });
+      setTimeout(() => {resumeInterval();}, 3000);
     }
   }
 
   const loadDict = async () => {
     classesDir = await getModelDict(props.model_id)
+  }
+
+  const handlePause = () => {
+    clearInterval(runDetect);
+  }
+
+  const resumeInterval = () => {
+    runDetect = setInterval(() => {
+      if (!videoRef.current || !videoRef.current.onloadedmetadata) {
+        clearInterval(runDetect);
+      }
+      tf.tidy(() => {
+          detectFrame(videoRef.current, currModel)
+      });
+    }, 17);
   }
 
 
@@ -95,11 +122,20 @@ function App(props) {
       Promise.all([modelPromise, webCamPromise])
         .then(values => {
           if (videoRef?.current && videoRef.current.onloadedmetadata) {
-            if(props.answer == "Diciembre"){
-              // const noseLocation = loadNoseModel(videoRef.current);
-              // console.log(noseLocation);
+            if (props.answer == "Diciembre") {
+              const noseLocation = loadNoseModel(videoRef.current);
+              tf.dispose(noseLocation);
             }
-            detectFrame(videoRef.current, values[0]);
+            currModel = values[0];
+            runDetect = setInterval(() => {
+              if (!videoRef.current || !videoRef.current.onloadedmetadata) {
+                clearInterval(runDetect);
+              }
+              tf.tidy(() => {
+                  detectFrame(videoRef.current, values[0])
+              });
+            }, 17);
+
           }
         })
         .catch(error => {
@@ -111,20 +147,23 @@ function App(props) {
         if (stream?.getVideoTracks) {
           stream.getVideoTracks().map(track => track.stop());
         }
-        tf.disposeVariables();
       }
     }
   })
 
 
   const detectFrame = (video, model) => {
-    model.executeAsync(process_input(video))
-      .then(predictions => {
-        renderPredictions(predictions, video);
-        requestAnimationFrame(() => {
-          detectFrame(video, model);
+    // tf.engine().startScope();
+    if (videoRef.current && videoRef.current.onloadedmetadata) {
+      const inp = process_input(video);
+      const obj = model.executeAsync(inp)
+        .then(predictions => {
+          requestAnimationFrame(() => { renderPredictions(predictions, video); });
+          tf.disposeVariables();
         });
-      });
+      tf.dispose(obj);
+      tf.dispose(inp);
+    }
   };
 
   const process_input = (video_frame) => {
@@ -138,7 +177,7 @@ function App(props) {
     // console.log(scores, boxes, classes);
     scores[0].forEach((score, i) => {
       // console.log(score)
-      if (score > threshold || ( score> .5 && props.answer=="Rojo")) {
+      if (score > threshold || (score > .5 && props.answer == "Rojo" && classesDir[classes[i]].name != "Diciembre")) {
         const bbox = [];
         const minY = boxes[0][i][0] * video_frame.offsetHeight;
         const minX = boxes[0][i][1] * video_frame.offsetWidth;
@@ -159,23 +198,23 @@ function App(props) {
     return detectionObjects
   }
 
-  async function activityDone (type) {
-    if(!modelDone) {
-      const activity ={
+  async function activityDone(type) {
+    if (!modelDone) {
+      const activity = {
         lesson_id: props.lesson_id,
         user_id: props.user_id,
         type: type,
         isCompleted: true,
       }
-      try{
-        await axios.post( SERVER_URL +'progress', activity).then(res=> {
+      try {
+        await axios.post(SERVER_URL + 'progress', activity).then(res => {
           console.log(res);
-          modelDone =true;
+          modelDone = true;
         })
       }
-        catch(err){
-          console.log(err)
-        }
+      catch (err) {
+        console.log(err)
+      }
 
     }
   }
@@ -223,16 +262,50 @@ function App(props) {
       ctx.fillStyle = "#000000";
       ctx.fillText(item["label"] + " " + (100 * item["score"]).toFixed(2) + "%", x, y);
 
-      if (props.answer == item["label"]) {
-          activityDone("modelo"+props.answer);
-        setTimeout(() => { correctAnswer(canvasRef.current) }, 2000);
-        setTimeout(() => { count = 0 }, 5000)
-      }
-    });
 
+      if (props.answer == "Como") {
+        if (comoArr.length == 2) {
+          activityDone("modelo" + props.answer);
+          comoArr.pop();
+          comoArr.pop();
+        }
+        if (item["label"] == "Como1" && comoArr.length == 0) {
+          comoArr.push(item["label"]);
+        } else if (item["label"] == "Como2" && comoArr.length == 1) {
+          comoArr.push(item["label"]);
+          count = 0;
+          correctAnswer(canvasRef.current);
+        }
+        console.log(comoArr);
+      }
+
+      if (props.answer == item["label"]) {
+        // console.log(y);
+        if(item["label"] == "Diciembre" && dicArray.length < 20) {
+          dicArray.push(y);
+        } else if (item["label"]=="Diciembre" && dicArray.length >= 20) {
+          const first = dicArray[0] - noseposition[1];
+          const last = dicArray[dicArray.length-1] -noseposition[1];
+          const dif = last - first;
+          console.log(first, last, dif);
+          if(first < last && dif> 30){
+            activityDone("modelo" + props.answer);
+            setTimeout(() => { correctAnswer(canvasRef.current) }, 1000);
+            setTimeout(() => { count = 0 }, 5000)
+          }
+          dicArray = [];
+        }else {
+          activityDone("modelo" + props.answer);
+          setTimeout(() => { correctAnswer(canvasRef.current) }, 1000);
+          setTimeout(() => { count = 0 }, 5000)
+        }
+      }
+      tf.dispose(item);
+    });
+    tf.dispose(predictions);
   }
 
- 
+
 
   return (
     <div style={{ height: '550px' }}>

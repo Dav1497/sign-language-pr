@@ -244,6 +244,7 @@ class Lesson extends React.Component {
                       answer={this.state.models[this.state.modelIdx].answer}
                       user_id={this.state.loggedInUser.user_id}
                       lesson_id={this.state.lesson.lesson_id}
+                      modelVisible={this.state.modelVisible}
                     />
                   </div>}
                   {!this.state.quizVisible && !this.state.modelVisible && <div className="cuadroBlanco">

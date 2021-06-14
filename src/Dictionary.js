@@ -86,7 +86,7 @@ function Dictionary(props) {
                     }).map((val, key) => {
                         return (
 
-                            <div className="words">
+                            <div className="words" key={key}>
 
                                 <button className="word" onClick={() => {
                                     

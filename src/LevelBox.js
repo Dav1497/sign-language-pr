@@ -40,7 +40,7 @@ class LevelBox extends React.Component {
                     <p className="levelText">{this.props.levelName}</p>
                     <div style={{height: '80px'}}></div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "row", textAlign: "center", overflowX: "scroll" }}>
+                <div className="boxi">
                     {this.state.lessons.map(lesson => (
                         <div className="listItem1" key={'LevelLesson' + lesson.lesson_id}>
                             <LessonBox
@@ -52,6 +52,7 @@ class LevelBox extends React.Component {
                                 maxXp={lesson.max_xp}
                                 lessonImg={lesson.lesson_img}
                                 onLessonClick={this.onLessonClick.bind(this)}
+                                total_activities={lesson.total_activities}
                             ></LessonBox>
                         </div>
                     ))}

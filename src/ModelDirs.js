@@ -56,6 +56,28 @@ export function getModelDict(mid) {
                 }
                 console.log(classesDir);
                 return classesDir;
+            case 6:
+                classesDir = {
+                    1: {
+                        name: 'dos',
+                        id: 1,
+                    }
+                }
+                console.log(classesDir);
+                return classesDir;
+            case 7:
+                classesDir = {
+                    1: {
+                        name: 'Como1',
+                        id: 1,
+                    },
+                    2: {
+                        name: 'Como2',
+                        id: 2
+                    }
+                }
+                console.log(classesDir);
+                return classesDir;
         }
     }
 }

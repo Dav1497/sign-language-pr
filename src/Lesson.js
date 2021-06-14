@@ -7,6 +7,8 @@ import Nav from "./Nav";
 import Quiz from 'react-quiz-component-estefiversion';
 import App from "./App";
 import { storage } from "./firebase";
+import { Player, ControlBar } from 'video-react';
+import YouTube from 'react-youtube';
 
 class Lesson extends React.Component {
   constructor(props) {
@@ -21,7 +23,8 @@ class Lesson extends React.Component {
       modelIdx: -1,
       savedQuiz: false,
       lessonQuestions: {},
-      quiz_summary_obj: ""
+      quiz_summary_obj: "",
+      videoPlaying: false
     }
   }
 
@@ -56,7 +59,7 @@ class Lesson extends React.Component {
   }
 
   async getLessonQuestions(lid) {
-    await axios.get(SERVER_URL+'questions/lesson/'+lid).then(res=> {
+    await axios.get(SERVER_URL + 'questions/lesson/' + lid).then(res => {
       res.data.questions.map(q => {
         const new_ans = []
         q.answers.map(a => {
@@ -65,7 +68,7 @@ class Lesson extends React.Component {
         q.answers = new_ans;
       })
       console.log(res.data.questions);
-      this.setState({lessonQuestions: res.data.questions});
+      this.setState({ lessonQuestions: res.data.questions });
       this.getLessonScores(lid);
     })
   }
@@ -87,45 +90,52 @@ class Lesson extends React.Component {
       numberOfIncorrectAnswers: -1,
       numberOfQuestions: -1,
       totalPoints: -1,
-      userInput: [],
+      userInput: [2, 3, 1, 4],
       questions: [],
     }
-    await axios.get(SERVER_URL + 'scores/lesson/'+lid+'/'+uid).then(res => {
-      if(res.data.scores.length > 0) {
+    await axios.get(SERVER_URL + 'scores/lesson/' + lid + '/' + uid).then(res => {
+      if (res.data.scores.length > 0) {
         const my_scores = res.data.scores[0];
         quiz_sum.correctPoints = my_scores.correctPoints;
         quiz_sum.numberOfCorrectAnswers = my_scores.numberOfCorrectAnswers;
         quiz_sum.numberOfIncorrectAnswers = my_scores.numberOfIncorrectAnswers;
         quiz_sum.numberOfQuestions = my_scores.numberOfQuestions;
         quiz_sum.totalPoints = my_scores.totalPoints;
-        my_scores.userInput.map(uio => {
-          quiz_sum.userInput.push(uio.input);
-        })
+        // my_scores.userInput.map((ui, index) => {
+        //   quiz_sum.userInput[index] = ui.input
+        // })
+        // console.log(quiz_sum.userInput);
         quiz_sum.questions = this.state.lessonQuestions;
         console.log(quiz_sum);
-        this.setState({quiz_summary_obj: quiz_sum});
+        if (quiz_sum.userInput.length === this.state.lessonQuestions.length) {
+          // this.setState({quiz_summary_obj: quiz_sum});
+        }
       }
     })
   }
-
-
 
   clickModel(idx) {
     this.setState({
       modelIdx: idx,
       modelVisible: true,
-      quizVisible:false
+      quizVisible: false
     })
   }
 
-  clickVideo(){
+  clickVideo() {
     this.setState({
       modelVisible: false,
       quizVisible: false
     })
   }
 
-  async onCompleteAction(obj)  {
+  videoIsPlaying() {
+    this.setState({
+      videoPlaying: true
+    })
+  }
+
+  async onCompleteAction(obj) {
     console.log(obj);
     const my_score = {
       user_id: this.state.loggedInUser.user_id,
@@ -136,29 +146,51 @@ class Lesson extends React.Component {
       totalPoints: obj.totalPoints,
       correctPoints: obj.correctPoints
     }
-    if(!this.state.savedQuiz && !this.state.quiz_summary_obj && my_score.totalPoints > 0) {
-      await axios.post(SERVER_URL+'scores', my_score).then(res => {
+    if (!this.state.savedQuiz && !this.state.quiz_summary_obj && my_score.totalPoints > 0) {
+      await axios.post(SERVER_URL + 'scores', my_score).then(res => {
         console.log(res);
         this.setState({ savedQuiz: true });
         this.saveUserInputs(res.data.score.score_id, obj.userInput)
       });
     }
+    this.activityDone("quiz")
   }
 
   async saveUserInputs(score_id, user_arr) {
-    user_arr.map(ui => {
+    await user_arr.map(ui => {
       const new_ui = {
         score_id: score_id,
         input: ui
       }
-      axios.post(SERVER_URL+'userInput', new_ui).then(res=> {
+      axios.post(SERVER_URL + 'userInput', new_ui).then(res => {
         console.log(res);
       })
     })
   }
 
+  async activityDone(type) {
+    if (type == "quiz" || this.state.videoPlaying) {
+      const activity = {
+        lesson_id: this.state.lesson.lesson_id,
+        user_id: this.state.loggedInUser?.user_id,
+        type: type,
+        isCompleted: true,
+      }
+      await axios.post(SERVER_URL + 'progress', activity).then(res => {
+        console.log(res);
+        this.setState({
+          videoPlaying: false
+        })
+      });
+    }
+  }
+
+  myCallback() {
+    console.log('Video has ended');
+  }
 
   render() {
+    console.log(this.state.quiz_summary_obj);
     return (
       <div>
         {this.state.loggedInUser && <Nav
@@ -177,21 +209,21 @@ class Lesson extends React.Component {
                     <div className="cajaAzul">
                       <p style={{ fontSize: '30px', color: 'black' }}>Detalles</p>
                       <hr />
-                      <p className="textoAzulA" onClick={() => {this.clickVideo();}}>Video</p>
-                      <p className="textoAzulA" onClick={() => {this.getLessonQuiz();}}>Prueba</p>
+                      <p className="textoAzulA" onClick={() => { this.clickVideo(); }}>Video</p>
+                      {this.state.lesson?.quiz_url && <p className="textoAzulA" onClick={() => { this.getLessonQuiz(); }}>Prueba</p>}
                       {this.state.models.length > 0 && <p className="textoAzul">Sesiones interactivas:</p>}
                       {this.state.models.map((mod, index) =>
-                        <div key={'modelo'+ mod.model_id} className="modLink" onClick={()=> {this.clickModel(index)}}>
+                        <div key={'modelo' + mod.model_id} className="modLink" onClick={() => { this.clickModel(index) }}>
                           {mod.model_name}
                         </div>
                       )}
                     </div>
                     <br>
                     </br>
-                    <button className="proxbtn" onClick={() => {
+                    {this.state.lesson?.quiz_url && <button className="proxbtn" onClick={() => {
                       this.getLessonQuiz();
                     }
-                    }> Comenzar prueba </button>
+                    }> Comenzar prueba </button>}
                     <button className="orangebtn" onClick={() => { this.props.history.push('/home') }}> Abandonar Lección  </button>
                     <br />
                   </div>
@@ -201,21 +233,25 @@ class Lesson extends React.Component {
                     {!this.state.quiz_summary_obj && <Quiz quiz={this.state.quiz} onComplete={this.onCompleteAction.bind(this)}></Quiz>}
                     {this.state.quiz_summary_obj && <Quiz quiz={this.state.quiz} onComplete={this.onCompleteAction.bind(this)} quizSummaryObject={this.state.quiz_summary_obj}></Quiz>}
                   </div>}
-                  {this.state.modelVisible && <div className="cuadroBlanco" style={{paddingBottom:'20px'}}>
-                    <p style={{fontSize:'20px', fontFamily:'Lexend'}}>{this.state.models[this.state.modelIdx].question}</p>
+                  {this.state.modelVisible && <div className="cuadroBlanco" style={{ paddingBottom: '20px' }}>
+                    <p style={{ fontSize: '20px', fontFamily: 'Lexend' }}>{this.state.models[this.state.modelIdx].question}</p>
                     <App
-                    modelUrl={this.state.models[this.state.modelIdx].model_url}
-                    model_id={this.state.models[this.state.modelIdx].model_id}
-                    boxes={this.state.models[this.state.modelIdx].boxes}
-                    classes={this.state.models[this.state.modelIdx].classes}
-                    scores={this.state.models[this.state.modelIdx].scores}
-                    answer={this.state.models[this.state.modelIdx].answer}
+                      modelUrl={this.state.models[this.state.modelIdx].model_url}
+                      model_id={this.state.models[this.state.modelIdx].model_id}
+                      boxes={this.state.models[this.state.modelIdx].boxes}
+                      classes={this.state.models[this.state.modelIdx].classes}
+                      scores={this.state.models[this.state.modelIdx].scores}
+                      answer={this.state.models[this.state.modelIdx].answer}
+                      user_id={this.state.loggedInUser.user_id}
+                      lesson_id={this.state.lesson.lesson_id}
+                      modelVisible={this.state.modelVisible}
                     />
-                    </div>}
+                  </div>}
                   {!this.state.quizVisible && !this.state.modelVisible && <div className="cuadroBlanco">
                     <br></br>
                     <div>
-                      <iframe src={this.state.lesson.video_url} width="90%" height="500px"></iframe>
+                      <YouTube videoId={this.state.lesson.video_url} opts={{ width: "90%", height: "500px", playerVars: { rel: 0 } }} onPlay={this.videoIsPlaying.bind(this)} onEnd={() => {
+                        this.activityDone("video")}}></YouTube>
                     </div>
                     <br></br>
                     <h1 className="subtitle">

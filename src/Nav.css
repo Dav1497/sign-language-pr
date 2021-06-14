@@ -10,6 +10,10 @@
 
   }
 
+  .ancho{
+    width: 25%;
+  }
+
   .backg{
     width:100%;
     height: 150px !important;
@@ -26,12 +30,12 @@
     padding-top: 50px;
     color:white;
     padding-left: 4em;
+    width: 100%;
   }
 
-  .nav{
-    display:block;
-    padding-left:3px;
-    padding-right:3px;
+  .red{
+    display:inline-flex;
+    list-style-type: none;
   }
 
   .listItem{

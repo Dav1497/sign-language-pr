@@ -10,15 +10,15 @@ import { SERVER_URL, headers } from "./Signup";
 
 function Nav(props) {
    
-
     const [currentUser, setUser] = useState(props.loggedInUserName);
-
     const [pic, setPic] = useState("");
+    const [totalPoints, setPoints] = useState(0);
+    const [password, setPassword] = useState("");
 
     let uid = localStorage.getItem('loggedInUserID');
     axios.get(SERVER_URL + "users/" + uid, headers).then(res => {
-       setPic(res.data.user.picture_url)
-       
+       setPic(res.data.user.picture_url);
+       setPoints(res.data.user.total_points);
     });
     
     return (
@@ -26,25 +26,28 @@ function Nav(props) {
             <table className="barra">
                 <tbody>
                     <tr>
-                        <td>
+                        <td className="ancho">
                             <img src={logo} alt="logo" className="loguito" onClick={() => { props.history.push('/home') }} />
                         </td>
                         <td className="letras">
-                            <ul className="nav">
+                            <ul className="red">
                                 <Link to="/dictionary">
-                                <li className="listItem">Diccionario</li>
+                                <li className="listItem ">Diccionario</li>
                                 </Link>
                                 <Link to="/about">
-                                <li className="listItem">Sobre Nosotros</li>
+                                <li className="listItem ">Sobre Nosotros</li>
                                 </Link>
                             </ul>
                         </td>
                         <td className="cajita" style={{ textAlign: "right" }}>
                             <UserBox 
                                 setUser={setUser}
+                                setPic={setPic}
+                                setPassword={setPassword}
                                 loggedInUserId={props.loggedInUserId}
                                 loggedInUserName={props.loggedInUserName}
-                                pic={pic} />
+                                pic={pic}
+                                totalPoints={totalPoints} />
                         </td>
                     </tr>
                 </tbody>

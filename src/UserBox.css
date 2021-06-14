@@ -7,11 +7,6 @@
   border: none;
 }
 
-.perfil:hover {
-  border: yellow;
-  background-color: red;
-}
-
 .texto {
   font-family: Varela Round;
   font-style: normal;
@@ -27,18 +22,21 @@
 .name {
   border-bottom: 4px solid white;
   border-radius: 5px;
+  margin-right: 25px;
 }
 
 .amarillo {
   font-family: Varela Round;
   font-style: normal;
   font-weight: normal;
-  font-size: 1.5em;
-  line-height: 36px;
+  font-size: 20px;
+  line-height: 10px;
   text-align: left;
+  vertical-align: top;
+  padding-top: 13px;
 
   color: rgba(255, 230, 7, 1);
-  padding-left: 1em;
+  padding-left: 8px;
 }
 
 .derecha {
@@ -46,11 +44,6 @@
 }
 .izquierda {
   text-align: left;
-}
-
-.round {
-  border-radius: 50%;
-  background-color: #081c3a !important;
 }
 
 .ddi {
@@ -81,17 +74,34 @@
 .botonDone {
   color: white;
   background-color: rgba(224, 111, 63, 1);
+  font-size: 1.25em;
+  font-family: "Varela Round";
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.botonDone:hover{
+  background-color: #c86338;
+}
+
+.botonesDone{
+  color: white;
+  background-color: rgba(224, 111, 63, 1);
   font-size: 1.5em;
   font-family: "Varela Round";
   border: none;
-  border-radius: 5%;
+  border-radius: 5px;
   cursor: pointer;
+}
+
+.botonesDone:hover{
+  background-color: #c86338;
 }
 
 .espacio {
   padding-left: 3em;
   padding-right: 3em;
-
   width: 30em;
 }
 
@@ -119,8 +129,8 @@ input[type="file"] {
 
 .imageUpload {
   object-fit: cover;
-  width: 200px;
-  height: 200px;
+  width: 175px;
+  height: 175px;
   outline: none;
   border-radius: 50%;
   padding: 0;
@@ -141,12 +151,34 @@ input[type="file"] {
 }
 
 .over {
-  z-index: 10;
-color:rebeccapurple;
-
+  z-index: 999 !important;
 }
 
 .under {
   z-index: -1;
   position: relative;
+}
+
+.circle{
+  object-fit:cover;
+  border-radius: 50%;
+    width:7em;
+    height:7em;
+}
+
+.round {
+  border-radius: 50%;
+  background-color: rgb(8,28,58);
+}
+.mm:hover{
+  background: rgb(255,230,7);
+background: linear-gradient(45deg, rgba(255,230,7,1) 0%, rgba(255,76,0,1) 100%);
+}
+
+.mm{
+  width: 7.5em;
+  padding-top: .25em;
+  height: 7.5em;
+  border-radius: 50%;
+  
 }
